@@ -1,0 +1,379 @@
+Delivered-To: ccarroll@llorracc.org
+Received: by 2002:a05:7300:640c:b0:16b:4ae7:750a with SMTP id k12csp200400dye;
+        Tue, 29 Apr 2025 06:10:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWuJ+krz3K2jEhe5QFxS8cxTijHGtWVavyyJj07sj+c1B/ntAVilYAHhGPUhyfQfMSXPYc71dHN+g==@llorracc.org
+X-Google-Smtp-Source: AGHT+IG4LaxZoTqNPt1cz3B6YiB/jC3LNcG9Gle0Opm0uMECl3COssDByIXghD08ga3eVSUHjvvG
+X-Received: by 2002:a05:6102:809a:b0:4bb:c24b:b644 with SMTP id ada2fe7eead31-4daaa92a5c6mr1708646137.20.1745932212564;
+        Tue, 29 Apr 2025 06:10:12 -0700 (PDT)
+Return-Path: <prvs=2077f4947=ccarroll@jhu.edu>
+Received: from IronMTW4.johnshopkins.edu (ironmtw4.johnshopkins.edu. [128.220.39.140])
+        by mx.google.com with ESMTPS id ada2fe7eead31-4dac5997785si258569137.606.2025.04.29.06.10.12
+        for <ccarroll@llorracc.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 29 Apr 2025 06:10:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=2077f4947=ccarroll@jhu.edu designates 128.220.39.140 as permitted sender) client-ip=128.220.39.140;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@livejohnshopkins.onmicrosoft.com header.s=selector2-livejohnshopkins-onmicrosoft-com header.b=IC5lFyOG;
+       dkim=neutral (body hash did not verify) header.i=@frb.onmicrosoft.com header.s=selector2-frb-onmicrosoft-com header.b=XOUqTySF;
+       arc=fail (body hash mismatch);
+       spf=pass (google.com: domain of prvs=2077f4947=ccarroll@jhu.edu designates 128.220.39.140 as permitted sender) smtp.mailfrom="prvs=2077f4947=ccarroll@jhu.edu";
+       dmarc=fail (p=REJECT sp=REJECT dis=QUARANTINE) header.from=frb.gov
+X-CSE-ConnectionGUID: tEqLfl1JR/mm3TiJ2kO5tQ==
+X-CSE-MsgGUID: TYpFAmMYTkuLgIxhrHMe4w==
+X-IPAS-Result: =?us-ascii?q?A2EeAAB1zhBojikzL2haDgwBAQEBAQEBAQEBAwEBAQESA?=
+ =?us-ascii?q?QEBAQICAQEBAUCBU4IcKAF8gQ0HUIgkjiIDi2OFZE2KK4FpgREDLjcBAQEBA?=
+ =?us-ascii?q?QEBAQEIAT0HBAEBAwEDhQACizMnOBMBAgQBAQEBAwIDAQEBAQEBAQEBAQELA?=
+ =?us-ascii?q?QEBBQEBAQEBAQYEAQICEAEBAQEBATkFDjuFNUYNgxZxgSUBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QEBHQIIKAVVAQECAQJAAQExBwsEAgEIEQQBAS8gLggCBAEJCQgSghxMAYIwA?=
+ =?us-ascii?q?zEUBrBoGjd4gTSBAYIMAQEGBAV/2h8NC2GBZQMGgUkBg3yBcIJFHgGFawE7g?=
+ =?us-ascii?q?hmCI4EqgSWCHoIhPoEFgRpCAQIBGERDBQUBEQIBJ4Y9ghoXKG6EK4VchgNqg?=
+ =?us-ascii?q?QFughF8gRIBE4cKLCZ7HANZLAEPETUTFwsHBYEmEDMDIAo0FRwCFA0QEg8EF?=
+ =?us-ascii?q?gUuHYIRgjBPgiKCEXBsAwMiAYMTdByEZoN4WC1PU4JcgQN/aD0dQAMLB2Y9N?=
+ =?us-ascii?q?wYOGwgBgTWVJBqBPIIwFRRXAQ0HJCABNw4qCAMCMBIlDyoRGpMLCCWRA4Yxm?=
+ =?us-ascii?q?lJxBwuEE4FkijWCWIRMiBSGAC4XhAONCZV9g06YfiKLAoF4aoQHjBKFETAdB?=
+ =?us-ascii?q?4UGAgQCBAUCGIF+gQ9dDAcrCAIYKUqCZ1IZD4RQiVGEAIUTiiEJAah7eAIJM?=
+ =?us-ascii?q?QIHAQoBAQMJkWcBAQ?=
+IronPort-PHdr: A9a23:ce9qFRSqC7ofY41Cy2rK686KV9psotSdAWYlg6HPw5pVaqr25535J
+ wSf/vhrgFLTFaTjo/Nfw7ON6ea6ATRGuM3b9i5TMfkuHwQAld1QmgUhBMCfDkiuIuTgKSM9A
+ pcKWFxk+iSjOFNOUIblZlLUq2Gv9zNaBRzkfRR4POX7G4PezqHVn+C/8pHeeUNE0TSna/V9K
+ wvloQbQs5wYiIpmYuY7zRfY6ntBYOQeyWJkbVSUg17i692x8o8ilkYYu/8o+8NaF6mvcb4yC
+ 7teCTUtKWcu48P38xLESFiD43IGWTAOmwFTSwHO8BD9WML3tS3304g12CSTMcDsC74uXjH34
+ b1hDhDvlnQMMDsh+XzLiplohblA6Aisrgd4xduNONn9CQ==
+IronPort-Data: A9a23:DD+5V6lv+YLBZiL7rBxc2eDo5gx5JkRdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJMUG2DPKuNZzT3Kt4iPYTkoBtQvZDcm4RrTFRoqXs0FC4T+ZvOCP2ndUqhZCn6wu8v7q5Ex
+ 55HNoSfdpBcolv0/ErF3m3J9CEkvU2wbuOiTraCYmYpGFMMpB4J0XpLg/Q+jpNjne+3CgaMv
+ cKai8DEMTdJ4RYtWo4vw/zF8U4HUMja4mtC4wRiP6ET5jcyqlFMZH4hDfDhR5fHatQMdgKKb
+ 76r5K20+Grf4yAsBruN+p7nclcHS6LlJgOHjHxbQcCK2nCucQRois7XnNJFAatmo23hc+JZk
+ b2hhrTpIesdBZAgrcxGO/VuO3onYfAZou+vzU+X6qR/x2WeG5flLm4H4EseZeX08c4vaY1CG
+ GBxxJngoXlvisrvqI9XRNWAiew/AdDPModGmEsnyDSCMfcEG5PkHrnzsIowMDcY3qiiHN74T
+ u9BM39FSk2FZBdCfFAKFJg5geGkwGHldCFVo06Uoqxx5HXPyAt20/7mN9+9lt6iHJ0J2BrH4
+ D+fuTigav0ZHIX3JT6t+XmlnPXImSfTWoIPUrC065aGhXXJnjRKVExOCwXTTf+Rtn+mdftaD
+ n0o+TcKooki9FaLa9ShQEjtyJKDlkVHAYYPewEg0ymGwaPO+QGdAkAASjlbctUtv4kxXzNC6
+ 7OSt9bgBDgqurvMT3uYru2QtWnqZXFTKnIebygZSwdD+8PkvIw4khPISJBkDbKxidr2Xzr3x
+ lhmsRTSmZ0PoNcv2aHi32qAhjf3mpnrFA0SuxnuCzfNAhxCWKapYImh6F7+5PlGLZqEQlTpg
+ JTis5jPhAzpJcHc/BFhUNkw8KeVC+Fp2QAwbHZqFpglsj6roniqeNgK5CkkfBswdMEZZTXuf
+ Unf/xtL44NeN2eraqkxZJ+tD8Mtzu7rEtGNuhHogjhmMsEZmOyvpnkGiausM4bFzRNEfUYXZ
+ MzzTCpUJSxGYZmLNRLvLwvn7Zclxzol2UTYTo3hwhKs3NK2PSHJFOdbbQLRMLhitstoRTk5F
+ f4Ob6NmLD0OCIXDjtX/r9BKczjm0FBnW8+r85AJKoZv3CI/Qzt/UKGJqV/eR2CVt/8OzLuXl
+ p1MckpZw0D4nnrJNU2BbWp7AI4Drr4uxU/XyRcEZA7ys1B6ON7HxP5GK/MfI+N7nMQ9lqQcZ
+ 6deJK297gFnFm6vF8I1McOl9NQKmdXCrV7mAhdJlxBlIsM6HlyWoYe+FuYtnQFXZheKWQIFi
+ +XI/mvmrVArHl8K4Br+AB53826MgA==
+X-Talos-CUID: 9a23:L3DjJGFpUtPrc8ySqmJ72VcwFMR8UEeayXKLH06aU2VOFaGsHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3A+ccNug0SgBFs1V2MSiJtegxY7DUj35W2JmkItKQ?=
+ =?us-ascii?q?6uNSgOg1gOy29qTnrXdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.15,249,1739854800"; 
+   d="scan'208";a="200149066"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+X-MessageIPDirection: Outgoing
+Received: from mail-bn1nam02lp2041.outbound.protection.outlook.com (HELO NAM02-BN1-obe.outbound.protection.outlook.com) ([104.47.51.41])
+  by ironmtw4o365.johnshpokins.edu with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 09:10:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livejohnshopkins.onmicrosoft.com;
+ s=selector2-livejohnshopkins-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=brRcOrn8gk2t8AJ2PQG0/SkJchRoa9cdQ1zLdoq/9oE=;
+ b=IC5lFyOG/D1LIyBJmZoNZNn5CKJWjo0jEDR4OpIb55zPJ8AXIVIJVoCShAoQKWePKQjVtWyt1r2lk0tfqbPBS0HUmFlJBVEP7dwoNbnOjix2qiTlbhWpfSk8JlOM5QdNc879zRuRFLigaCEr+/FSkawL8u9y4uIJU8FmAXGq5XY=
+Received: from MN0PR01MB7828.prod.exchangelabs.com (2603:10b6:208:380::16) by
+ SJ0PR01MB6368.prod.exchangelabs.com (2603:10b6:a03:29d::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.33; Tue, 29 Apr 2025 13:10:07 +0000
+Received: from MN0PR01MB7828.prod.exchangelabs.com ([::1]) by
+ MN0PR01MB7828.prod.exchangelabs.com ([fe80::178a:7adf:288a:9059%5]) with
+ Microsoft SMTP Server id 15.20.8678.028; Tue, 29 Apr 2025 13:10:07 +0000
+From: Edmund Crawley <Edmund.S.Crawley@frb.gov>
+To: =?iso-8859-1?Q?H=E5kon_Tretvoll?= <hakon@tretvoll.com>, Chris Carroll
+	<ccarroll@jhu.edu>, "frankovici@gmail.com" <frankovici@gmail.com>, William Du
+	<wdu9@jhu.edu>, Kenneth Eva <kennethjeva@gmail.com>
+Subject: RE: QE: decision on MS 2442
+Thread-Topic: QE: decision on MS 2442
+Thread-Index: AQHbuQSjjZnbRR6qb0e52r4oktIdDrO6nVuA
+Date: Tue, 29 Apr 2025 13:07:45 +0000
+Message-ID:
+ <ffc14a053ba847409e0e6819e419e2c8@MN0PR01MB7828.prod.exchangelabs.com>
+References: <20250429_124459_033045.m.ravn@ucl.ac.uk>
+In-Reply-To: <20250429_124459_033045.m.ravn@ucl.ac.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-Exchange-Inbox-Rules-Loop: ccarroll@jhu.edu
+X-MS-TNEF-Correlator:
+arc-seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PkJ5H9+4sVkSs7/9rYZW7sFlKq20CiTKUxq3R8UQCfl6vET7mf+jhkCctnFq+dxOuRJyGKUzBgn12L1ALuc5tepN6RxDL4is0f9HvHI2UZwj0JEjpiQV5x2KBoognF/OCRRqcLQ5joI7ghfmb6RCbQZtiG4ZHvn1NvM65UhUB1FSFikYXm8GLwflKvfmH+C2YvtVcVgdDmFoBz6G9Yd+1kZt35gY8JAj3pFAUDqPGOmp+o7WelsVnkjs6Cb/drZPg2ayl0bf0BJusjuM3XEs+6lUHBRQtExyDzI9/xTVjMt9JC/kDgMP42BM/0QSHmEnnrY6hCaxBw+KdblZcTr6kw==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/N1uFbNss+LfDi1J06iqh7CaQgRiU09YK6tZMb6kseQ=;
+ b=UnKjzUN88Ug2ZdaH+0bXTgKm8N6e4/N+B7+gYnVZ2vrg2YSthKpA0C8YwaiLiC3+ZWd/hvjdvhcNBi8wuVF1bJxOtyOjPc9DeF6whgHTWKSVpwxH+JpSitgz+u3myGfQ5mpIe1JvnyCtAu0z9E0iKIQ9IjW3Bsvdb63KjGil7+XL4MD5wrq8zpNk+M51ur3rAKS7kl7K5tuEr1Q7EWyR6M6BhWDS+liLtqzYtFMkjAHzDM37oOJ92s1gOfHoLrzlnP/Q5OvUlb9FQF3BJSx1lBdhHxNHiBS/tun+ZN9cLyK2mU6/3pftIP6Aa6EvjKMJbrUWXmiq9lLcXtN21nCnIw==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=frb.gov; dmarc=pass action=none header.from=frb.gov; dkim=pass
+ header.d=frb.gov; arc=none
+authentication-results: spf=pass (sender IP is 132.200.132.69)
+ smtp.mailfrom=frb.gov; dkim=pass (signature was verified)
+ header.d=frb.gov;dkim=fail (body hash did not verify)
+ header.d=frb.onmicrosoft.com;dmarc=pass action=none
+ header.from=frb.gov;compauth=pass reason=100
+x-cse-connectionguid: 6eRT3DpDR92jV8nVLkPS6g==
+x-cse-msgguid: VTuFMkRoRsSWxdeVzMigag==
+authentication-results-original: IronEB1.johnshopkins.edu; spf=None
+ smtp.pra=Edmund.S.Crawley@frb.gov; spf=Pass
+ smtp.mailfrom=Edmund.S.Crawley@frb.gov; spf=Pass
+ smtp.helo=postmaster@outmail01.federalreserve.gov; dkim=pass (signature
+ verified) header.i=@frb.gov; dmarc=pass (p=reject dis=none) d=frb.gov
+ironport-sdr: 6810cf2a_Iq9rpY1290MmQWiPOBmKuG5Cej6xQSQVvhvvMM75gVB+9U7
+ ipAgCUFpudF33dLL4sZG70vwbR/06YuqUHpitcA==
+x-ipas-result:
+ A0EuAADozhBojkWEyIRaDgwBAQEBAQEBAQEBAwEBAQESAQEBAQICAQEBAUCBUwKCGih9WTQHCEiEVYNPjiIDi2OFZIp4gWmBEQMYFigPAQMBAQw9BwQBAQMBA4UAAhaLHAIfBgEENBMBAgECAQEBAQEDAgMBAQEBAQEBAQEBAQsBAQEEAQEBAgEBAgQDAgICEAEBAQEBATkFSYV7DUkBEAGCO3FeRwEBAQEBAQEBAQEBAQEBAQEBAQEBAQEUAggXEQU2AQEdAQEBAQECIxEMAQExBwsEAgEIEQQBAQMCGA4CAgIeJggIAgQBCQkIEoIcTAGCMAMxAwUMBrBnGjd6gTKBAYIMAQEGBAMBBHzaHw0LYYFlAwaBGy4Bg3yBcIJFHgGBbYN+ATuEPCeBA4ElgVeCaD6BBYEaQgECARhEQwUFARECASIFM4MhOoIvghoXKG6EK4VchgNqgQFughF8gRIBE4cKCUl7HANZLAFVExcLBwVkQhAzAyAKNBUcAhQNEBIPBBYFLh2CEYIwT4IighFwbAMDIgGDE3QchGaDeFgtT4MvgQMPAW9oPR1AAwttPTcGDhsFBDp7BZUfGoE8gjAVFFcBDQckIAE3DioIAwIwEiUPKhEakwsIJYM0lACaUnEHC4QTgWSKNYJYhEyIFIYuF4QDjQmVfYNOmH4iiwKBeGqEB4wShREwHQeFMYF+I2xdDAcrCAIYKUqCZ08DGQ+EUIlRGYNngX+DFIohCQGofEYyAgkxAgcBCgEBAwmLA4ZkAQE
+ironport-hdrordr: A9a23:Hb+2tahxbq5ncvEceHNX29Lm33BQX4d23DAbv31ZSRFFG/FwyP
+ rPoB1L737JYWgqNk3IwerwRZVoMkmsiaKdhrNhcotKPTOW9FdASbsInOjfKlLbalTDH4JmpM
+ Vdmu1FeafN5DtB/IjHCWuDYq4dKbC8mciVbKXlvgxQpGpRGsVdBnJCe2Cm+zpNNW577PQCZf
+ +hz/sCjQCNPV4QacO2DGQEWe/sm/3n/aiNXTc2QzQcxE2rlz2H1J7WeiL04v4ZaV8h/Z4StU
+ z+1yDp7KSqtP+2jjXG0XXI0phQkNz9jvNeGc2lkKEuW3TRozftQL4kd6yJvTgzru3qwk0tis
+ PwrxApONk2w2/Nf1uyvQDm12DboXYTAj7ZuBylaEnY0InErQEBeo58bLdiA1nkAgQbzZZBOe
+ lwrh2kXtJsfG39dWLGlp71vlhR5zqJSXZOq59js1VPFYQZc7NftooZ4QdcF4oBBjvz7MQ9HP
+ BpF9y03occTbo0VQGsgoBD+q3kYp0IJGbPfmES/siOlzRGlnFwyEUVgMQZg3cb7Zo4D51J/f
+ 7NPKhknKxHCpZ+V9MxOM4RBc+sTmDdSxPFN2yfZVzhCaEcInrI75r6+q886u2mcIEBiJEyhJ
+ PCWlVFsnNaQTOlNeSemJlQthzdSmS0WjrgjslY+phio7X5AKHmNCWSIWpe5fdIY89vdfEzd8
+ zDTa6+WcWTXlcGMbw5rTHDZw==
+x-talos-cuid: 9a23:QHryy2CeBJg6Fyr6Ew4+8HMXPIMuTnb+6FbJPWW2F35kaYTAHA==
+x-talos-muid: 9a23:BKJ6TAVpEHUsHojq/Br+lDpyKudm2K70K3sRz49fhuq2bDMlbg==
+x-ironport-anti-spam-filtered: true
+x-ironport-av: E=Sophos;i="6.15,249,1739854800";    d="scan'208";a="123827266"
+x-amp-result: SKIPPED(no attachment in message)
+x-amp-file-uploaded: False
+x-messageipdirection: Processed
+x-mga-submission:
+ MDH3/tFrrsdJN5n0W/pod/RK5AVu9S/4wja5+11iB4CrbCyfRsV8SddB7yoOaSTss8bIKIXxQL0xRBszcAy54DbLc9Q0ns0z/18ffvqlgtJqvZsY/cwViy3ybiqfBobaYKR5ATktnEuRL5H8v45d2msV
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=frb.onmicrosoft.com;
+ s=selector2-frb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/N1uFbNss+LfDi1J06iqh7CaQgRiU09YK6tZMb6kseQ=;
+ b=XOUqTySF3agVW8ilG+KKjO53qmI1la204Kdhr7/JuFHsOZpFU66RMQBUxLXj22XfdR9LHupfJX/cqGo7l7opzyzXH3ZoG8N3QZUy2N2YGYyXBJ9ut6QoO6anElZq2UPqRyLAw0cT1VOxB4FUf1VqkH0TLKgbntKrlWBYyg8qPbw=
+msip_labels:
+ MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_ActionId=a90808db-0ba0-4681-abde-6f954e2f5f65;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_ContentBits=0;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_Enabled=true;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_Method=Privileged;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_Name=NONCONFIDENTIAL
+ -
+ EXTERNAL;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_SetDate=2025-04-29T13:07:44Z;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_SiteId=87bb2570-5c1e-4973-9c37-09257a95aeb1;MSIP_Label_3cbab4f1-dcc8-4800-b101-70f2ebeb2cf4_Tag=10,
+ 0, 1, 1;
+x-ms-traffictypediagnostic:
+ SA1PR09MB9517:EE_|BY5PR09MB4978:EE_|BL6PEPF0001AB51:EE_|SJ0PR01MB8155:EE_|MN0PR01MB7828:EE_|SJ0PR01MB6368:EE_
+x-ms-office365-filtering-correlation-id: 695d82ba-8e21-4f9f-6c29-08dd871f29d7
+x-ld-processed: 9fa4f438-b1e6-473b-803f-86f8aedf0dec,ExtAddr
+x-ms-exchange-senderadcheck: 0
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam-untrusted:
+ BCL:0;ARA:13230040|366016|1800799024|38070700018|13003099007|7053199007;
+x-microsoft-antispam-message-info-original:
+ =?iso-8859-1?Q?qWzw/+jtmdpIto5E/D9nZYRf4oifJyyNt3hK+R7QV6JsGalQmP+OG2JDCo?=
+ =?iso-8859-1?Q?4ZYosdMQaTvnx1JNlYDAAntnS669QTp7uFOzDbfxCCIa0FD3YO4LH2A/zL?=
+ =?iso-8859-1?Q?0ssdqcWhxwJvo53W9c/OTHPq9fjdXacaO8jsr1tlb0pnYYYpHqY3yMtR6D?=
+ =?iso-8859-1?Q?kwnLfNGqf61LKEkYvW76vqP4tAm48LeMEBoIdnHCCSQH9B4peg7uPkaK2q?=
+ =?iso-8859-1?Q?hvrcLDSKOG3Go06xfhIS0RzC84iAqZH2xXM6i/NkAJ3o5NfIJyVfsGyKje?=
+ =?iso-8859-1?Q?PCLYNWlfyR+NIN5Bn8IeYCv6tA7Vkp8oGQeHl2GRb8lVJtDUnmloOdy8H+?=
+ =?iso-8859-1?Q?oq7MNg50kcHELJqTnxKissxE4pIzqKOAf2ghLvHsVk5PQ4m3dnw7hm6JPk?=
+ =?iso-8859-1?Q?gzwQaB4Gogp5BvfDMZflSBFZ9XctoyGLdvkxyvcqxvPABiwK8KBYn5WeoZ?=
+ =?iso-8859-1?Q?pf2oHaRg0OXY1Nc6dH6vqQFwlFxoC786pCq5UAflbIc92VjFbqNxsFrmhZ?=
+ =?iso-8859-1?Q?xkz01Uu7pQwZm0JZqT3Fpydunt3t2NrqinHATTlAEwRitoeNEGSQ5biS53?=
+ =?iso-8859-1?Q?I9scjmrFJeYhGZCD/DyZ32VNnoLyc8zZTmMpA5ZrimCrqf42MMQxzKXsmc?=
+ =?iso-8859-1?Q?uIt4TtrH7ta42eQkeoRwZ1hlgDzqghNZpqz1HhTBFH2uOKByi9KHh5zehP?=
+ =?iso-8859-1?Q?E7iChnWM2hKLJMQcnlVZ+Ac37PA8qjwMSLmbyhbO4MCn3ryQJdzG4lvwsX?=
+ =?iso-8859-1?Q?U2/c5fZ5vr2GArEcgqox4JrXoRby7D/nd6QPfYpXaUwYVLhXZ/f4gn0xfB?=
+ =?iso-8859-1?Q?PWER40qTyX28X67ffRIGfgjgzQAZ2PNnJmT9MG8k4YI/fH1ZqEMpPBfLHj?=
+ =?iso-8859-1?Q?MK4vwE6pdPkLx/HeIamhP+XewPsSIE6ssLR7gL6IRbY6925JG88EcVlHoZ?=
+ =?iso-8859-1?Q?JyWKN3MIVpfiLn33M3gpIqzQOwZvyejwCzYnmAlch7OcpGUIbR8uTSAY2m?=
+ =?iso-8859-1?Q?zu/vR76zR1Jq18oahSZcZPBXqUGrkKGqhS9cSMTbChA8h7RQDlCUiPehQ8?=
+ =?iso-8859-1?Q?6gnLuqXT1wnTwFJ57ezuXAeCVBRGsDWGhJDb51/cw8S7PzeepnqpSIcABe?=
+ =?iso-8859-1?Q?wOgKQFsf2c3jLaE325Z57vRIyi96ugklXhnpXxnDQU7EayKydo+7PDyvp8?=
+ =?iso-8859-1?Q?ISCQmLXz7DpOqhRTJCId1O1woq05hBBcXdXl/gJwHA3JZwjagSYA91EfUE?=
+ =?iso-8859-1?Q?UvmheRhSJS8IQIudAGcIb517kS2PfScuzGB0N6bU9f6Oe82ePBUZk8KTmR?=
+ =?iso-8859-1?Q?QfpsUczptXUXv8w1woCAVMrdIl/1OkHRLl/u/75zA0HQ0BV7SgTp57c4uP?=
+ =?iso-8859-1?Q?1/oz/yKUpYRoj/q/KjLITjtDxH9p7AUTJ6GqQCvmqrTD/ld9KsTzXKsxb3?=
+ =?iso-8859-1?Q?/YfMmvz8WGi1T/ay3tMW5OIVBN+gMY7giEHotzQXhI6eM70ICIUyl/AmDm?=
+ =?iso-8859-1?Q?U=3D?=
+x-forefront-antispam-report-untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR09MB9517.namprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(38070700018)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+x-ms-exchange-transport-crosstenantheadersstamped: SJ0PR01MB8155
+x-eopattributedmessage: 0
+x-eoptenantattributedmessage: 9fa4f438-b1e6-473b-803f-86f8aedf0dec:0
+x-ms-exchange-skiplistedinternetsender:
+ ip=[132.200.132.69];domain=outmail01.federalreserve.gov
+x-ms-exchange-externaloriginalinternetsender:
+ ip=[132.200.132.69];domain=outmail01.federalreserve.gov
+x-ms-exchange-transport-crosstenantheadersstripped:
+ BL6PEPF0001AB51.namprd04.prod.outlook.com
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id-prvs:
+ 07d26af6-b70b-4638-fd36-08dd871eea5b
+x-ms-exchange-atpmessageproperties: SA|SL
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|10070799003|61400799027|376014|35042699022|48200799018|13003099007;
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR01MB7828.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(61400799027)(376014)(35042699022)(48200799018)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-crosstenant-originalarrivaltime: 29 Apr 2025 13:08:20.6413 (UTC)
+x-ms-exchange-crosstenant-network-message-id:
+ 07d26af6-b70b-4638-fd36-08dd871eea5b
+x-ms-exchange-crosstenant-id: 9fa4f438-b1e6-473b-803f-86f8aedf0dec
+x-ms-exchange-crosstenant-authsource:
+ BL6PEPF0001AB51.namprd04.prod.outlook.com
+x-ms-exchange-crosstenant-authas: Anonymous
+x-ms-exchange-crosstenant-fromentityheader: Internet
+x-ms-exchange-transport-endtoendlatency: 00:01:45.8198842
+x-ms-exchange-processed-by-bccfoldering: 15.20.8678.027
+Resent-From: <ccarroll@jhu.edu>
+x-ms-exchange-parent-message-id:
+ <SA1PR09MB9517922645F166B08DCDAEA3CB802@SA1PR09MB9517.namprd09.prod.outlook.com>
+auto-submitted: auto-generated
+x-ms-exchange-generated-message-source: Mailbox Rules Agent
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?PmifhNA7EmgPp5B3JIyieAHier/yJajNcUEfE+IuXviULaXfVQiZQ0avNy?=
+ =?iso-8859-1?Q?PnbhSMZ/EPmo+melJyNPtDFRYIJsEMQFCT1/BVf1PzVagm4COwsjO7ywjm?=
+ =?iso-8859-1?Q?3MnR+VxZJe/iCrtmY72kOUliF/BaGV2hhsWX4A7y9pk0fYrCifwXegKtcc?=
+ =?iso-8859-1?Q?hnIw1NlhK6CB8s+vQImyZ8+Q+/hDffuv8RehtaIJmeoreHLeUjv2oxJ/BE?=
+ =?iso-8859-1?Q?za55vlSvAcmQurx+cXQHUvfCi5cQ7h65wlpV2vCT9yXzHIJnzHpKFLLuTn?=
+ =?iso-8859-1?Q?RlTabPT81uNp5SruCb+nMev9MSaE+eJHRHKQBEF5yfEraKnGC+n7nzkM9+?=
+ =?iso-8859-1?Q?vlIxDIY+fZbx/edWV8k4Q2IX8dML7p6Vb0wgIDDIiuQ/ZKKH1wTp85Q2WP?=
+ =?iso-8859-1?Q?E+ijk6B+1HZv0SKvOS4Alvl5HcmkJgv9z9GV299OHNks3U6zUCz9UHCZt4?=
+ =?iso-8859-1?Q?1ajHAuFqNIxYip40zL0Jtf14o1AG6fq2zL3Wb5K70M5O7zg8gSQ8bvPTmV?=
+ =?iso-8859-1?Q?59aA6WxOf6K4jD1jpCA0FD0qHnJuJJuxQ3Yn4y9f8sYT4LZoTgwHinzSmc?=
+ =?iso-8859-1?Q?nnXFvLj/lM6CpuWvZdnwfMRTaTVTUChVIHliReujXxohRKnusiqPSb4Uu5?=
+ =?iso-8859-1?Q?xDbp65LCu0KqKwxEapzx5w+heLuytuA6qJq6lRzqznq4t7bHOJ5k85LWq2?=
+ =?iso-8859-1?Q?UqknS8hi+BpFTyz5cIvO4es1qArb0EAX5/a0mbGzazffgSDOrpvfxstACa?=
+ =?iso-8859-1?Q?3ea+Ze977DFZBQXXEw3uz/ympTYlcEvni7tuviHzaH1Phl7Ilr4DVIDM5L?=
+ =?iso-8859-1?Q?u2gHTcsRilVP/JYt4SeP0nnrra976LdHlLHiZXJIIwaCy8l8zQ52T45/r9?=
+ =?iso-8859-1?Q?G9we6QRb4HEbqSDz2M6+FKxa8+Vk1IPDyNthupnUdLtNMBjJ/adMI4yMPy?=
+ =?iso-8859-1?Q?j+Si6RQ6Nnhyz3VeoUUg4t0ZjKYu4C0YRwwBIvhGv/CNOpnCnCy3LEKPsG?=
+ =?iso-8859-1?Q?IZc8WJVMMGrtXTBXaYvfzDoaCvqruVXE6wF2Z091jZoiyhxztpEABiDoTe?=
+ =?iso-8859-1?Q?6vbZGne25WHDVaCukxuGWM+sy/6v2dQpYxBeVn8Sqg9mTnbKrHJIkbnWux?=
+ =?iso-8859-1?Q?Rkn/dzo0nZ0tcLT324XW1ov3xncWJexzzfvDIibNQCJ/8LfnWSpLKxPaXR?=
+ =?iso-8859-1?Q?jFCsoUFRqN/ZaLIUVKHpEuDWCRAveUYmD4CHBL4lBSIUBc4B91evF8U5fn?=
+ =?iso-8859-1?Q?S48C1ATG4T55hFw4f9hUYzGMZ30YtKsZSU0sF5cw3q1hc6zUlYfRAWQlgf?=
+ =?iso-8859-1?Q?A4V3vNWrCDEsmFHTiotrcgbl7Nde4HZkG7IfztaOI0PfrcKVY9iTCgbdjp?=
+ =?iso-8859-1?Q?eeyCLGWXo8fHrsnWSMdfWbV6OOpLHt6mO/gmoRljHYkaIJvh3xqrk=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ k9WiSZpgEaxcfeaIqWjBBeiQGWBRauxR651ku3/Ld5aOieDPaDssDZCti3bEzMevmhptonQXF8UHpiTgNqfbI8+4sl0lwu2+xKqfitMr2leUjcO25r8uH8XyxoyVlYEo+PmQcfyUK6oHFbxdfz2+PB/F/LhMK4VJm0eaRS6r3mqTSwBIVMQDjlnRkktvI9rxkf13hDmt4lfHK66LAHUEIlY0QemDKe7VbckkZvKsUVYng4u5qiFdAyKkvrlKgdw2qUxe298Jv+FUz9Kz+UrGAegX6x84hyGOCteDxmKL1VHfiHPohl8QlYH0J+3kqIqY
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <131156E341504C4D82F4FDAA222B84C3@prod.exchangelabs.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: jhu.edu
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB51.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 695d82ba-8e21-4f9f-6c29-08dd871f29d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2025 13:10:07.1949
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9fa4f438-b1e6-473b-803f-86f8aedf0dec
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6368
+
+
+      External Email - Use Caution
+
+
+
+This is fantastic news! Well done, everyone. Shall we revive our meeting fo=
+r this Friday at 10am?
+
+Including Kenneth on this chain too.
+
+-----Original Message-----
+From: Editorial Express Mail System <ee_mailer@editorialexpress.com> On Beh=
+alf Of Morten Ravn via Editorial Express
+Sent: Tuesday, April 29, 2025 8:45 AM
+To: H=E5kon Tretvoll <hakon@tretvoll.com>
+Cc: ccarroll@jhu.edu (External) <ccarroll@jhu.edu>; Edmund Crawley <Edmund.=
+S.Crawley@frb.gov>; frankovici@gmail.com; wdu9@jhu.edu; hakon@tretvoll.com
+Subject: QE: decision on MS 2442
+
+
+
+Dear H=E5kon:
+
+I am pleased to inform you that I have decided to "conditionally accept"
+your submission, MS 2442, entitled
+
+"Welfare and Spending Effects of Consumption Stimulus Policies"
+
+for publication in Quantitative Economics.
+
+For those papers with replication files, you will be expected to submit you=
+r replication package to the Data Editor and team for a thorough review ahe=
+ad of final acceptance.
+
+Please follow these steps:
+
+1.      Go to Data Editor website and review the policy and requirements ht=
+tps://www.econometricsociety.org/publications/es-data-editor-website/data-a=
+nd-code-availability-policy
+2.      Follow the steps https://www.econometricsociety.org/publications/es=
+-data-editor-website/package
+3.      Complete the required check list  https://www.econometricsociety.or=
+g/uploads/reports/ES_Data_Editor_Website/Checklist.pdf
+4.      Submit to Data Editor Editorial Express as a "new submission" for t=
+he Data Editor review https://editorialexpress.com/ESData
+(resubmission option at DE editorial express site will be for revisions dur=
+ing the replication check process)
+
+
+You should submit the following items to the Data Editor as separate files:
+*replication files for review (if too large to upload you may email dataedi=
+tor@econometricsociety.org for instructions) *cover letter to Data Editor o=
+utlining any exemptions or special instructions *Data Editor check list *fi=
+nal manuscript *any approved online appendices *cover letter to me if there=
+ were last minor revisions
+
+Please submit data files to the data editor within a month of decision.
+If you need an extension, please contact the Director of Publications at qe=
+@econometricsociety.org
+
+Once accepted by the Data Editor, all the final materials will be transferr=
+ed back to me for my approval and acceptance.  If you have submitted your f=
+inal revision to the Data Editor, there is no need to submit to the journal=
+ again.
+
+
+
+Final revisions WITHOUT any replication files may be submitted at our Socie=
+ty webpage https://www.econometricsociety.org/publications/quantitative-eco=
+nomics/submissions   It's important to note, an offer to revise a paper is =
+normally valid for 12 months after a decision is issued.  Extensions can be=
+ granted to authors at the discretion of the handling editor but must be re=
+quested within the 12 months.
+
+Please review the journal's style and formatting policies https://www.econo=
+metricsociety.org/publications/quantitative-economics/submissions
+
+We are no longer typesetting supplemental appendices.  Please make sure tha=
+t supplements are standalone in both production files and PDFs. We ask that=
+ you put your supplement into the journal style found here: https://www.e-p=
+ublications.org/es/support/  Supplements should be referenced and cited in =
+the main text, instead of previously circulated.
+
+Any questions or concerns, please contact the Director of Publications at q=
+e@econometricsociety.org .
+
+
+Thank you very much for your contribution to Quantitative Economics.
+
+I look forward to seeing your final revision and without too much more dela=
+y, seeing your article appear in a future issue of QE.
+
+Sincerely
+
+Morten Ravn
+m.ravn@ucl.ac.uk
+Quantitative Economics
+
+
+Attachments:
+
+Click on this url:
+https://editorialexpress.com/da.cgi?s=3Dd&i=3D29dced99cb4b4a803db8b1d31e1f0=
+b0d
+to view/download the attachments listed below.
+
+IMPORTANT: your access to these files expires on July 28, 2025.
+Also note that you are allowed a maximum of 25 downloads before your right =
+to download each item expires.
+
+Decision Letter
