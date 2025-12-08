@@ -14,11 +14,13 @@ results/
 ### `auto/` - Automatic Benchmark Results
 
 All benchmark runs are automatically saved here. These files are **gitignored** to prevent:
+
 - Accumulation of large numbers of temporary benchmark files
 - User-specific system information in git history
 - Repository bloat from repeated runs
 
 **Usage:**
+
 ```bash
 # Benchmarks automatically save to auto/
 ./reproduce/benchmarks/benchmark.sh --docs main
@@ -31,12 +33,14 @@ cat results/auto/latest.json | jq .
 ### `saved/` - Curated Benchmark Results
 
 Hand-picked important benchmark results. These files are **tracked in git** for:
+
 - Reference hardware configurations
 - Performance regression testing
 - Milestone benchmarks
 - Cross-platform comparison data
 
 **To preserve a benchmark:**
+
 ```bash
 # Copy from auto/ to saved/ with a descriptive name
 cp auto/docs_main_20251109-1203_000072s.json saved/baseline_m1_max.json
@@ -54,6 +58,7 @@ git commit -m "Add baseline benchmark: M1 Max"
 Results are stored as JSON files with system information and reproduction metadata:
 
 **Auto-generated names:**
+
 ```
 SCOPE_YYYYMMDD-HHMMh_DDDDDDs.json
 ```
@@ -61,11 +66,13 @@ SCOPE_YYYYMMDD-HHMMh_DDDDDDs.json
 Example: `docs_main_20251109-1203_000072s.json`
 
 **Saved names (your choice):**
+
 ```
 descriptive_name.json
 ```
 
 Examples:
+
 - `baseline_m1_max.json`
 - `full_run_v1.0_release.json`
 - `reference_intel_i9.json`

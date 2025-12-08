@@ -2,9 +2,9 @@
 
 **Version**: 2.0  
 **Last Updated**: 2025-11-16  
-**For**: HAFiscal-Latest and econ-ark/HAFiscal
+**For**: {{REPO_NAME}} and econ-ark/HAFiscal
 
-> **Note**: This guide applies to both the source repository (llorracc/HAFiscal-Latest) and the public repository (econ-ark/HAFiscal). For contributors editing the source, see [CONTRIBUTING.md](../CONTRIBUTING.md).
+> **Note**: This guide applies to both the source repository ({{REPO_NAME}}) and the public repository (econ-ark/HAFiscal). For contributors editing the source, see [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ---
 
@@ -13,6 +13,7 @@ This guide provides detailed, platform-specific instructions for setting up HAFi
 ## Platform Support
 
 HAFiscal is tested and supported on:
+
 - **macOS** (Intel & Apple Silicon) ✅
 - **Linux** (Ubuntu 22.04 LTS recommended) ✅
 - **Windows** (via WSL2 with Ubuntu 22.04) ✅
@@ -35,7 +36,7 @@ HAFiscal is tested and supported on:
 - **Installation**: 10-30 minutes (depending on internet speed)
 - **Document reproduction**: 5-10 minutes
 - **Minimal computation**: ~1 hour
-- **Full computation**: 3-4 days on high-end hardware
+- **Full computation**: 4-5 days on high-end hardware
 
 ---
 
@@ -50,11 +51,13 @@ HAFiscal is tested and supported on:
 ### Step 2: Install LaTeX
 
 **Option A: Full MacTeX** (Recommended - 4.5 GB)
+
 ```bash
 brew install --cask mactex
 ```
 
 **Option B: BasicTeX** (Minimal - 100 MB, may need additional packages)
+
 ```bash
 brew install --cask basictex
 brew install latexmk
@@ -67,11 +70,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 Add to your shell profile (UV installer will guide you):
+
 ```bash
 export PATH="$HOME/.cargo/bin:$PATH"
 ```
 
 Then restart your terminal or run:
+
 ```bash
 source ~/.zshrc  # or ~/.bash_profile for bash
 ```
@@ -79,13 +84,14 @@ source ~/.zshrc  # or ~/.bash_profile for bash
 ### Step 4: Clone Repository
 
 ```bash
-git clone https://github.com/llorracc/HAFiscal-Latest.git
-cd HAFiscal
+git clone {{REPO_URL}}.git
+cd {{REPO_NAME}}
 ```
 
 ### Step 5: Setup Python Environment
 
 **With UV** (Recommended - ~5 seconds):
+
 ```bash
 ./reproduce/reproduce_environment_comp_uv.sh
 # Or manually:
@@ -94,6 +100,7 @@ source .venv/bin/activate
 ```
 
 **With Conda** (Alternative - ~2-3 minutes):
+
 ```bash
 conda env create -f environment.yml
 conda activate HAFiscal
@@ -111,12 +118,14 @@ conda activate HAFiscal
 ### macOS Troubleshooting
 
 **LaTeX not found:**
+
 ```bash
 # Add MacTeX to PATH
 export PATH="/Library/TeX/texbin:$PATH"
 ```
 
 **UV command not found:**
+
 ```bash
 # Check UV installation
 ls -la ~/.cargo/bin/uv
@@ -126,6 +135,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 **Python environment activation fails:**
+
 ```bash
 # Make sure you're using UV-created venv
 source .venv/bin/activate
@@ -147,11 +157,13 @@ sudo apt-get update
 ### Step 2: Install LaTeX
 
 **Option A: Full TeX Live** (Recommended - complete distribution)
+
 ```bash
 sudo apt-get install texlive-full
 ```
 
 **Option B: Medium TeX Live** (Faster install, most packages)
+
 ```bash
 sudo apt-get install texlive texlive-latex-extra texlive-fonts-recommended
 sudo apt-get install latexmk
@@ -170,6 +182,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 Add to your shell profile:
+
 ```bash
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
@@ -178,13 +191,14 @@ source ~/.bashrc
 ### Step 5: Clone Repository
 
 ```bash
-git clone https://github.com/llorracc/HAFiscal-Latest.git
-cd HAFiscal
+git clone {{REPO_URL}}.git
+cd {{REPO_NAME}}
 ```
 
 ### Step 6: Setup Python Environment
 
 **With UV** (Recommended - ~5 seconds):
+
 ```bash
 ./reproduce/reproduce_environment_comp_uv.sh
 # Or manually:
@@ -193,6 +207,7 @@ source .venv/bin/activate
 ```
 
 **With Conda** (Alternative - ~2-3 minutes):
+
 ```bash
 # Install Miniconda first if not present
 curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -212,12 +227,14 @@ conda activate HAFiscal
 ### Linux Troubleshooting
 
 **LaTeX packages missing:**
+
 ```bash
 # Install additional packages as needed
 sudo apt-get install texlive-science texlive-bibtex-extra
 ```
 
 **Permission denied on scripts:**
+
 ```bash
 chmod +x reproduce.sh
 chmod +x reproduce/reproduce_environment_comp_uv.sh
@@ -259,7 +276,7 @@ Once inside WSL2 Ubuntu terminal, follow the [Linux Installation](#linux-install
 ```bash
 # CORRECT - clone in WSL home directory
 cd ~
-git clone https://github.com/llorracc/HAFiscal-Latest.git
+git clone {{REPO_URL}}.git
 
 # WRONG - do not clone in Windows filesystem
 # cd /mnt/c/Users/YourName/  # DON'T DO THIS
@@ -277,18 +294,22 @@ cd ~/HAFiscal
 ### Windows/WSL2 Troubleshooting
 
 **"Operation not supported" on git clone:**
+
 - You cloned in `/mnt/c/` instead of WSL filesystem
 - Solution: Clone in `~` or `/home/yourusername/`
 
 **Git shows changes to images/ files:**
+
 - Symlinks converted to regular files
 - Solution:
+
 ```bash
 git config core.symlinks true
 git checkout HEAD -- images/
 ```
 
 **LaTeX not found:**
+
 ```bash
 # Make sure you're in WSL2, not Windows Command Prompt
 wsl --list --verbose  # Should show Ubuntu running version 2
@@ -303,12 +324,14 @@ If you prefer Conda over UV:
 ### Install Conda
 
 **macOS/Linux**:
+
 ```bash
 curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-$(uname)-x86_64.sh
 bash Miniconda3-latest-$(uname)-x86_64.sh
 ```
 
 **Windows WSL2**:
+
 ```bash
 curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
@@ -390,12 +413,14 @@ ls -lh HAFiscal.pdf HAFiscal-Slides.pdf
 | **Cross-platform** | ✅ Yes | ✅ Yes |
 | **Recommendation** | ✅ Primary choice | ✅ Fallback option |
 
-**When to use Conda**: 
+**When to use Conda**:
+
 - Already have Conda installed
 - Familiar with Conda workflows
 - Need conda-specific packages
 
 **When to use UV**:
+
 - New installation (faster)
 - Want deterministic builds
 - Prefer modern Python tooling
@@ -407,12 +432,14 @@ ls -lh HAFiscal.pdf HAFiscal-Slides.pdf
 ### Update Python Environment
 
 **UV**:
+
 ```bash
 git pull
 uv sync
 ```
 
 **Conda**:
+
 ```bash
 git pull
 conda env update -f environment.yml
@@ -421,12 +448,14 @@ conda env update -f environment.yml
 ### Update LaTeX Packages
 
 **macOS**:
+
 ```bash
 sudo tlmgr update --self
 sudo tlmgr update --all
 ```
 
 **Linux**:
+
 ```bash
 sudo apt-get update
 sudo apt-get upgrade texlive-full
@@ -448,13 +477,15 @@ After successful installation:
 ## Getting Help
 
 ### Documentation
+
 - **Main README**: [README.md](../README.md)
 - **Troubleshooting**: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 - **Quick Reference**: [QUICK-REFERENCE.md](QUICK-REFERENCE.md)
 
 ### Support
-- **GitHub Issues**: https://github.com/llorracc/HAFiscal-Latest/issues
-- **Email**: ccarroll@jhu.edu (Christopher Carroll)
+
+- **GitHub Issues**: {{REPO_URL}}/issues
+- **Email**: <ccarroll@jhu.edu> (Christopher Carroll)
 
 ---
 

@@ -46,7 +46,6 @@ def backup_tables(project_root, tables):
         src = Path(project_root) / table
         
         if not src.exists():
-            print(f"  ⊘ Skip (not found): {table}")
             skipped += 1
             continue
             
@@ -59,7 +58,8 @@ def backup_tables(project_root, tables):
         except Exception as e:
             print(f"  ✗ Error backing up {table}: {e}", file=sys.stderr)
     
-    print(f"\nBackup summary: {backed_up} files backed up, {skipped} skipped")
+    if backed_up > 0:
+        print(f"\nBackup summary: {backed_up} files backed up, {skipped} skipped")
 
 
 def rename_min(project_root, tables):
@@ -79,7 +79,6 @@ def rename_min(project_root, tables):
         src = Path(project_root) / table
         
         if not src.exists():
-            print(f"  ⊘ Skip (not found): {table}")
             skipped += 1
             continue
         
@@ -98,7 +97,8 @@ def rename_min(project_root, tables):
         except Exception as e:
             print(f"  ✗ Error renaming {table}: {e}", file=sys.stderr)
     
-    print(f"\nRename summary: {renamed} files renamed, {skipped} skipped")
+    if renamed > 0:
+        print(f"\nRename summary: {renamed} files renamed, {skipped} skipped")
 
 
 def restore_tables(project_root, tables):
@@ -119,7 +119,6 @@ def restore_tables(project_root, tables):
         backup = Path(str(src) + '.backup')
         
         if not backup.exists():
-            print(f"  ⊘ Skip (no backup): {table}")
             skipped += 1
             continue
         
@@ -133,7 +132,8 @@ def restore_tables(project_root, tables):
         except Exception as e:
             print(f"  ✗ Error restoring {table}: {e}", file=sys.stderr)
     
-    print(f"\nRestore summary: {restored} files restored, {skipped} skipped")
+    if restored > 0:
+        print(f"\nRestore summary: {restored} files restored, {skipped} skipped")
 
 
 def show_usage():
@@ -164,15 +164,24 @@ def main():
     
     # Execute requested action
     if action == 'backup':
-        print(f"Backing up {len(tables)} table(s)...")
+        # Only print header if we'll actually process files
+        existing_tables = [t for t in tables if (Path(project_root) / t).exists()]
+        if existing_tables:
+            print(f"Backing up {len(existing_tables)} table(s)...")
         backup_tables(project_root, tables)
         
     elif action == 'rename_min':
-        print(f"Renaming {len(tables)} table(s) with _min suffix...")
+        # Only print header if we'll actually process files
+        existing_tables = [t for t in tables if (Path(project_root) / t).exists()]
+        if existing_tables:
+            print(f"Renaming {len(existing_tables)} table(s) with _min suffix...")
         rename_min(project_root, tables)
         
     elif action == 'restore':
-        print(f"Restoring {len(tables)} table(s) from backup...")
+        # Only print header if we'll actually process files
+        existing_backups = [t for t in tables if (Path(project_root) / f"{t}.backup").exists()]
+        if existing_backups:
+            print(f"Restoring {len(existing_backups)} table(s) from backup...")
         restore_tables(project_root, tables)
         
     else:

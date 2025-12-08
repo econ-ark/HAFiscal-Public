@@ -41,12 +41,115 @@ fi
 cd "$EMPIRICAL_DIR"
 
 # ============================================================================
+# Step 0: Check for QE repository and checkout data files from branch if needed
+# ============================================================================
+QE_MODE=0
+if git rev-parse --git-dir >/dev/null 2>&1; then
+    # Check if we're in a QE repository (has with-precomputed-artifacts branch)
+    if git rev-parse --verify with-precomputed-artifacts >/dev/null 2>&1 || \
+       git ls-remote --heads origin with-precomputed-artifacts >/dev/null 2>&1; then
+        QE_MODE=1
+        echo "ℹ️  QE repository detected - will use with-precomputed-artifacts branch for data files"
+    fi
+fi
+
+# Function to checkout data files from with-precomputed-artifacts branch
+checkout_data_files_from_branch() {
+    local files_needed=("rscfp2004.dta" "ccbal_answer.dta")
+    local files_to_checkout=()
+    
+    for file in "${files_needed[@]}"; do
+        if [[ ! -f "$file" ]]; then
+            files_to_checkout+=("Code/Empirical/$file")
+        fi
+    done
+    
+    if [[ ${#files_to_checkout[@]} -eq 0 ]]; then
+        return 0  # All files already present
+    fi
+    
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "Checking out data files from with-precomputed-artifacts branch"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    
+    # Ensure we're on main branch
+    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+    if [[ -z "$CURRENT_BRANCH" ]]; then
+        echo "⚠️  Not in a git repository - cannot checkout from branch"
+        return 1
+    fi
+    
+    # Check if branch exists locally or remotely
+    if git rev-parse --verify with-precomputed-artifacts >/dev/null 2>&1; then
+        BRANCH_EXISTS=1
+    elif git ls-remote --heads origin with-precomputed-artifacts >/dev/null 2>&1; then
+        BRANCH_EXISTS=1
+        echo "Fetching with-precomputed-artifacts branch from remote..."
+        git fetch origin with-precomputed-artifacts >/dev/null 2>&1 || true
+    else
+        BRANCH_EXISTS=0
+    fi
+    
+    if [[ $BRANCH_EXISTS -eq 0 ]]; then
+        echo "⚠️  with-precomputed-artifacts branch not found"
+        echo "   Data files will need to be downloaded from Federal Reserve"
+        return 1
+    fi
+    
+    # Checkout files from branch
+    for file in "${files_to_checkout[@]}"; do
+        echo "Checking out $file from with-precomputed-artifacts branch..."
+        if git checkout with-precomputed-artifacts -- "$file" 2>/dev/null; then
+            echo "  ✓ Checked out $file"
+        else
+            echo "  ⚠️  Failed to checkout $file from branch"
+            return 1
+        fi
+    done
+    
+    echo ""
+    echo "✅ Data files checked out from with-precomputed-artifacts branch"
+    echo ""
+    return 0
+}
+
+# Function to clean up data files after analysis (QE mode only)
+cleanup_data_files_after_analysis() {
+    if [[ $QE_MODE -eq 1 ]]; then
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo "Cleaning up data files (QE mode)"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        echo "Removing data files from main branch worktree..."
+        echo "  (Files remain available in with-precomputed-artifacts branch)"
+        echo ""
+        
+        cd "$EMPIRICAL_DIR"
+        rm -f rscfp2004.dta ccbal_answer.dta p04i6.dta 2>/dev/null || true
+        
+        echo "✓ Data files removed from worktree"
+        echo "  To restore: git checkout with-precomputed-artifacts -- Code/Empirical/rscfp2004.dta Code/Empirical/ccbal_answer.dta"
+        echo ""
+    fi
+}
+
+# ============================================================================
 # Step 1: Download SCF 2004 data if needed
 # ============================================================================
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "Step 1: Checking SCF 2004 Data Files"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
+
+# In QE mode, try to checkout files from branch first
+if [[ $QE_MODE -eq 1 ]]; then
+    if ! checkout_data_files_from_branch; then
+        echo "⚠️  Could not checkout from branch - will attempt download"
+    fi
+fi
 
 if [ $USE_LATEST_DATA -eq 1 ]; then
     echo "ℹ️  Downloading and comparing latest SCF data from Federal Reserve"
@@ -302,6 +405,9 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo "  - Table 5 (wealth distribution)"
     echo "  - Figure 2 (Lorenz curves)"
     echo ""
+    
+    # Clean up data files in QE mode
+    cleanup_data_files_after_analysis
     
     # If comparison mode, run comparison analysis
     if [ $COMPARE_DATASETS -eq 1 ]; then

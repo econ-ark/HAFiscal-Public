@@ -32,6 +32,7 @@ The devcontainer.json automatically calls `run-setup.sh` during container creati
 The Dockerfile makes these scripts executable and can reference them if needed.
 
 ### Manual execution
+
 ```bash
 # From repository root
 bash reproduce/docker/setup.sh
@@ -40,6 +41,7 @@ bash reproduce/docker/setup.sh
 ## Location Rationale
 
 These scripts are in `reproduce/docker/` rather than `.devcontainer/` because:
+
 - They're part of the reproduction infrastructure (not just devcontainer config)
 - They're needed by QE repository (which doesn't have `.devcontainer/`)
 - They're accessible to both devcontainer.json and Dockerfile builds

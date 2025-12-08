@@ -8,6 +8,7 @@ Discover the minimal set of LaTeX packages needed to compile HAFiscal.tex using 
 ## Discovery Process
 
 ### Base Installation
+
 ```bash
 latexmk
 texlive-latex-base
@@ -31,10 +32,10 @@ Through iterative compilation, we discovered these additional packages are neede
 
 ### Challenges Discovered
 
-1. **Package Name Mismatches**: 
+1. **Package Name Mismatches**:
    - File `manyfoot.sty` is in package `ncctools`, not `manyfoot`
    - File `perpage.sty` exists in multiple packages (bidi, bigfoot, zref, lwarp)
-   
+
 2. **Debian tlmgr Limitations**:
    - Debian's packaged TeXLive doesn't allow system-wide tlmgr installations
    - Forced to use "user mode" which installs to `~/texmf/`
@@ -48,6 +49,7 @@ Through iterative compilation, we discovered these additional packages are neede
 ## Current Status
 
 **Packages successfully installed via tlmgr**:
+
 - changepage
 - currfile  
 - cancel
@@ -63,11 +65,13 @@ Through iterative compilation, we discovered these additional packages are neede
 
 ### Option 1: Install texlive-latex-extra (Pragmatic)
 **Pros**:
+
 - Guaranteed to work
 - No iteration needed
 - Well-tested
 
 **Cons**:
+
 - ~2GB installed size
 - Takes 5-10 minutes to install
 - Requires significant Docker disk space
@@ -85,10 +89,12 @@ sudo apt-get install -y \
 
 ### Option 2: Continue tlmgr Discovery (Ideal but Time-Consuming)
 **Pros**:
+
 - Minimal installation size (~200-300 MB)
 - Only installs what's needed
 
 **Cons**:
+
 - Requires completing package discovery
 - Complex due to package name mismatches
 - May need 20-30 packages total
@@ -112,7 +118,7 @@ tlmgr install \
 1. Complete package discovery (continue iteration)
 2. Document full package list
 3. Update `reproduce/required_latex_packages.txt`
-4. Update `.devcontainer/setup.sh` with complete list
+4. Update `reproduce/docker/setup.sh` with complete list
 5. Test full compilation in fresh container
 
 ## Files

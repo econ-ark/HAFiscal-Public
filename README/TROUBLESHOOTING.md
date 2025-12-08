@@ -11,6 +11,7 @@ Run this to check your environment:
 ```
 
 This tests:
+
 - Environment setup
 - Python path construction  
 - LaTeX installation
@@ -22,11 +23,12 @@ This tests:
 
 ### UV Installation Problems
 
-####  `uv: command not found`
+#### `uv: command not found`
 
 **Problem:** UV isn't in your PATH after installation.
 
 **Solution:**
+
 ```bash
 # Check if UV is installed
 ls -la ~/.cargo/bin/uv
@@ -41,6 +43,7 @@ source ~/.bashrc  # or source ~/.zshrc
 **Problem:** Installation script fails or hangs.
 
 **Solution:**
+
 ```bash
 # Try manual installation
 curl -LsSf https://astral.sh/uv/install.sh > install-uv.sh
@@ -60,6 +63,7 @@ bash install-uv.sh
 **Platform-specific solutions:**
 
 **macOS:**
+
 ```bash
 # If MacTeX is installed, add to PATH
 export PATH="/Library/TeX/texbin:$PATH"
@@ -70,6 +74,7 @@ brew install --cask mactex
 ```
 
 **Linux:**
+
 ```bash
 # Install LaTeX
 sudo apt-get install texlive-full
@@ -79,6 +84,7 @@ sudo apt-get install texlive latexmk
 ```
 
 **Windows (WSL2):**
+
 ```bash
 # In WSL2 Ubuntu terminal
 sudo apt-get install texlive-full
@@ -91,11 +97,13 @@ sudo apt-get install texlive-full
 **Solution:**
 
 **macOS:**
+
 ```bash
 sudo tlmgr install subfiles  # or whatever package is missing
 ```
 
 **Linux:**
+
 ```bash
 # Install more packages
 sudo apt-get install texlive-latex-extra texlive-fonts-recommended
@@ -110,6 +118,7 @@ sudo apt-get install texlive-latex-extra texlive-fonts-recommended
 **Problem:** UV or Conda can't find Python 3.9.
 
 **Solution with UV:**
+
 ```bash
 # UV will automatically install Python 3.9
 uv python install 3.9
@@ -117,6 +126,7 @@ uv sync --all-groups
 ```
 
 **Solution with Conda:**
+
 ```bash
 # Specify Python version explicitly
 conda env create -f environment.yml
@@ -127,6 +137,7 @@ conda env create -f environment.yml
 **Problem:** `ModuleNotFoundError: No module named 'HARK'` or similar.
 
 **Solution:**
+
 ```bash
 # Make sure environment is activated
 source .venv/bin/activate  # for UV
@@ -161,6 +172,7 @@ This is usually handled automatically by `.latexmkrc`, but if it persists:
 **Problem:** Citation changes don't appear in PDF.
 
 **Solution:**
+
 ```bash
 # Force full rebuild
 cd /path/to/HAFiscal
@@ -173,6 +185,7 @@ rm -f *.aux *.bbl *.blg
 **Problem:** PDF is generated but missing content or has "??" references.
 
 **Solution:**
+
 ```bash
 # Run full compilation (not --quick)
 ./reproduce.sh --docs main
@@ -189,16 +202,18 @@ rm -f *.aux *.bbl *.blg
 
 **Problem:** `./reproduce.sh --comp full` has been running for days.
 
-**Expected behavior:** Full computation takes 3-4 days on a high-end 2025 laptop.
+**Expected behavior:** Full computation takes 4-5 days on a high-end 2025 laptop.
 
 **Solutions:**
 
 1. **Run minimal version first:**
+
    ```bash
    ./reproduce.sh --comp min  # ~1 hour
    ```
 
 2. **Monitor progress:**
+
    ```bash
    # Check which Python processes are running
    ps aux | grep python
@@ -208,6 +223,7 @@ rm -f *.aux *.bbl *.blg
    ```
 
 3. **If truly stuck:**
+
    ```bash
    # Kill and restart
    pkill -f python
@@ -223,6 +239,7 @@ rm -f *.aux *.bbl *.blg
 1. **Check error message** - Look for specific module or function that failed
 
 2. **Verify environment:**
+
    ```bash
    source .venv/bin/activate
    python --version  # Should show 3.9.x
@@ -230,6 +247,7 @@ rm -f *.aux *.bbl *.blg
    ```
 
 3. **Check memory:**
+
    ```bash
    # Linux/macOS
    free -h  # Linux
@@ -239,6 +257,7 @@ rm -f *.aux *.bbl *.blg
    ```
 
 4. **Re-run specific script:**
+
    ```bash
    cd Code/HA-Models
    source ../../.venv/bin/activate
@@ -256,6 +275,7 @@ rm -f *.aux *.bbl *.blg
 **Problem:** Some packages need Rosetta 2 on M1/M2/M3 Macs.
 
 **Solution:**
+
 ```bash
 # Install Rosetta 2 if prompted
 softwareupdate --install-rosetta
@@ -268,6 +288,7 @@ softwareupdate --install-rosetta
 **Problem:** Compilation errors about missing compilers.
 
 **Solution:**
+
 ```bash
 xcode-select --install
 ```
@@ -281,6 +302,7 @@ xcode-select --install
 **Problem:** `bash: ./reproduce.sh: Permission denied`
 
 **Solution:**
+
 ```bash
 chmod +x reproduce.sh
 chmod +x reproduce/*.sh
@@ -291,6 +313,7 @@ chmod +x reproduce/*.sh
 **Problem:** Python packages fail to install due to missing C libraries.
 
 **Solution:**
+
 ```bash
 sudo apt-get install build-essential python3-dev
 ```
@@ -308,13 +331,15 @@ sudo apt-get install build-essential python3-dev
 **Why this happens:** Git for Windows converts symlinks to regular text files. When accessed from WSL2, these appear as broken symlinks and the repository won't work.
 
 **Solution:**
+
 1. **Delete** the current repository clone (the one cloned from Windows)
 2. Open a WSL2 terminal
 3. Clone FROM WITHIN WSL2:
+
    ```bash
    cd ~
-   git clone https://github.com/llorracc/HAFiscal-Latest.git
-   cd HAFiscal
+   git clone {{REPO_URL}}.git
+   cd {{REPO_NAME}}
    ```
 
 **Prevention:** Always clone this repository from within WSL2, never from Windows.
@@ -324,6 +349,7 @@ sudo apt-get install build-essential python3-dev
 **Problem:** `wsl: command not found` in PowerShell.
 
 **Solution:**
+
 1. Make sure you're on Windows 10 version 2004+ or Windows 11
 2. Enable "Virtual Machine Platform" in Windows Features
 3. Run as Administrator: `wsl --install`
@@ -334,6 +360,7 @@ sudo apt-get install build-essential python3-dev
 **Problem:** Everything is very slow in WSL2.
 
 **Solution:**
+
 ```bash
 # Work in WSL filesystem (fast)
 cd ~/HAFiscal
@@ -359,6 +386,7 @@ processors=4
 ```
 
 Then restart WSL2:
+
 ```powershell
 # In PowerShell
 wsl --shutdown
@@ -388,6 +416,7 @@ cd ~/HAFiscal
 **Expected:** All path issues have been fixed (as of 2025-10-22).
 
 **If you still see issues:**
+
 ```bash
 # Report this as a bug - we thought we fixed all of these!
 # Include the error message and file name
@@ -431,6 +460,7 @@ python --version
 **Solution:**
 
 1. **Check Docker is running:**
+
    ```bash
    docker ps
    ```
@@ -438,11 +468,13 @@ python --version
 2. **Start Docker Desktop** (macOS/Windows) or Docker daemon (Linux)
 
 3. **Pull Ubuntu image manually:**
+
    ```bash
    docker pull ubuntu:22.04
    ```
 
 4. **Run test again:**
+
    ```bash
    ./reproduce/test-ubuntu-22.04.sh
    ```
@@ -462,6 +494,7 @@ python --version
 1. **Check CPU usage:** Should be near 100% during compilation
 2. **Check disk space:** LaTeX needs temporary space
 3. **Try minimal build:**
+
    ```bash
    BUILD_MODE=SHORT ./reproduce.sh --docs main
    ```
@@ -470,13 +503,14 @@ python --version
 
 **Problem:** Python computations are slower than expected.
 
-**Expected time:** ~1 hour for minimal, 3-4 days on a high-end 2025 laptop for full
+**Expected time:** ~1 hour for minimal, 4-5 days on a high-end 2025 laptop for full
 
 **Solutions:**
 
 1. **Check CPU:** Should be near 100% during computation
 2. **Close other applications:** Free up RAM and CPU
 3. **Check swap usage:**
+
    ```bash
    # If heavily swapping, you need more RAM
    free -h  # Linux
@@ -495,6 +529,7 @@ python --version
 **Choose one:**
 
 **Option A: Use UV (recommended, faster)**
+
 ```bash
 # Deactivate conda
 conda deactivate
@@ -504,6 +539,7 @@ source .venv/bin/activate
 ```
 
 **Option B: Use Conda**
+
 ```bash
 # Deactivate UV env
 deactivate
@@ -519,6 +555,7 @@ conda activate hafiscal
 **Solution:**
 
 **With UV:**
+
 ```bash
 # UV manages Python version automatically
 uv sync --all-groups
@@ -527,6 +564,7 @@ python --version  # Should show 3.9.x
 ```
 
 **With Conda:**
+
 ```bash
 # Conda environment pins Python version
 conda activate hafiscal
@@ -546,6 +584,7 @@ python --version  # Should show 3.9.x
 1. **Check internet connection**
 
 2. **Retry with verbose output:**
+
    ```bash
    uv sync --all-groups --verbose
    ```
@@ -555,6 +594,7 @@ python --version  # Should show 3.9.x
    - Try from home network or mobile hotspot
 
 4. **Use proxy if needed:**
+
    ```bash
    export HTTP_PROXY=http://proxy.example.com:8080
    export HTTPS_PROXY=http://proxy.example.com:8080
@@ -582,6 +622,7 @@ bash -x ./reproduce.sh --docs main
 ### Check Logs
 
 LaTeX logs are usually kept:
+
 ```bash
 # Check LaTeX log for detailed errors
 less HAFiscal.log
@@ -617,7 +658,7 @@ env | grep -i python
 
 If none of these solutions work:
 
-1. **Search existing issues:** https://github.com/llorracc/HAFiscal-Latest/issues
+1. **Search existing issues:** {{REPO_URL}}/issues
 
 2. **Create new issue with:**
    - Platform (macOS/Linux/WSL2)
@@ -654,4 +695,3 @@ rm -rf .venv
 ```
 
 Good luck! 🎯
-

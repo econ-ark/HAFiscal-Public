@@ -2,8 +2,7 @@
 
 **Paper**: Welfare and Spending Effects of Consumption Stimulus Policies  
 **Authors**: Christopher D. Carroll, Edmund Crawley, William Du, Ivan Frankovic, Hakon Tretvoll  
-**Version**: 9c1f45a-dirty
-**Date**: November 2025
+**Version**: 3fdb511-dirty
 
 ## ℹ️ Repository Architecture Notice
 
@@ -33,23 +32,25 @@ HAFiscal-Latest (SST) → HAFiscal-Public (this repo) → HAFiscal-QE
 ### Survey of Consumer Finances 2004
 
 **Source**: Board of Governors of the Federal Reserve System  
-**URL**: https://www.federalreserve.gov/econres/scf_2004.htm  
+**URL**: <https://www.federalreserve.gov/econres/scf_2004.htm>  
 **Access**: Publicly available, no restrictions  
-**License**: Public domain
+**Data License**: Public domain (Federal Reserve data)
 
 **Data Files Used**:
+
 - `rscfp2004.dta` - Summary Extract Public Data (replicate-level data)
 - `p04i6.dta` - Full Public Data Set (implicate-level data)
 
 **Download Method**: Automated download via `Code/Empirical/download_scf_data.sh`
 
 **Variables Used**:
+
 - Normal annual income (permanent income proxy)
 - Liquid wealth components (cash, checking, savings, money market accounts, stocks, bonds, mutual funds)
 - Credit card debt (liquid debt component)
 - Demographic variables (age, education)
 
-**Citation**: Board of Governors of the Federal Reserve System (2004). Survey of Consumer Finances, 2004. Available at https://www.federalreserve.gov/econres/scfindex.htm
+**Citation**: Board of Governors of the Federal Reserve System (2004). Survey of Consumer Finances, 2004. Available at <https://www.federalreserve.gov/econres/scfindex.htm>
 
 **Data Construction**: We follow Kaplan et al. (2014) methodology for constructing liquid wealth, as detailed in Section 3.2.2 of the paper.
 
@@ -75,6 +76,7 @@ These files are also available from the Federal Reserve Board website:
 [Federal Reserve Board - 2004 Survey of Consumer Finances](https://www.federalreserve.gov/econres/scf_2004.htm)
 
 Download and unzip the following files to reproduce our results:
+
 - Main survey data (Stata version): **scf2004s.zip** -> **p04i6.dta**
 - Summary Extract Data set (Stata format): **scfp2004s.zip** -> **rscfp2004.dta**
 
@@ -91,6 +93,7 @@ Code/Empirical/make_liquid_wealth.do
 ```
 
 This script:
+
 1. Loads the SCF 2004 data files
 2. Constructs liquid wealth measures following Kaplan et al. (2014)
 3. Calculates summary statistics used in calibration
@@ -99,6 +102,7 @@ This script:
 #### Python Processing
 
 Additional data processing occurs in Python scripts located in `Code/HA-Models/`:
+
 - `Target_AggMPCX_LiquWealth/` - Uses empirical moments for calibration
 - Various scripts read the processed Stata output files
 
@@ -117,6 +121,7 @@ Additional data processing occurs in Python scripts located in `Code/HA-Models/`
 The following data sources are cited in `HAFiscal-Add-Refs.bib`:
 
 **SCF2004**:
+
 ```bibtex
 @misc{SCF2004,
   author       = {{Board of Governors of the Federal Reserve System}},
@@ -133,6 +138,7 @@ The following data sources are cited in `HAFiscal-Add-Refs.bib`:
 #### In Paper Text
 
 The data is cited in the paper at:
+
 - `Subfiles/Parameterization.tex` (line 30): First mention of SCF 2004 data
 - `Subfiles/Parameterization.tex` (line 67): Discussion of liquid wealth distribution
 
@@ -147,17 +153,20 @@ This research uses publicly available secondary data from government sources. No
 ### Hardware Requirements
 
 **Minimum**:
+
 - CPU: 4 cores, 2.0 GHz
 - RAM: 8 GB
 - Storage: 2 GB free space
 - Internet connection (for data download)
 
 **Recommended**:
+
 - CPU: 8+ cores, 3.0+ GHz
 - RAM: 16 GB
 - Storage: 5 GB free space
 
 **Hardware Used for Results in Paper**:
+
 - CPU: Apple M2 (8 performance cores)
 - RAM: 16 GB
 - OS: macOS 14.4
@@ -165,15 +174,18 @@ This research uses publicly available secondary data from government sources. No
 ### Software Requirements
 
 **Required**:
+
 - **Python**: 3.9 or later
 - **LaTeX**: Full TeX Live distribution (2021 or later)
 - **Git**: For repository management
 - **Unix-like environment**: macOS, Linux, or Windows WSL2
 
-**Python Package Manager**: 
+**Python Package Manager**:
+
 - **uv** (recommended) or **conda**
 
 **Python Dependencies** (automatically installed):
+
 - numpy >= 1.21.0
 - scipy >= 1.7.0
 - matplotlib >= 3.4.0
@@ -197,14 +209,23 @@ This research uses publicly available secondary data from government sources. No
 
 ### Step 1: Clone Repository
 
+**IMPORTANT**: You must clone with all branches to access generated objects needed for reproduction.
+
 ```bash
+# Clone repository
 git clone https://github.com/llorracc/HAFiscal-Public.git
 cd HAFiscal-Public
+
+# Fetch the with-precomputed-artifacts branch (REQUIRED for reproduction)
+git fetch origin with-precomputed-artifacts
 ```
+
+**Why this is needed**: The `with-precomputed-artifacts` branch contains generated files (`.bib`, `.obj`, `.csv`) that are excluded from the `main` branch per QE requirements but are needed for reproduction. The `reproduce.sh` script will automatically fetch files from this branch when needed, but the branch must be available locally or remotely.
 
 ### Step 2: Set Up Python Environment
 
-**Option A: Using uv (Recommended)**
+#### Option A: Using uv (Recommended)
+
 ```bash
 # Install uv if not present
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -214,7 +235,8 @@ uv sync
 source .venv/bin/activate  # On Windows WSL2: source .venv/bin/activate
 ```
 
-**Option B: Using conda**
+#### Option B: Using conda
+
 ```bash
 # Create environment from environment.yml
 conda env create -f environment.yml
@@ -253,7 +275,7 @@ The primary way to reproduce results is via the `reproduce.sh` script, which pro
 # Minimal computational validation (~1 hour)
 ./reproduce.sh --comp min
 
-# Full computational replication (3-4 days)
+# Full computational replication (4-5 days)
 ./reproduce.sh --comp full
 
 # Complete reproduction (all steps)
@@ -263,7 +285,9 @@ The primary way to reproduce results is via the `reproduce.sh` script, which pro
 ### Reproduction Modes Explained
 
 #### `--docs` - Document Generation Only (5-10 minutes)
+
 Compiles the paper PDF from existing computational results:
+
 - Runs LaTeX compilation
 - Generates bibliography
 - Creates final HAFiscal.pdf
@@ -276,7 +300,9 @@ Compiles the paper PDF from existing computational results:
 ```
 
 #### `--comp min` - Minimal Computational Test (~1 hour)
+
 Runs a subset of computational models with reduced parameters:
+
 - Tests model infrastructure
 - Validates Python environment
 - Generates sample figures/tables
@@ -286,8 +312,10 @@ Runs a subset of computational models with reduced parameters:
 ./reproduce.sh --comp min
 ```
 
-#### `--comp full` - Full Computational Replication (3-4 days)
+#### `--comp full` - Full Computational Replication (4-5 days)
+
 Runs all computational models with paper-reported parameters:
+
 - Solves heterogeneous agent models
 - Generates all figures and tables
 - Performs Monte Carlo simulations
@@ -299,8 +327,10 @@ Runs all computational models with paper-reported parameters:
 
 **Warning**: This mode requires substantial computational resources and time. See Section 5 for detailed timing estimates.
 
-#### `--all` - Complete Reproduction Pipeline (3-4 days + compilation)
+#### `--all` - Complete Reproduction Pipeline (4-5 days + compilation)
+
 Runs full computational replication followed by document generation:
+
 ```bash
 ./reproduce.sh --all
 # Equivalent to:
@@ -312,16 +342,19 @@ Runs full computational replication followed by document generation:
 For more granular control, individual reproduction scripts can be run directly:
 
 **Environment Setup**:
+
 ```bash
 bash reproduce/reproduce_environment.sh
 ```
 
 **Data Download**:
+
 ```bash
 bash Code/Empirical/download_scf_data.sh
 ```
 
 **Computational Models Only**:
+
 ```bash
 # Minimal test
 bash reproduce/reproduce_computed_min.sh
@@ -331,11 +364,13 @@ bash reproduce/reproduce_computed.sh
 ```
 
 **Document Generation Only**:
+
 ```bash
 bash reproduce/reproduce_documents.sh
 ```
 
 **Standalone Figures/Tables** (useful for debugging):
+
 ```bash
 # Compile individual figure
 cd Figures
@@ -352,9 +387,10 @@ To measure and record reproduction time on your system:
 
 ```bash
 # Run with benchmarking
-./reproduce/benchmarks/benchmark.sh --docs
-./reproduce/benchmarks/benchmark.sh --comp min
-./reproduce/benchmarks/benchmark.sh --comp full
+./reproduce/benchmarks/benchmark.sh --docs      # pdf documents
+./reproduce/benchmarks/benchmark.sh --comp min  # everything quick 
+./reproduce/benchmarks/benchmark.sh --comp full # everything in paper 
+./reproduce/benchmarks/benchmark.sh --comp max  # robustness checks
 
 # View benchmark results
 ./reproduce/benchmarks/benchmark_results.sh
@@ -367,6 +403,7 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 ## 5. Expected Running Times
 
 **Reference Hardware** (High-end 2025 laptop):
+
 - CPU: 8+ cores, 3.0+ GHz (e.g., Apple M2, Intel i9, AMD Ryzen 9)
 - RAM: 32 GB
 - Storage: NVMe SSD
@@ -378,8 +415,8 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 |------|---------|----------|--------|
 | **Document Generation** | `./reproduce.sh --docs` | 5-10 minutes | HAFiscal.pdf |
 | **Minimal Computation** | `./reproduce.sh --comp min` | ~1 hour | Validation results |
-| **Full Computation** | `./reproduce.sh --comp full` | 3-4 days | All computational results |
-| **Complete Pipeline** | `./reproduce.sh --all` | 3-4 days + 10 min | Everything |
+| **Full Computation** | `./reproduce.sh --comp full` | 4-5 days | All computational results |
+| **Complete Pipeline** | `./reproduce.sh --all` | 4-5 days + 10 min | Everything |
 
 ### Individual Script Times
 
@@ -389,22 +426,25 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 | `download_scf_data.sh` | 30 seconds | SCF 2004 data files |
 | `reproduce_data_moments.sh` | 5-10 minutes | Empirical moments |
 | `reproduce_computed_min.sh` | ~1 hour | Quick validation |
-| `reproduce_computed.sh` | 3-4 days | All figures and tables |
+| `reproduce_computed.sh` | 4-5 days | All figures and tables |
 | `reproduce_documents.sh` | 5-10 minutes | HAFiscal.pdf |
 
 ### Hardware Scaling
 
 **Minimum Hardware** (4 cores, 8GB RAM, SATA SSD):
+
 - Document generation: 10-20 minutes
 - Minimal computation: 2-3 hours  
 - Full computation: 6-10 days
 
 **Mid-range Hardware** (6-8 cores, 16GB RAM, NVMe SSD):
+
 - Document generation: 7-12 minutes
 - Minimal computation: 1-1.5 hours
 - Full computation: 4-5 days
 
 **High-performance Hardware** (16+ cores, 64GB RAM, NVMe SSD, GPU):
+
 - Document generation: 5-8 minutes
 - Minimal computation: 30-45 minutes
 - Full computation: 2-3 days
@@ -412,6 +452,7 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 ### Timing Variability
 
 Running times may vary significantly based on:
+
 - **CPU**: Core count, clock speed, architecture (x86_64 vs ARM)
 - **RAM**: Amount and speed (impacts parallel solver performance)
 - **Storage**: Type (NVMe > SATA SSD > HDD) affects I/O-heavy operations
@@ -448,12 +489,13 @@ For the most accurate estimate for your hardware, run `./reproduce.sh --comp min
 
 | Figure | Generated By | Output File | Script Runtime |
 |--------|--------------|-------------|----------------|
-| Figure 1 | `Code/HA-Models/make_figure_1.py` | `Figures/welfare6.pdf` | 30 min |
-| Figure 2 | `Code/HA-Models/make_figure_2.py` | `Figures/MPCvsPovertyNorm.pdf` | 15 min |
-| Figure 3 | `Code/HA-Models/make_figure_3.py` | `Figures/CDbyWQ.pdf` | 20 min |
-| Figure 4 | `Code/HA-Models/make_figure_4.py` | `Figures/MPC_splurge_actual.pdf` | 10 min |
-| Figure 5 | `Code/HA-Models/make_figure_5.py` | `Figures/liquwealthdistribution.pdf` | 5 min |
-| Figure 6 | `Code/HA-Models/make_figure_6.py` | `Figures/LorenzPts.pdf` | 5 min |
+| Figure 1 | `Code/HA-Models/Target_AggMPCX_LiquWealth/Estimation_BetaNablaSplurge.py` (lines 596, 633) | `Figures/welfare6.pdf` | 30 min |
+| Figure 2 | `Code/HA-Models/FromPandemicCode/CreateLPfig.py` (line 124) | `Figures/MPCvsPovertyNorm.pdf` | 15 min |
+| Figure 3(a) | `Code/HA-Models/FromPandemicCode/CreateMPCfig.py` (line 77) | `Figures/CDbyWQ.pdf` | 20 min |
+| Figure 3(b) | `Code/HA-Models/FromPandemicCode/EvalConsDropUponUILeave.py` (line 112) | `Figures/CDbyWQ.pdf` | 20 min |
+| Figure 4 | `Code/HA-Models/FromPandemicCode/AggFiscalMAIN.py` → `Output_Results.py` (lines 108, 148, 186, 288, 295, 301) | `Figures/MPC_splurge_actual.pdf` | 10 min |
+| Figure 5 | `Code/HA-Models/FromPandemicCode/HA-Fiscal-HANK-SAM-to-python.py` (lines 1162-1205) | `Figures/liquwealthdistribution.pdf` | 5 min |
+| Figure 6 | `Code/HA-Models/FromPandemicCode/AggFiscalMAIN.py` → `Output_Results.py` (line 335) | `Figures/LorenzPts.pdf` | 5 min |
 
 **Note**: All figures are also compiled as standalone LaTeX files in `Figures/` directory.
 
@@ -461,15 +503,20 @@ For the most accurate estimate for your hardware, run `./reproduce.sh --comp min
 
 | Table | Generated By | Output File | Data Source |
 |-------|--------------|-------------|-------------|
-| Table 1 | `Code/HA-Models/make_table_1.py` | `Tables/calibration.tex` | Model calibration |
-| Table 2 | `Code/HA-Models/make_table_2.py` | `Tables/MPC_WQ.tex` | SCF 2004 + simulation |
-| Table 3 | `Code/HA-Models/make_table_3.py` | `Tables/welfare_comparison.tex` | Model simulation |
+| Table 1 | `Code/HA-Models/Target_AggMPCX_LiquWealth/Estimation_BetaNablaSplurge.py` (line 680) | `Code/HA-Models/Target_AggMPCX_LiquWealth/images/MPC_WealthQuartiles_Table.tex` | Model calibration |
+| Table 2, Panel B (Lines 1-3) | `Code/Empirical/make_liquid_wealth.do` (Stata) | `Tables/MPC_WQ.tex` | SCF 2004 data |
+| Table 2, Panel B (Lines 3-6) | `Code/HA-Models/Results/AllResults_CRRA_2.0_R_1.01.txt` (written by `EstimAggFiscalMAIN.py`) | `Tables/MPC_WQ.tex` | Model simulation |
+| Table 3 | `Code/HA-Models/FromPandemicCode/Parameters.py` (parameter summary, not generated) | `Tables/welfare_comparison.tex` | Parameter documentation |
+| Table 6 | `Code/HA-Models/FromPandemicCode/AggFiscalMAIN.py` → `Output_Results.py` (line 479) | `Code/HA-Models/FromPandemicCode/Tables/CRRA2/Multiplier.tex` | Model simulation |
+| Table 7 | `Code/HA-Models/FromPandemicCode/AggFiscalMAIN.py` → `Output_Results.py` → `Welfare.py` (line 293) | `Code/HA-Models/FromPandemicCode/Tables/CRRA2/welfare6.tex` | Model simulation |
+| Table 8 | `Code/HA-Models/FromPandemicCode/AggFiscalMAIN.py` → `Output_Results.py` → `Welfare.py` (line 326) | `Code/HA-Models/FromPandemicCode/Tables/Splurge0/welfare6_SplurgeComp.tex` | Model simulation |
 
 **Note**: All tables are also compiled as standalone LaTeX files in `Tables/` directory.
 
 ### Parameter Values
 
 Model parameters are defined in:
+
 - `Code/HA-Models/parameters.py` - Main parameter definitions
 - `Subfiles/Parameterization.tex` - Parameter documentation in paper
 
@@ -477,11 +524,11 @@ Model parameters are defined in:
 
 ## 7. File Organization
 
-```
+```text
 HAFiscal-Public/
 |-- README.md                      # This file
 |-- README.pdf                     # PDF version of this file
-|-- LICENSE                        # MIT License
+|-- LICENSE                        # See LICENSE file for license terms
 |-- environment.yml                # Conda environment specification
 |-- pyproject.toml                 # Python dependencies (uv format)
 |-- requirements.txt               # Python dependencies (pip format)
@@ -582,21 +629,24 @@ pwd  # Should show /home/username/..., not /mnt/c/...
 ### Technical Issues
 
 For technical issues with replication:
+
 - Open an issue: https://github.com/llorracc/HAFiscal-Public.git/issues
-- Email: ccarroll@jhu.edu (Christopher Carroll)
+- Email: <ccarroll@jhu.edu> (Christopher Carroll)
 
 ### Data Questions
 
 For questions about SCF data:
-- Federal Reserve SCF page: https://www.federalreserve.gov/econres/scfindex.htm
-- Email: scf@frb.gov
+
+- Federal Reserve SCF page: <https://www.federalreserve.gov/econres/scfindex.htm>
+- Email: <scf@frb.gov>
 
 ### Paper Content
 
 For questions about the paper content:
+
 - See author emails in paper
-- Christopher Carroll: ccarroll@jhu.edu
-- Edmund Crawley: edmund.s.crawley@frb.gov
+- Christopher Carroll: <ccarroll@jhu.edu>
+- Edmund Crawley: <edmund.s.crawley@frb.gov>
 
 ---
 
@@ -621,11 +671,11 @@ If you use this replication package, please cite:
 **Replication Package Version**: 1.0
 
 **Version 1.1 Changes**:
+
 - Added comprehensive `reproduce.sh` documentation with all modes
 - Updated timing data to use benchmark system measurements (not placeholders)
 - Added hardware scaling examples (minimum, mid-range, high-performance)
 - Integrated benchmark system references and instructions
 - Added timing variability factors and explanations
-
 
 

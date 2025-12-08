@@ -9,6 +9,7 @@ Just run the reproduction script directly:
 ```
 
 That's it! No need to:
+
 - ❌ Manually activate virtual environment
 - ❌ Set TERM variable
 - ❌ Run different commands for different platforms
@@ -16,23 +17,27 @@ That's it! No need to:
 ## Common Commands
 
 ### Reproduce Documents
+
 ```bash
 ./reproduce.sh --docs main       # Main paper + slides
 ./reproduce.sh --docs all        # All documents including appendix
 ```
 
 ### Run Computational Results
+
 ```bash
 ./reproduce.sh --comp min        # Minimal/quick computation
 ./reproduce.sh --comp            # Full computation
 ```
 
 ### Combined (Everything)
+
 ```bash
 ./reproduce.sh --all             # All computation + all documents
 ```
 
 ### Environment Testing
+
 ```bash
 ./reproduce.sh --envt comp_uv    # Test Python environment
 ./reproduce.sh --envt texlive    # Test LaTeX environment
@@ -60,15 +65,17 @@ The devcontainer automatically runs setup on first launch. If you need to re-run
 ## Jupyter Lab (Optional)
 
 Start Jupyter Lab for interactive notebooks:
+
 ```bash
 jupyter lab --ip=0.0.0.0 --port=8888
 ```
 
-Access at: http://localhost:8888
+Access at: <http://localhost:8888>
 
 ## Troubleshooting
 
 ### Environment Issues
+
 ```bash
 # Force re-verification of LaTeX
 rm reproduce/reproduce_environment_texlive_*.verified
@@ -81,14 +88,17 @@ uv sync --all-groups
 
 ### LaTeX Compatibility Error
 If you get errors like "LaTeX kernel too old" or "Undefined control sequence \IfFormatAtLeastT":
+
 ```bash
 # Run the compatibility fix script
-.devcontainer/fix-latex-compatibility.sh
+reproduce/docker/fix-latex-compatibility.sh
 ```
+
 This moves packages incompatible with LaTeX 2021 out of the way. See `.devcontainer/LATEX-COMPATIBILITY-FIX.md` for details.
 
 ### PDF Not Generated
 Check the log files for LaTeX errors:
+
 ```bash
 cat HAFiscal.log
 cat HAFiscal-Slides.log
@@ -96,6 +106,7 @@ cat HAFiscal-Slides.log
 
 ### Docker/Container Issues
 Rebuild the container:
+
 1. Press `Cmd/Ctrl + Shift + P`
 2. Select: "Dev Containers: Rebuild Container"
 
@@ -111,6 +122,7 @@ Rebuild the container:
 ## Platform Compatibility
 
 This same command works on:
+
 - ✅ MacOS (Docker Desktop)
 - ✅ Linux (native Docker)
 - ✅ Windows WSL2
@@ -118,4 +130,3 @@ This same command works on:
 - ✅ Cursor automation
 
 See `DEVCONTAINER-SETUP.md` for technical details.
-

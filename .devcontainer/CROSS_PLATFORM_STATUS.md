@@ -22,6 +22,7 @@
 **Shell**: /usr/local/bin/bash  
 
 ### What Works
+
 - ✅ `./reproduce.sh --envt` passes completely
 - ✅ `./reproduce.sh --docs main` compiles successfully
 - ✅ UV environment activation (automatic via `reproduce.sh`)
@@ -30,6 +31,7 @@
 - ✅ Symlink resolution (`pwd -P`) working
 
 ### Key Files Working
+
 - `Code/HA-Models/do_all.py` - Orchestrates reproduction
 - `Code/HA-Models/FromPandemicCode/Parameters.py` - Path handling fixed
 - `Code/HA-Models/FromPandemicCode/CreateLPfig.py` - Path handling fixed
@@ -47,23 +49,27 @@
 ### What Went Right (Eventually!)
 
 #### Initial Issue
+
 - Docker Desktop VM disk was **100% full** (57GB/59GB)
 - Initial diagnosis: "LaTeX too large for containers" ❌ WRONG
 - User corrected: "145 MB shouldn't be too much" ✅ RIGHT
 
 #### Root Cause Discovery
+
 ```bash
 docker exec <container> df -h
 # overlay  59G  57G  0  100%  /
 ```
 
 #### Solution
+
 ```bash
 docker system prune -af --volumes
 # Freed ~29 GB reclaimable space
 ```
 
 #### Result
+
 - ✅ Minimal LaTeX (base + recommended) installs perfectly
 - ✅ UV package manager working
 - ✅ All 148 Python packages installed
@@ -71,6 +77,7 @@ docker system prune -af --volumes
 - ✅ Environment tests pass
 
 ### What's Installed
+
 ```bash
 Python 3.9.24
 UV 0.9.7
@@ -79,6 +86,7 @@ latexmk + texlive-latex-base + texlive-latex-recommended (145 MB)
 ```
 
 ### What Works in Container
+
 - ✅ Python development (all packages)
 - ✅ Jupyter notebooks (port 8888)
 - ✅ `./reproduce.sh --envt comp_uv` passes
@@ -87,6 +95,7 @@ latexmk + texlive-latex-base + texlive-latex-recommended (145 MB)
 - ⚠️ `./reproduce.sh --docs all` requires additional LaTeX packages
 
 ### Missing for Full Docs
+
 - texlive-latex-extra
 - texlive-fonts-extra
 - texlive-science
@@ -96,6 +105,7 @@ latexmk + texlive-latex-base + texlive-latex-recommended (145 MB)
 **Recommendation**: Use host machine for full document compilation, devcontainer for Python work.
 
 ### Setup Performance
+
 - LaTeX: ~30s
 - UV: ~5s
 - Python packages: ~25s
@@ -109,6 +119,7 @@ latexmk + texlive-latex-base + texlive-latex-recommended (145 MB)
 **Reason**: Requires Windows machine with WSL2  
 
 ### What Needs Testing
+
 1. WSL2 environment detection
 2. Path handling (`os.path.join()` changes)
 3. UV environment activation
@@ -120,6 +131,7 @@ latexmk + texlive-latex-base + texlive-latex-recommended (145 MB)
 None anticipated - recent path fixes should handle Windows paths via `os.path.join()`.
 
 ### Testing Checklist
+
 - [ ] Clone repository in WSL2
 - [ ] Run `./reproduce.sh --envt`
 - [ ] Run `./reproduce.sh --docs main`
@@ -134,6 +146,7 @@ None anticipated - recent path fixes should handle Windows paths via `os.path.jo
 ### 1. Python Path Handling ✅
 **Changed**: String concatenation to `os.path.join()`  
 **Files Modified**:
+
 - `Parameters.py`
 - `CreateLPfig.py`
 - `CreateIMPCfig.py`
@@ -165,22 +178,26 @@ None anticipated - recent path fixes should handle Windows paths via `os.path.jo
 ## Lessons Learned
 
 ### 1. Always Check Actual Constraints
+
 - ❌ Assumed: "LaTeX too large"
 - ✅ Reality: "Docker disk full"
 - **Action**: `df -h` in container revealed truth
 
 ### 2. Listen to User Feedback
+
 - User said: "145 MB shouldn't be too much"
 - I said: "Let me make it Python-only"
 - User was right: Disk was full, not LaTeX too large
 - **Lesson**: Trust domain expertise
 
 ### 3. Test Assumptions Early
+
 - Could have checked `df -h` immediately
 - Would have saved multiple attempts
 - **Action**: Always verify resource constraints first
 
 ### 4. Docker Desktop Needs Maintenance
+
 - Images accumulate over time
 - Containers leave artifacts
 - Volumes persist after deletion
@@ -191,27 +208,32 @@ None anticipated - recent path fixes should handle Windows paths via `os.path.jo
 ## Files Modified This Session
 
 ### Core Scripts
+
 - `reproduce.sh` - UV auto-activation logic
 - `Code/HA-Models/do_all.py` - `HAFISCAL_RUN_STEP_3` env var
 
 ### Path Fixes
+
 - `Code/HA-Models/FromPandemicCode/Parameters.py`
 - `Code/HA-Models/FromPandemicCode/CreateLPfig.py`
 - `Code/HA-Models/FromPandemicCode/CreateIMPCfig.py`
 - `Code/HA-Models/Target_AggMPCX_LiquWealth/Estimation_BetaNablaSplurge.py`
 
 ### DevContainer
+
 - `.devcontainer/devcontainer.json` - Python 3.9, UV-based
-- `.devcontainer/setup.sh` - Minimal LaTeX + UV + Python
+- `reproduce/docker/setup.sh` - Minimal LaTeX + UV + Python
 - `.devcontainer/README.md` - Updated documentation
 
 ### Documentation (New)
+
 - `.devcontainer/UV_MIGRATION_RECORD.md`
 - `.devcontainer/TESTING_SUCCESS.md`
 - `.devcontainer/DISK_SPACE_LIMITATIONS.md` (historical)
 - `.devcontainer/CROSS_PLATFORM_STATUS.md` (this file)
 
 ### Backup
+
 - `.devcontainer.backup.20251030_190128/` - Original configuration
 
 ---
@@ -223,21 +245,25 @@ Continue using host machine - everything works perfectly.
 
 ### For Linux Users ✅
 Two options:
+
 1. **DevContainer** (recommended): Python work, computations, Jupyter
 2. **Native Linux**: Install full LaTeX for document compilation
 
 ### For Windows Users ⏳
 Testing pending, but should work with:
+
 - WSL2 (recommended)
 - DevContainer
 - Native Windows (if Git Bash handles symlinks)
 
 ### For CI/CD ✅
+
 - GitHub Actions already working
 - Can use Docker containers for Linux testing
 - Host runners for full document compilation
 
 ### Docker Maintenance 🔧
+
 ```bash
 # Before building devcontainers
 docker system df         # Check space
@@ -252,12 +278,14 @@ docker system prune -af --volumes  # Aggressive cleanup
 ## Success Criteria
 
 ### Phase 1: macOS ✅ COMPLETE
+
 - [x] Verify existing functionality
 - [x] Document baseline state
 - [x] Confirm UV environment working
 - [x] Verify path handling fixes
 
 ### Phase 2: Linux ✅ COMPLETE
+
 - [x] Update devcontainer to Python 3.9
 - [x] Add UV package manager
 - [x] Install minimal LaTeX
@@ -266,11 +294,13 @@ docker system prune -af --volumes  # Aggressive cleanup
 - [x] Verify functionality
 
 ### Phase 3: Windows WSL2 ⏳ PENDING
+
 - [ ] Requires Windows machine
 - [ ] Testing checklist prepared
 - [ ] Expected to work (no known issues)
 
 ### Phase 4: Documentation ✅ COMPLETE
+
 - [x] UV migration record
 - [x] Testing success report
 - [x] Disk space analysis
@@ -281,7 +311,8 @@ docker system prune -af --volumes  # Aggressive cleanup
 
 ## Quick Reference
 
-### macOS (Host) 
+### macOS (Host)
+
 ```bash
 ./reproduce.sh --envt           # Test environment
 ./reproduce.sh --docs main      # Compile documents
@@ -289,6 +320,7 @@ docker system prune -af --volumes  # Aggressive cleanup
 ```
 
 ### Linux (DevContainer)
+
 ```bash
 # In VS Code: Reopen in Container
 ./reproduce.sh --envt comp_uv   # Test Python only
@@ -297,6 +329,7 @@ jupyter lab --ip=0.0.0.0        # Start Jupyter
 ```
 
 ### Docker Maintenance
+
 ```bash
 docker system df                # Check disk usage
 docker system prune -f          # Clean unused data

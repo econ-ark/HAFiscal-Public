@@ -281,34 +281,10 @@ esac
 # If the repository was cloned in Windows and then accessed from WSL2,
 # symlinks will be broken (converted to text files). Check for this.
 check_symlinks() {
-    # Only perform symlink check on WSL2 where Windows cloning can break symlinks
-    # On macOS/Darwin, native Linux, and other Unix systems, symlinks work fine
-    
-    # Check if we're running in WSL2
-    if [[ "$(uname -s)" == "Linux" ]] && grep -qiE "(microsoft|wsl)" /proc/version 2>/dev/null; then
-        # We're in WSL2 - check if symlinks are broken (exist as regular files instead)
-        local test_symlink="Tables/.latexmkrc"
-        
-        if [[ -e "$test_symlink" ]] && [[ ! -L "$test_symlink" ]]; then
-            echo "================================================================"
-            echo "❌ ERROR: Broken Symlinks Detected"
-            echo "================================================================"
-            echo ""
-            echo "This repository contains symlinks that have been corrupted."
-            echo "This typically happens when the repository was cloned using"
-            echo "Git for Windows and then accessed from WSL2."
-            echo ""
-            echo "SOLUTION:"
-            echo "1. DELETE the current repository clone"
-            echo "2. Open a WSL2 terminal"
-            echo "3. Clone FROM WITHIN WSL2:"
-            echo "   git clone https://github.com/econ-ark/HAFiscal"
-            echo "4. Run this script again from WSL2"
-            echo ""
-            exit 1
-        fi
-    fi
-    # On macOS, native Linux, and other Unix systems, skip symlink check
+    # Symlink check disabled for QE distribution
+    # This repository intentionally has dereferenced symlinks (real files)
+    # created by rsync -L during QE package preparation
+    :
 }
 # Run the symlink check
 check_symlinks
@@ -668,6 +644,9 @@ OPTIONS:
     --use-latest-scf-data  Download latest SCF 2004 data from Fed and auto-adjust to 2013$
                          Downloads 2022$ data, divides by 1.1587 to convert to 2013$
                          Results will match paper exactly. Use with --data flag
+                         ⚠️  WARNING: Assumes downloaded data is in 2022 dollars.
+                            When Fed updates inflation adjustments, update the
+                            inflation factor in adjust_scf_inflation.py
                          See docs/SCF_DATA_VINTAGE.md for details
     --all, -a           Reproduce everything: data moments, all computational results + all documents
     --interactive, -i   Show interactive menu (delegates to reproduce.py)
@@ -718,7 +697,7 @@ EXAMPLES:
     ./reproduce.sh --docs subfiles           # Compile repo root + Subfiles/
     ./reproduce.sh --docs all --stop-on-error # Stop on first compilation error
     ./reproduce.sh --comp min                # Minimal computational results (~1 hour)
-    ./reproduce.sh --comp full               # All computational results for printed document (3-4 days on a high-end 2025 laptop)
+    ./reproduce.sh --comp full               # All computational results for printed document (4-5 days on a high-end 2025 laptop)
     ./reproduce.sh --comp max                # Maximum computational results including robustness (~6 days on a high-end 2025 laptop)
     ./reproduce.sh --data                    # Empirical data moments from SCF 2004 (~1 minute + download)
     ./reproduce.sh --data scf                # Empirical data moments (default)
@@ -756,12 +735,12 @@ show_interactive_menu() {
     echo ""
     echo "4) All Computational Results"
     echo "   - Reproduces all computational results from the paper"
-    echo "   - ⚠️  WARNING: This may take 3-4 DAYS on a high-end 2025 laptop"
+    echo "   - ⚠️  WARNING: This may take 4-5 DAYS on a high-end 2025 laptop"
     echo "   - Requires significant computational resources"
     echo ""
     echo "5) Everything"
     echo "   - All documents + all computational results"
-    echo "   - ⚠️  WARNING: This may take 3-4 DAYS on a high-end 2025 laptop"
+    echo "   - ⚠️  WARNING: This may take 4-5 DAYS on a high-end 2025 laptop"
     echo "   - Complete reproduction of the entire project"
     echo ""
     echo "6) Exit"
@@ -777,7 +756,7 @@ reproduce_documents() {
     echo ""
     
     if [[ -f "./reproduce/reproduce_documents.sh" ]]; then
-        local args=("--quick")
+        local args=()
         
         # Add --verbose flag only if VERBOSE is explicitly set
         if [[ "${VERBOSE:-false}" == "true" ]] || [[ "${DEBUG:-false}" == "true" ]]; then
@@ -932,7 +911,7 @@ reproduce_all_results() {
     log INFO "Complete Reproduction: All Computational Results + Documents"
     log INFO "========================================"
     echo ""
-    log WARNING "This process may take 3-4 DAYS on a high-end 2025 laptop"
+    log WARNING "This process may take 4-5 DAYS on a high-end 2025 laptop"
     log INFO "This will reproduce (in order):"
     log INFO "  1. All computational results"
     log INFO "  2. All figures from results (IMPC + Lorenz Points)"
@@ -1058,7 +1037,7 @@ reproduce_all_computational_results() {
     log INFO "Reproducing All Computational Results..."
     log INFO "========================================"
     echo ""
-    log WARNING "This process may take 3-4 DAYS on a high-end 2025 laptop"
+    log WARNING "This process may take 4-5 DAYS on a high-end 2025 laptop"
     log INFO "Make sure you have:"
     log INFO "- Sufficient computational resources"
     log INFO "- Stable power supply"
@@ -1484,7 +1463,7 @@ run_automatic_reproduction() {
     # Step 4: All computational results  
     echo ">>> Step $step/$total_steps: Reproducing all computational results..."
     echo "========================================"
-    echo "⚠️  WARNING: This final step may take 3-4 DAYS on a high-end 2025 laptop!"
+    echo "⚠️  WARNING: This final step may take 4-5 DAYS on a high-end 2025 laptop!"
     if reproduce_all_results; then
         echo "✅ Step $step/$total_steps completed successfully"
     else
@@ -1751,6 +1730,12 @@ get_platform_venv_path() {
 }
 
 ensure_uv_environment() {
+    # Detect if we're running in Docker/container environment
+    local in_docker=false
+    if [[ -f /.dockerenv ]] || [[ -f /proc/1/cgroup ]] && grep -q docker /proc/1/cgroup 2>/dev/null; then
+        in_docker=true
+    fi
+    
     # Get the expected venv path (platform-specific)
     local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
     local expected_venv
@@ -1787,6 +1772,22 @@ ensure_uv_environment() {
     fi
     
     # Check if platform-specific venv exists, or fallback to legacy .venv
+    # In Docker, if venv directory exists but is incomplete, try to recreate it
+    if [[ "$in_docker" == true ]] && [[ -d "$expected_venv" ]] && [[ ! -f "$expected_venv/bin/python" ]]; then
+        log WARNING "Detected incomplete venv in Docker: $expected_venv"
+        log INFO "Attempting to recreate virtual environment..."
+        cd "$script_dir"
+        if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
+            bash ./reproduce/reproduce_environment_comp_uv.sh || {
+                log ERROR "Failed to recreate venv in Docker"
+                exit 1
+            }
+        else
+            log ERROR "reproduce_environment_comp_uv.sh not found - cannot recreate venv"
+            exit 1
+        fi
+    fi
+    
     if [[ ! -d "$expected_venv" ]] && [[ ! -d "$legacy_venv" ]]; then
         echo "========================================"
         echo "❌ Virtual Environment Not Found"
@@ -1978,6 +1979,24 @@ ensure_uv_environment() {
     fi
     
     # Platform-specific venv directory exists but seems broken/incomplete
+    # In Docker, try to recreate it automatically
+    if [[ "$in_docker" == true ]]; then
+        log WARNING "Detected incomplete venv in Docker: $(basename "$expected_venv")"
+        log INFO "Attempting to recreate virtual environment..."
+        cd "$script_dir"
+        if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
+            bash ./reproduce/reproduce_environment_comp_uv.sh || {
+                log ERROR "Failed to recreate venv in Docker"
+                exit 1
+            }
+            # Re-check after recreation
+            if [[ -f "$expected_venv/bin/python" ]] || [[ -f "$legacy_venv/bin/python" ]]; then
+                log SUCCESS "Virtual environment recreated successfully"
+                return 0
+            fi
+        fi
+    fi
+    
     echo "========================================"
     echo "❌ Virtual Environment Incomplete"
     echo "========================================"
@@ -2155,6 +2174,14 @@ case "$ACTION" in
                 log INFO "========================================"
                 echo ""
                 if [[ "$USE_LATEST_SCF_DATA" == "true" ]]; then
+                    log WARNING "⚠️  IMPORTANT: Using latest SCF data from Federal Reserve"
+                    log WARNING "   Assumption: Downloaded data is in 2022 dollars"
+                    log WARNING "   Inflation adjustment: 1.1587 (2022$ → 2013$)"
+                    log WARNING "   ⚠️  When Fed updates inflation adjustments:"
+                    log WARNING "      1. Update inflation factor in adjust_scf_inflation.py"
+                    log WARNING "      2. Verify factor by comparing to archived version"
+                    log WARNING "      3. Update documentation"
+                    log INFO ""
                     log INFO "Using latest SCF data with auto-adjustment to 2013$"
                     log INFO "Executing: ./reproduce/reproduce_data_moments.sh --use-latest-scf-data"
                     ./reproduce/reproduce_data_moments.sh --use-latest-scf-data 2>&1 | tee -a "$LOG_FILE"

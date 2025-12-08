@@ -1,112 +1,139 @@
-# HAFiscal-Public Dockerfile
-# Based on .devcontainer/devcontainer.json configuration
-# This Dockerfile replicates the devcontainer setup for use with Docker Desktop
+# HAFiscal Dockerfile
+# 
+# Single Source of Truth (SST): reproduce/docker/setup.sh
+# This Dockerfile uses setup.sh directly to ensure consistency with devcontainer builds.
+# All TeX Live and Python environment setup logic is maintained in setup.sh.
+#
+# Based on .devcontainer/devcontainer.json
+# Should produce functionally equivalent containers to the devcontainer build process
 
 FROM mcr.microsoft.com/devcontainers/python:3.11
 
-# Set environment variables
+# Set environment variables (from containerEnv in devcontainer.json)
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
+# ============================================================================
 # Install system dependencies (from onCreateCommand in devcontainer.json)
+# ============================================================================
 RUN apt-get update && apt-get install -y \
     wget \
     perl \
     build-essential \
     fontconfig \
     curl \
+    git \
+    zsh \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Oh My Zsh (from onCreateCommand in devcontainer.json)
+RUN if [ ! -d /home/vscode/.oh-my-zsh ]; then \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true && \
+    chsh -s $(which zsh) vscode || true; \
+    fi
 
 # Set working directory
 WORKDIR /workspace
 
-# Copy the entire repository (including .devcontainer for setup script)
+# Copy the entire repository (including reproduce/docker for setup scripts)
 COPY . /workspace/
 
-# Make setup scripts executable
-RUN chmod +x /workspace/.devcontainer/setup.sh && \
-    chmod +x /workspace/.devcontainer/detect-arch.sh
+# Make Docker setup scripts executable (if they exist)
+RUN if [ -f /workspace/reproduce/docker/setup.sh ]; then \
+        chmod +x /workspace/reproduce/docker/setup.sh; \
+    fi && \
+    if [ -f /workspace/reproduce/docker/detect-arch.sh ]; then \
+        chmod +x /workspace/reproduce/docker/detect-arch.sh; \
+    fi && \
+    if [ -f /workspace/reproduce/docker/run-setup.sh ]; then \
+        chmod +x /workspace/reproduce/docker/run-setup.sh; \
+    fi && \
+    if [ -f /workspace/reproduce/reproduce_environment_comp_uv.sh ]; then \
+        chmod +x /workspace/reproduce/reproduce_environment_comp_uv.sh; \
+    fi
 
 # ============================================================================
-# Install TeX Live 2025
+# Install TeX Live 2025 and Python environment using setup.sh (SST)
 # ============================================================================
-RUN echo "Installing TeX Live 2025..." && \
-    cd /tmp && \
-    wget -q https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
-    tar -xzf install-tl-unx.tar.gz && \
-    cd $(find . -maxdepth 1 -name "install-tl-*" -type d | head -1) && \
-    echo "selected_scheme scheme-basic" > texlive.profile && \
-    echo "TEXDIR /usr/local/texlive/2025" >> texlive.profile && \
-    echo "TEXMFLOCAL /usr/local/texlive/texmf-local" >> texlive.profile && \
-    echo "TEXMFHOME ~/texmf" >> texlive.profile && \
-    echo "TEXMFVAR ~/.texlive2025/texmf-var" >> texlive.profile && \
-    echo "TEXMFCONFIG ~/.texlive2025/texmf-config" >> texlive.profile && \
-    echo "instopt_adjustpath 1" >> texlive.profile && \
-    echo "instopt_adjustrepo 1" >> texlive.profile && \
-    echo "tlpdbopt_autobackup 0" >> texlive.profile && \
-    echo "tlpdbopt_desktop_integration 0" >> texlive.profile && \
-    echo "tlpdbopt_file_assocs 0" >> texlive.profile && \
-    echo "tlpdbopt_post_code 1" >> texlive.profile && \
-    ./install-tl --profile=texlive.profile --no-interaction && \
-    rm -rf /tmp/install-tl-* /tmp/install-tl-unx.tar.gz
+# Single Source of Truth: reproduce/docker/setup.sh
+# This script handles:
+#   - TeX Live 2025 installation (scheme-basic + LaTeX format + individual packages only, no collections)
+#   - UV (Python package manager) installation
+#   - Python virtual environment setup
+#   - PATH and TEXINPUTS configuration
+#   - Shell auto-activation setup
+#
+# Create workspace structure expected by setup.sh
+RUN mkdir -p /workspaces && ln -s /workspace /workspaces/HAFiscal-Public && \
+    chown -R vscode:vscode /workspace /workspaces
 
-# Find TeX Live binary directory and update tlmgr
-RUN TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1) && \
-    $TEXLIVE_BIN/tlmgr update --self || true && \
-    $TEXLIVE_BIN/tlmgr install collection-basic || true
+# Ensure vscode user has sudo access (required by setup.sh)
+RUN echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/vscode && \
+    chmod 0440 /etc/sudoers.d/vscode
 
-# Install required LaTeX packages
-RUN TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1) && \
-    $TEXLIVE_BIN/tlmgr install \
-    accents amsbsy amsfonts amsmath amsopn amssymb amstext amsthm \
-    appendix array atbegshi-ltx babel bigintcalc bitset bookmark \
-    booktabs cancel caption caption3 changepage currfile dcolumn \
-    enumerate enumitem environ epstopdf-base etoolbox eucal expl3 \
-    filehook filehook-2020 float fontenc geometry gettitlestring \
-    graphics graphicx hhline hycolor hyperref iftex ifthen ifvtex \
-    import infwarerr intcalc keyval kvdefinekeys kvoptions kvsetkeys \
-    ltxcmds moreverb multirow nameref natbib optional pathtools \
-    pdfescape pdftexcmds pgfcore pgfrcs pgfsys placeins refcount \
-    rerunfilecheck sansmathaccent koma-script scrbase scrkbase \
-    scrlayer scrlayer-scrpage scrlfile scrlfile-hook scrlogo \
-    setspace siunitx snapshot stringenc subcaption subfiles \
-    tocbasic translations translator trig trimspaces typearea \
-    uniquecounter url verbatim webpdf-macros xcolor xparse xpatch \
-    xr-hyper xxcolor latexmk || echo "Some packages may have failed"
+# Run setup.sh as vscode user (matches devcontainer behavior)
+# Single Source of Truth: reproduce/docker/setup.sh
+# Set workspaceFolder environment variable to help setup.sh detect workspace
+RUN su vscode -c "cd /workspace && \
+    export workspaceFolder=/workspace && \
+    bash reproduce/docker/setup.sh"
 
-# Update font cache
-RUN TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1) && \
-    $TEXLIVE_BIN/mktexlsr || true
-
-# Create expected workspace structure for UV setup script
-# The script expects /workspaces/HAFiscal-Public, so we'll create a symlink
-RUN mkdir -p /workspaces && ln -s /workspace /workspaces/HAFiscal-Public
-
-# ============================================================================
-# Install UV (Python package manager) and set up Python environment
-# ============================================================================
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH" && \
-    echo "export PATH=\"\$HOME/.local/bin:\$HOME/.cargo/bin:\$PATH\"" >> /etc/profile.d/uv.sh && \
-    chmod +x /etc/profile.d/uv.sh
-
-# Set up Python environment with UV
-RUN export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH" && \
-    cd /workspace && \
-    uv sync --all-groups || echo "uv sync completed with warnings"
-
-# Add TeX Live to PATH permanently
-RUN TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1) && \
-    echo "export PATH=\"$TEXLIVE_BIN:\$PATH\"" >> /etc/profile.d/texlive.sh && \
-    chmod +x /etc/profile.d/texlive.sh
+# Verify critical components were installed
+# Check for platform-specific venv (.venv-linux in Docker) or fallback to .venv
+RUN PLATFORM_VENV=".venv-linux" && \
+    if [ -d "/workspace/$PLATFORM_VENV" ] && [ -f "/workspace/$PLATFORM_VENV/bin/python" ]; then \
+        echo "✅ Found platform-specific venv: $PLATFORM_VENV"; \
+        # Ensure .venv symlink exists for compatibility
+        if [ ! -e "/workspace/.venv" ]; then \
+            ln -s "$PLATFORM_VENV" /workspace/.venv && \
+            echo "✅ Created symlink: .venv -> $PLATFORM_VENV"; \
+        fi; \
+    elif [ -d "/workspace/.venv" ] && [ -f "/workspace/.venv/bin/python" ]; then \
+        echo "✅ Found virtual environment: .venv"; \
+    else \
+        echo "❌ Virtual environment was not created successfully"; \
+        echo "   Checked: $PLATFORM_VENV and .venv"; \
+        echo "   Expected: $PLATFORM_VENV/bin/python or .venv/bin/python"; \
+        exit 1; \
+    fi && \
+    TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1) && \
+    if [ ! -f "$TEXLIVE_BIN/pdflatex" ]; then \
+        echo "❌ pdflatex not found after setup!"; \
+        exit 1; \
+    fi && \
+    # Verify font generation capability (critical for document compilation)
+    if ! $TEXLIVE_BIN/mktextfm cmr10 >/dev/null 2>&1; then \
+        echo "⚠️  Warning: Font generation test failed (may be OK if fonts are pre-generated)"; \
+    else \
+        echo "✅ Font generation capability verified"; \
+    fi && \
+    echo "✅ Setup verification passed"
 
 # Set PATH environment variable (from containerEnv in devcontainer.json)
-# Note: We'll set this dynamically since TEXLIVE_BIN varies by architecture
-ENV PATH="/usr/local/texlive/2025/bin/x86_64-linux:/home/vscode/.local/bin:/home/vscode/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# Note: We include TeX Live in ENV PATH for non-interactive shells
+# The architecture-specific path is determined at runtime, but we include common locations
+# Interactive shells will also source /etc/profile.d/texlive.sh for the correct arch-specific path
+ENV PATH="/usr/local/texlive/2025/bin/aarch64-linux:/usr/local/texlive/2025/bin/x86_64-linux:/home/vscode/.local/bin:/home/vscode/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 # Expose ports for Jupyter Lab and Voila Dashboard (from forwardPorts)
 EXPOSE 8888 8866
 
-# Default command
-CMD ["/bin/bash"]
+# Switch to vscode user (matches devcontainer behavior)
+# This ensures the venv activation scripts in ~/.bashrc and ~/.zshrc are sourced
+USER vscode
+WORKDIR /workspace
 
+# Create a wrapper script that sources .bashrc to ensure venv activation
+# Note: .bashrc only runs in interactive shells, so we use bash -i
+RUN echo '#!/bin/bash' > /home/vscode/entrypoint.sh && \
+    echo 'set -e' >> /home/vscode/entrypoint.sh && \
+    echo 'if [ -f ~/.bashrc ]; then source ~/.bashrc; fi' >> /home/vscode/entrypoint.sh && \
+    echo 'cd /workspace' >> /home/vscode/entrypoint.sh && \
+    echo 'exec "$@"' >> /home/vscode/entrypoint.sh && \
+    chmod +x /home/vscode/entrypoint.sh
+
+# Default command: use interactive bash to ensure .bashrc is sourced
+# This ensures the venv is automatically activated
+# For interactive sessions: docker run -it hafiscal:latest
+ENTRYPOINT ["/home/vscode/entrypoint.sh"]
+CMD ["/bin/bash", "-i"]

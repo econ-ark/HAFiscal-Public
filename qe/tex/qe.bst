@@ -1,30 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% HAFISCAL PROJECT DOCUMENTATION
-%%
-%% SOURCE: Official Quantitative Economics journal template files
-%%         Downloaded from: https://qe-production.s3.amazonaws.com/journals/production/
-%%         Original distribution: https://www.e-publications.org/es/support/
-%%
-%% LOCATION IN PROJECT: HAFiscal-Latest/qe/tex/
-%%
-%% PURPOSE: These are the official QE submission class files, used for:
-%%          - HAFiscal-QE submission package generation
-%%          - Standalone compilation of figures/tables/subfiles in QE format
-%%
-%% MODIFIED: No - these are unmodified official template files
-%%
-%% COPIED TO: During build process, these files are copied to:
-%%            - HAFiscal-QE/ (root directory for main document)
-%%            - HAFiscal-QE/Figures/, Tables/, Subfiles/ (for standalone compilation)
-%%
-%% DO NOT EDIT: These are canonical copies. Any QE format updates should
-%%              replace these files with new official versions from QE.
-%%
-%% SEE ALSO: qe-theorem-environments.tex (derived from QE template examples)
-%%
-%% LAST VERIFIED: 2025-11-20
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%
 %% This is file `qe.bst',
 %% generated with the docstrip utility.

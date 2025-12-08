@@ -15,21 +15,25 @@ Successfully migrated the HAFiscal devcontainer from pip/setuptools to UV packag
 ### 1. devcontainer.json
 
 **Python Version:**
+
 - Before: `"image": "mcr.microsoft.com/devcontainers/python:3.11"`
 - After: `"image": "mcr.microsoft.com/devcontainers/python:3.9"`
 - Reason: pyproject.toml requires `>=3.9,<3.10`
 
 **System Dependencies:**
+
 - Before: `wget perl build-essential fontconfig`
 - After: Added `curl` (required for UV installer)
 
 **Container Name:**
+
 - Before: "HAFiscal Development (Minimal)"
 - After: "HAFiscal Development (UV-based)"
 
 ### 2. setup.sh
 
 **Major Changes:**
+
 1. Added UV installation via official installer
 2. Replaced `python -m venv .venv` with UV-managed environment
 3. Replaced `pip install -e ".[dev,hafiscal]"` with `uv sync --all-groups`
@@ -37,6 +41,7 @@ Successfully migrated the HAFiscal devcontainer from pip/setuptools to UV packag
 5. Added UV version reporting in summary
 
 **LaTeX Packages Added:**
+
 - texlive-latex-extra
 - texlive-fonts-recommended
 - texlive-fonts-extra
@@ -82,6 +87,7 @@ All 10 validation tests passed:
 ## Testing Status
 
 ### Static Validation: ✅ PASSED
+
 - JSON syntax
 - Bash syntax
 - Configuration compatibility
@@ -89,6 +95,7 @@ All 10 validation tests passed:
 
 ### Docker Build: ⏳ PENDING
 Requires Docker daemon to test:
+
 - Container build
 - LaTeX installation
 - UV installation
@@ -97,6 +104,7 @@ Requires Docker daemon to test:
 
 ### Integration Testing: ⏳ PENDING
 Once container is built:
+
 - `./reproduce.sh --envt` (environment test)
 - `./reproduce.sh --docs main` (document compilation)
 - Auto-activation verification
@@ -118,6 +126,7 @@ ensure_uv_environment() {
 ```
 
 **Benefits:**
+
 - No manual activation required
 - Consistent environment across devcontainer and local development
 - Works with both conda deactivation and UV activation
@@ -128,10 +137,12 @@ ensure_uv_environment() {
 
 **Backup Location:** `.devcontainer.backup.20251030_190128`  
 **Files Backed Up:**
+
 - devcontainer.json (original with Python 3.11 + pip)
 - setup.sh (original with pip install)
 
 **Restore Command (if needed):**
+
 ```bash
 cp .devcontainer.backup.20251030_190128/* .devcontainer/
 ```
@@ -150,12 +161,14 @@ cp .devcontainer.backup.20251030_190128/* .devcontainer/
 ## Known Limitations
 
 ### Current Setup
+
 - ✅ Works with UV-based pyproject.toml
 - ✅ Compatible with reproduce.sh
 - ✅ Full LaTeX support for papers and slides
 - ✅ All Python dependencies installable
 
 ### Not Supported
+
 - ❌ Cannot use old pip-based workflow (project no longer supports it)
 - ❌ Python 3.10+ not supported (project constraint)
 - ❌ Windows native (use WSL2 instead)
@@ -165,6 +178,7 @@ cp .devcontainer.backup.20251030_190128/* .devcontainer/
 ## Future Enhancements
 
 Potential optimizations:
+
 1. **UV Cache Mounting:** Add `.venv` or UV cache as Docker volume for faster rebuilds
 2. **Layer Optimization:** Split LaTeX and Python setup into separate features
 3. **Parallel Installation:** Run LaTeX and UV installation concurrently
@@ -174,7 +188,7 @@ Potential optimizations:
 
 ## References
 
-- **UV Documentation:** https://github.com/astral-sh/uv
+- **UV Documentation:** <https://github.com/astral-sh/uv>
 - **Project pyproject.toml:** Uses `[dependency-groups]` (UV-native)
 - **reproduce.sh:** Lines 1167-1253 (UV auto-activation)
 - **Validation Script:** `/tmp/validate_devcontainer.sh`
@@ -185,6 +199,7 @@ Potential optimizations:
 ## Verification Checklist
 
 For future rebuilds, verify:
+
 - [ ] `uv --version` shows UV is installed
 - [ ] `python --version` shows Python 3.9.x
 - [ ] `.venv` directory exists (created by UV)

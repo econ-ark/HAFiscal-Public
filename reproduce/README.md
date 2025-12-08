@@ -5,6 +5,7 @@ This directory contains all scripts needed to reproduce the HAFiscal paper's com
 ## 📋 Quick Reference
 
 Most users should use the main reproduction script in the parent directory:
+
 ```bash
 ../reproduce.sh --docs main     # Build main document
 ../reproduce.sh --comp min      # Run minimal computations
@@ -29,12 +30,14 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Sets up Python computational environment using UV package manager  
 **When to use:** First-time setup, or when recreating Python environment  
 **What it does:**
+
 - Installs UV if not present
 - Creates `.venv` virtual environment
 - Installs Python dependencies from `pyproject.toml`
 - Creates verification marker on success
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_environment_comp_uv.sh
 ```
@@ -43,11 +46,13 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Verifies TeX Live installation and required LaTeX packages  
 **When to use:** To verify LaTeX environment is properly configured  
 **What it does:**
+
 - Checks for `pdflatex`, `bibtex`, `latexmk`
 - Verifies required LaTeX packages from `required_latex_packages.txt`
 - Creates verification marker on success
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_environment_texlive.sh
 ```
@@ -62,18 +67,21 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Main LaTeX document compilation script  
 **When to use:** Called by `reproduce.sh --docs [target]`  
 **What it does:**
+
 - Sets up proper `BIBINPUTS` and `BSTINPUTS` environment variables
 - Compiles specified LaTeX documents using `latexmk`
 - Handles both main document and subfiles
 - Supports different document variants (main, slides, appendices)
 
 **Arguments:**
+
 - `main` - Compile HAFiscal.tex (main document)
 - `slides` - Compile HAFiscal-Slides.tex
 - `subfiles` - Compile individual subfiles
 - `all` - Compile everything
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_documents.sh main
 ./reproduce/reproduce_documents.sh slides
@@ -83,6 +91,7 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Compile standalone LaTeX files (figures, tables, subfiles)  
 **When to use:** To compile individual components without full document build  
 **Options:**
+
 - `--figures` - Compile all .tex files in Figures/
 - `--tables` - Compile all .tex files in Tables/
 - `--subfiles` - Compile all .tex files in Subfiles/
@@ -91,6 +100,7 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 - `--continue` - Continue even if some files fail
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce-standalone-files.sh --figures
 ./reproduce/reproduce-standalone-files.sh --all --clean-first
@@ -104,12 +114,14 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Calculate empirical data moments from SCF 2004  
 **When to use:** Called by `reproduce.sh --data` or run directly  
 **What it does:**
+
 - Downloads SCF 2004 data if needed (via `download_scf_data.sh`)
 - Runs Python analysis (`Code/Empirical/make_liquid_wealth.py`)
 - Calculates population, income, wealth distribution statistics
 - Generates Lorenz curve data used in Figure 2
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_data_moments.sh
 ```
@@ -122,12 +134,14 @@ The scripts in this directory are typically called by `reproduce.sh` or `reprodu
 **Purpose:** Run full computational pipeline to generate all results  
 **When to use:** Called by `reproduce.sh --comp full` or `--comp max`  
 **What it does:**
+
 - Activates Python environment
 - Runs `Code/HA-Models/do_all.py` to execute computational steps
 - Respects `HAFISCAL_RUN_STEP_3` environment variable for robustness results
 - Generates figures and tables used in the paper
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_computed.sh              # Standard full run
 HAFISCAL_RUN_STEP_3=true ./reproduce/reproduce_computed.sh  # Include robustness
@@ -137,6 +151,7 @@ HAFISCAL_RUN_STEP_3=true ./reproduce/reproduce_computed.sh  # Include robustness
 **Purpose:** Run minimal computational reproduction using pre-generated results  
 **When to use:** Called by `reproduce.sh --comp min` for quick testing  
 **What it does:**
+
 - Checks for required `.obj` files from previous full run
 - Temporarily renames existing table files
 - Runs minimal computations (figures from existing .obj files)
@@ -146,6 +161,7 @@ HAFISCAL_RUN_STEP_3=true ./reproduce/reproduce_computed.sh  # Include robustness
 **Prerequisites:** Must have run `--comp full` at least once to generate `.obj` files
 
 **Usage:**
+
 ```bash
 ./reproduce/reproduce_computed_min.sh
 ```
@@ -154,16 +170,17 @@ HAFISCAL_RUN_STEP_3=true ./reproduce/reproduce_computed.sh  # Include robustness
 
 ## 🛠️ Utility Scripts
 
-
 ### `stash-tables-during-comp-min-run.py`
 **Purpose:** Manage table files during minimal computational runs  
 **When to use:** Called automatically by `reproduce_computed_min.sh`  
 **What it does:**
+
 - Temporarily renames `.tex` files in `Tables/` directory
 - Prevents overwriting of full computation results
 - Restores files after minimal run completes
 
 **Usage:**
+
 ```bash
 python stash-tables-during-comp-min-run.py stash    # Rename files
 python stash-tables-during-comp-min-run.py restore  # Restore original names
@@ -178,6 +195,7 @@ The `benchmarks/` subdirectory contains scripts for performance measurement and 
 ### `benchmarks/benchmark.sh`
 **Purpose:** Wrapper script that times reproduction runs and captures system info  
 **Usage:**
+
 ```bash
 ./reproduce/benchmarks/benchmark.sh ../reproduce.sh --docs main
 ```
@@ -202,6 +220,7 @@ See [`benchmarks/README.md`](benchmarks/README.md) for detailed benchmarking doc
 ## 🔍 Verification Markers
 
 Successful environment verifications create marker files:
+
 - `reproduce_environment_texlive_YYYYMMDD-HHMM.verified` - LaTeX environment verified
 - `reproduce_environment_comp_uv_YYYYMMDD-HHMM.verified` - Python environment verified
 
@@ -212,6 +231,7 @@ These markers indicate when the environment was last successfully verified and a
 ## 🏛️ Old Scripts
 
 The `old/` subdirectory contains deprecated scripts kept for reference:
+
 - Legacy testing scripts
 - Private environment setup scripts
 - Old cross-platform test implementations
@@ -223,6 +243,7 @@ These are not used in current workflows.
 ## 🚀 Typical Workflows
 
 ### First-Time Setup
+
 ```bash
 # 1. Set up computational environment
 ./reproduce/reproduce_environment_comp_uv.sh
@@ -237,18 +258,21 @@ These are not used in current workflows.
 ```
 
 ### Quick Document Build
+
 ```bash
 # Just rebuild the LaTeX document (no computations)
 ../reproduce.sh --docs main
 ```
 
 ### Empirical Data Moments
+
 ```bash
 # Calculate SCF 2004 data moments (~1 minute + download time)
 ../reproduce.sh --data
 ```
 
 ### Testing After Code Changes
+
 ```bash
 # Quick computational test with existing .obj files
 ../reproduce.sh --comp min
@@ -256,6 +280,7 @@ These are not used in current workflows.
 ```
 
 ### Full Reproduction for Publication
+
 ```bash
 # Complete reproduction from scratch
 ../reproduce.sh --data         # Empirical moments (~1 min)

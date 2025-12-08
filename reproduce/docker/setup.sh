@@ -9,6 +9,67 @@ echo ""
 
 START_TEXLIVE=$(date +%s)
 
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+# Check disk space (requires at least MIN_FREE_GB GB free)
+check_disk_space() {
+    local MIN_FREE_GB=${1:-5}
+    local AVAILABLE_GB=$(df -BG / | awk 'NR==2 {print $4}' | sed 's/G//')
+    
+    echo "📊 Checking disk space..."
+    echo "   Available: ${AVAILABLE_GB}GB"
+    echo "   Required: ${MIN_FREE_GB}GB"
+    
+    if [ "$AVAILABLE_GB" -lt "$MIN_FREE_GB" ]; then
+        echo "❌ ERROR: Insufficient disk space!"
+        echo "   Available: ${AVAILABLE_GB}GB, Required: ${MIN_FREE_GB}GB"
+        echo "   Please free up disk space or increase available space."
+        df -h /
+        exit 1
+    fi
+    echo "✅ Sufficient disk space available"
+}
+
+# Retry a command with exponential backoff
+# Usage: retry_command <max_attempts> <command>
+retry_command() {
+    local MAX_ATTEMPTS=$1
+    shift
+    local ATTEMPT=1
+    local DELAY=5
+    
+    while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+        echo "   Attempt $ATTEMPT/$MAX_ATTEMPTS..."
+        if "$@"; then
+            return 0
+        fi
+        
+        if [ $ATTEMPT -lt $MAX_ATTEMPTS ]; then
+            echo "   ⚠️  Command failed, retrying in ${DELAY} seconds..."
+            sleep $DELAY
+            DELAY=$((DELAY * 2))  # Exponential backoff
+        fi
+        ATTEMPT=$((ATTEMPT + 1))
+    done
+    
+    echo "❌ Command failed after $MAX_ATTEMPTS attempts"
+    return 1
+}
+
+# Download with retry
+download_with_retry() {
+    local URL=$1
+    local OUTPUT=$2
+    local MAX_ATTEMPTS=${3:-3}
+    
+    echo "📥 Downloading: $URL"
+    # Use --show-progress for better visibility in CI, but allow it to fail gracefully
+    retry_command $MAX_ATTEMPTS wget --show-progress --progress=bar:force "$URL" -O "$OUTPUT" || \
+    retry_command $MAX_ATTEMPTS wget "$URL" -O "$OUTPUT"  # Fallback to simple wget if progress fails
+}
+
 # Detect workspace directory from script path (works regardless of $PWD)
 SCRIPT_PATH="${BASH_SOURCE[0]:-$0}"
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
@@ -34,6 +95,9 @@ elif [[ "$SCRIPT_PATH" =~ /workspaces/([^/]+)/ ]]; then
 # Method 4: Use ${workspaceFolder} if available (from devcontainer)
 elif [ -n "${workspaceFolder}" ]; then
     WORKSPACE_DIR="${workspaceFolder}"
+# Method 4b: Use GITHUB_WORKSPACE if available (from GitHub Actions)
+elif [ -n "${GITHUB_WORKSPACE}" ]; then
+    WORKSPACE_DIR="${GITHUB_WORKSPACE}"
 # Method 5: Fallback - try to detect from $PWD
 else
     # Try to detect repo name from git remote or directory name
@@ -48,10 +112,17 @@ fi
 # Ensure we're in the right directory
 if [ -d "$WORKSPACE_DIR" ]; then
     cd "$WORKSPACE_DIR"
+    echo "✅ Working directory: $WORKSPACE_DIR"
 else
-    echo "❌ Error: Could not find workspace directory: $WORKSPACE_DIR"
+    echo "❌ ERROR: Could not find workspace directory: $WORKSPACE_DIR"
     echo "   Script path: $SCRIPT_PATH"
+    echo "   Script dir: $SCRIPT_DIR"
     echo "   PWD: $PWD"
+    echo "   GITHUB_WORKSPACE: ${GITHUB_WORKSPACE:-<not set>}"
+    echo "   workspaceFolder: ${workspaceFolder:-<not set>}"
+    echo ""
+    echo "   Available directories in parent:"
+    ls -la "$(dirname "$SCRIPT_DIR")" 2>/dev/null || echo "   Cannot list parent directory"
     exit 1
 fi
 
@@ -60,16 +131,50 @@ fi
 # ============================================================================
 echo "📄 Installing TeX Live 2025 (scheme-basic)..."
 
+# Check disk space before starting (TeX Live needs ~2GB for scheme-basic + packages)
+check_disk_space 3
+
 # Install prerequisites (should already be done in onCreateCommand, but ensure they're there)
-sudo apt-get update
-sudo apt-get install -y wget perl build-essential fontconfig curl
+echo "Installing prerequisites..."
+if ! sudo apt-get update; then
+    echo "❌ ERROR: Failed to update package lists"
+    exit 1
+fi
+
+if ! sudo apt-get install -y wget perl build-essential fontconfig curl; then
+    echo "❌ ERROR: Failed to install prerequisites"
+    exit 1
+fi
 
 # Download and install TeX Live 2025
 echo "Downloading TeX Live 2025 installer..."
 cd /tmp
-wget -q https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-tar -xzf install-tl-unx.tar.gz
-cd "$(find . -maxdepth 1 -name "install-tl-*" -type d | head -1)"
+
+# Clean up any previous installation attempts
+rm -rf install-tl-unx.tar.gz install-tl-*
+
+# Download with retry logic
+INSTALLER_URL="https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz"
+if ! download_with_retry "$INSTALLER_URL" "install-tl-unx.tar.gz" 3; then
+    echo "❌ ERROR: Failed to download TeX Live installer after retries"
+    echo "   URL: $INSTALLER_URL"
+    exit 1
+fi
+
+# Extract installer
+echo "Extracting installer..."
+if ! tar -xzf install-tl-unx.tar.gz; then
+    echo "❌ ERROR: Failed to extract TeX Live installer"
+    exit 1
+fi
+
+INSTALL_DIR=$(find . -maxdepth 1 -name "install-tl-*" -type d | head -1)
+if [ -z "$INSTALL_DIR" ] || [ ! -d "$INSTALL_DIR" ]; then
+    echo "❌ ERROR: Could not find installer directory after extraction"
+    exit 1
+fi
+
+cd "$INSTALL_DIR"
 
 # Create installation profile (scheme-basic, same as standalone Docker image)
 cat > texlive.profile << 'PROFILE'
@@ -89,10 +194,30 @@ PROFILE
 
 # Install TeX Live
 echo "Installing TeX Live 2025 scheme-basic (this may take 10-15 minutes)..."
-sudo ./install-tl --profile=texlive.profile --no-interaction
+echo "   This is a large installation - please be patient..."
+if ! sudo ./install-tl --profile=texlive.profile --no-interaction; then
+    echo "❌ ERROR: TeX Live installation failed"
+    echo "   Check disk space and network connectivity"
+    df -h /
+    exit 1
+fi
+
+# Verify installation succeeded
+if [ ! -d "/usr/local/texlive/2025" ]; then
+    echo "❌ ERROR: TeX Live installation directory not found"
+    echo "   Expected: /usr/local/texlive/2025"
+    exit 1
+fi
 
 # Add to PATH
 TEXLIVE_BIN=$(find /usr/local/texlive/2025/bin -type d -mindepth 1 -maxdepth 1 | head -1)
+if [ -z "$TEXLIVE_BIN" ] || [ ! -d "$TEXLIVE_BIN" ]; then
+    echo "❌ ERROR: Could not find TeX Live bin directory"
+    echo "   Searched in: /usr/local/texlive/2025/bin"
+    ls -la /usr/local/texlive/2025/bin/ 2>/dev/null || echo "   Directory does not exist"
+    exit 1
+fi
+
 export PATH="$TEXLIVE_BIN:$PATH"
 echo "export PATH=\"$TEXLIVE_BIN:\$PATH\"" | sudo tee /etc/profile.d/texlive.sh
 sudo chmod +x /etc/profile.d/texlive.sh
@@ -101,17 +226,46 @@ sudo chmod +x /etc/profile.d/texlive.sh
 echo "export PATH=\"$TEXLIVE_BIN:\$PATH\"" >> ~/.bashrc
 echo "export PATH=\"$TEXLIVE_BIN:\$PATH\"" >> ~/.zshrc 2>/dev/null || true
 
-# Update tlmgr
+# Update tlmgr with retry
 echo "Updating tlmgr..."
-$TEXLIVE_BIN/tlmgr update --self || true
+if ! retry_command 3 sudo $TEXLIVE_BIN/tlmgr update --self; then
+    echo "⚠️  Warning: tlmgr self-update failed after retries (may be OK if already up-to-date)"
+    echo "   Continuing with installation..."
+fi
 
-# Install basic collection (includes pdflatex and core tools)
+# Install basic collection (includes pdflatex and core tools) with retry
 echo "Installing collection-basic (includes pdflatex)..."
-$TEXLIVE_BIN/tlmgr install collection-basic || true
+echo "   This may take several minutes..."
+if ! retry_command 3 sudo $TEXLIVE_BIN/tlmgr install collection-basic; then
+    echo "❌ ERROR: Failed to install collection-basic after retries - this is critical!"
+    echo "   pdflatex and other core tools will not be available."
+    echo "   Check network connectivity and disk space:"
+    df -h /
+    exit 1
+fi
+
+# Verify collection-basic was installed
+if ! command -v pdflatex >/dev/null 2>&1; then
+    echo "❌ ERROR: pdflatex not found after installing collection-basic"
+    echo "   PATH: $PATH"
+    echo "   Expected location: $TEXLIVE_BIN/pdflatex"
+    ls -la "$TEXLIVE_BIN/pdflatex" 2>/dev/null || echo "   pdflatex not found in bin directory"
+    exit 1
+fi
+echo "✅ pdflatex verified: $(which pdflatex)"
 
 # Install individual packages (same as standalone Docker image)
+# Note: Some packages may already be installed via collection-basic or may not exist as standalone packages
+# We install what we can and verify critical packages afterward
 echo "Installing individual LaTeX packages (this may take 10-15 minutes)..."
-$TEXLIVE_BIN/tlmgr install \
+echo "   Checking disk space before package installation..."
+check_disk_space 2  # Need at least 2GB for packages
+
+# Many packages are already included in collection-basic or are part of other packages
+# We continue even if some packages are "not present" - we'll verify critical ones afterward
+# Install packages with retry logic (wrapped in a function to handle pipe correctly)
+install_packages_with_retry() {
+    sudo $TEXLIVE_BIN/tlmgr install \
     accents \
     amsbsy \
     amsfonts \
@@ -124,6 +278,7 @@ $TEXLIVE_BIN/tlmgr install \
     array \
     atbegshi-ltx \
     babel \
+    beamer \
     bigintcalc \
     bitset \
     bookmark \
@@ -133,6 +288,7 @@ $TEXLIVE_BIN/tlmgr install \
     caption \
     caption3 \
     changepage \
+    cm-super \
     currfile \
     dcolumn \
     enumerate \
@@ -209,8 +365,30 @@ $TEXLIVE_BIN/tlmgr install \
     xpatch \
     xr-hyper \
     xxcolor \
-    latexmk \
-    || echo "⚠️  Some packages may have failed (check output above)"
+    latexmk 2>&1 | tee /tmp/tlmgr-install.log
+    return ${PIPESTATUS[0]}
+}
+
+# Try installing packages with retry
+if ! retry_command 2 install_packages_with_retry; then
+    TLMGR_EXIT_CODE=1
+    echo "⚠️  Package installation failed after retries"
+    
+    # Check if error is just about packages not present (which is OK if they're in collections)
+    if [ -f /tmp/tlmgr-install.log ] && grep -q "package.*not present in repository" /tmp/tlmgr-install.log; then
+        echo "⚠️  Some packages not found as standalone (may be part of collections - will verify critical packages)"
+    else
+        echo "⚠️  tlmgr install had errors - will verify critical packages"
+        echo "   Log saved to: /tmp/tlmgr-install.log"
+        if [ -f /tmp/tlmgr-install.log ]; then
+            echo "   Last 20 lines of log:"
+            tail -20 /tmp/tlmgr-install.log
+        fi
+    fi
+else
+    TLMGR_EXIT_CODE=0
+    echo "✅ Package installation completed successfully"
+fi
 
 # Verify latexmk installation (critical for document compilation)
 echo ""
@@ -219,16 +397,41 @@ if [ -f "$TEXLIVE_BIN/latexmk" ]; then
     echo "✅ latexmk found at: $TEXLIVE_BIN/latexmk"
     $TEXLIVE_BIN/latexmk -v | head -1
 else
-    echo "⚠️  latexmk not found, attempting to install..."
-    sudo $TEXLIVE_BIN/tlmgr install latexmk || {
-        echo "❌ Failed to install latexmk - document compilation will fail"
+    echo "⚠️  latexmk not found, attempting to install with retry..."
+    if ! retry_command 2 sudo $TEXLIVE_BIN/tlmgr install latexmk; then
+        echo "❌ ERROR: Failed to install latexmk after retries - document compilation will fail"
         echo "   You may need to install it manually: sudo $TEXLIVE_BIN/tlmgr install latexmk"
-    }
+        exit 1
+    fi
 fi
 
-# Update font cache
+# Update font cache using TeX Live tools
 echo "Updating font cache..."
 $TEXLIVE_BIN/mktexlsr || true
+
+# Configure TeX Live font generation system
+# Ensure font generation directories are writable (uses TeX Live's TEXMFVAR path)
+echo "Configuring TeX Live font generation directories..."
+mkdir -p ~/.texlive2025/texmf-var/fonts/tfm ~/.texlive2025/texmf-var/fonts/pk
+chmod -R u+w ~/.texlive2025/texmf-var 2>/dev/null || true
+
+# Pre-generate commonly used fonts using TeX Live's mktextfm tool
+# This prevents "mktextfm failed" errors during document compilation
+# Using ONLY TeX Live tools (cross-platform compatible)
+echo "Pre-generating commonly used fonts (TeX Live mktextfm)..."
+TEXLIVE_BIN_PATH="$TEXLIVE_BIN"
+export PATH="$TEXLIVE_BIN_PATH:$PATH"
+# Generate base Computer Modern fonts that are commonly needed
+for font in cmr10 cmr12 cmbx10 cmbx12 cmti10 cmtt10; do
+    echo "  Generating $font..."
+    $TEXLIVE_BIN_PATH/mktextfm $font >/dev/null 2>&1 || true
+done
+# Generate T1-encoded fonts (putr8t, putb8t, etc.) that are commonly used
+for font in putr8t putb8t putri8t putrc8t pcrr8t; do
+    echo "  Generating $font..."
+    $TEXLIVE_BIN_PATH/mktextfm $font >/dev/null 2>&1 || true
+done
+echo "✅ Font pre-generation completed (TeX Live tools only)"
 
 END_TEXLIVE=$(date +%s)
 TEXLIVE_DURATION=$((END_TEXLIVE - START_TEXLIVE))
@@ -252,16 +455,41 @@ else
     fi
 fi
 
-# Test package availability
+# Test package availability (including critical packages)
 echo ""
 echo "🔍 Testing package availability..."
-for pkg in amsmath hyperref geometry booktabs enumitem natbib siunitx subfiles; do
+# Check for actual files, not package names (some packages are collections)
+# koma-script is a collection - check for scrartcl.cls which is the main class it provides
+CRITICAL_CHECKS=("amsmath.sty:amsmath" "hyperref.sty:hyperref" "geometry.sty:geometry" "natbib.sty:natbib" "snapshot.sty:snapshot" "scrartcl.cls:koma-script" "subfiles.sty:subfiles")
+WARNING_PACKAGES=("booktabs" "enumitem" "siunitx")
+MISSING_CRITICAL=0
+
+for check in "${CRITICAL_CHECKS[@]}"; do
+    FILE="${check%%:*}"
+    PKG_NAME="${check##*:}"
+    if $TEXLIVE_BIN/kpsewhich "$FILE" >/dev/null 2>&1; then
+        echo "  ✅ $PKG_NAME"
+    else
+        echo "  ❌ $PKG_NAME (CRITICAL - $FILE not found)"
+        MISSING_CRITICAL=1
+    fi
+done
+
+for pkg in "${WARNING_PACKAGES[@]}"; do
     if $TEXLIVE_BIN/kpsewhich ${pkg}.sty >/dev/null 2>&1; then
         echo "  ✅ $pkg"
     else
-        echo "  ⚠️  $pkg (not found)"
+        echo "  ⚠️  $pkg (not found - may cause issues)"
     fi
 done
+
+if [ $MISSING_CRITICAL -eq 1 ]; then
+    echo ""
+    echo "❌ ERROR: Critical LaTeX packages are missing!"
+    echo "   Document compilation will fail without these packages."
+    echo "   Please check the installation output above for errors."
+    exit 1
+fi
 
 # ============================================================================
 # 2. Install UV (Python package manager)
@@ -442,12 +670,14 @@ else
     echo "⚠️  UV not found in PATH (may need shell restart)"
 fi
 
-# Verify virtual environment
+# Verify virtual environment (should already be verified above, but double-check)
 if [ -f "$VENV_PATH/bin/python" ]; then
     echo "✅ Virtual environment ready: $VENV_PATH"
     echo "   Python: $($VENV_PATH/bin/python --version 2>&1)"
 else
     echo "❌ Virtual environment not found at: $VENV_PATH"
+    echo "   This should not happen - earlier verification should have caught this"
+    exit 1
 fi
 
 echo ""

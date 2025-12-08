@@ -110,6 +110,8 @@
 % In final submission:
 % - Include the generated .bbl file (not .bib)
 % - The build system automatically handles this conversion
+%
+% NOTE: This bibliography section will be moved before appendices by post-processing
 
 \bibliographystyle{qe}
 \bibliography{HAFiscal}
@@ -117,14 +119,11 @@
 % ==============================================================================
 % APPENDICES (if any)
 % ==============================================================================
-% Appendices should be added after bibliography using econsocart's \appendix command:
+% Appendices are included in the main content file (HAFiscal-QE-content.tex)
+% but will be extracted and placed after bibliography by post-processing.
 %
-%   \appendix[Appendix Title]
-%   \section{First Appendix Section}
-%   Content here...
-%
-% NOTE: The main HAFiscal paper includes appendices in the main content file,
-%       so no additional appendix commands are needed in this template.
+% The consolidate-subfiles-simple.py script includes appendices in the content,
+% and the build-qe-submission.sh script reorders them to appear after bibliography.
 
 \end{document}
 % ==============================================================================

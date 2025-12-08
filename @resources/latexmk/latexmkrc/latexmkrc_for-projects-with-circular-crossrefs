@@ -45,7 +45,7 @@ $bibtex_silent_switch = '-terse'; # Reduce bibtex verbosity.
 
 # --- LaTeX Engine ---
 $pdflatex = 'pdflatex -interaction=nonstopmode -file-line-error %O %S';
-$pdflatex_runs = 4;       # Required for complicated cross-references between appendices and main text.
+$max_repeat = 5;          # Maximum number of pdflatex runs (modern latexmk variable)
 $recorder = 1;            # Use .fls files for fine-grained dependency tracking.
 
 # --- Output, Logging, and Cleanup ---

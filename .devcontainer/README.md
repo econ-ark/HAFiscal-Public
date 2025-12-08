@@ -36,23 +36,34 @@
 ## 📦 What's Included
 
 ### LaTeX Environment
-- ✅ **MiKTeX** - Modern, self-contained LaTeX distribution (~500 MB)
+
+- ✅ **TeX Live 2025** - Comprehensive LaTeX distribution (scheme-basic + packages)
 - ✅ **Auto-install packages** - Downloads LaTeX packages on-demand
 - ✅ **pdflatex, bibtex, latexmk** - All standard tools
 - ✅ **No host dependencies** - Works without host LaTeX installation
-- ✅ **Fresh environment** - Clean MiKTeX install every time
+- ✅ **Fresh environment** - Clean TeX Live install every time
 
 ### Python Environment
-- ✅ **Python 3.9** - Consistent across all platforms
+
+- ✅ **Python 3.11** - Consistent across all platforms
 - ✅ **UV package manager** - Fast, modern Python package management
 - ✅ **Scientific stack** - numpy, pandas, scipy, matplotlib
 - ✅ **econ-ark/HARK** - Economic modeling tools
 - ✅ **Jupyter Lab** - Interactive notebooks (port 8888)
 
 ### Development Tools
+
 - ✅ **Git + GitHub CLI** - Version control
 - ✅ **VS Code extensions** - Python, LaTeX Workshop, Jupyter
 - ✅ **Zsh + Oh My Zsh** - Enhanced shell
+
+### Setup Scripts
+
+- ✅ **Setup scripts** - Located in `reproduce/docker/` (part of reproduction infrastructure)
+  - `setup.sh` - Main setup script (installs TeX Live + Python/UV)
+  - `run-setup.sh` - Helper script to find and run setup.sh
+  - `detect-arch.sh` - Architecture detection for TeX Live
+  - Other utility scripts for Docker/container builds
 
 ---
 
@@ -83,7 +94,7 @@ python Code/HA-Models/do_all.py
 jupyter lab --ip=0.0.0.0 --port=8888
 ```
 
-Access Jupyter at: http://localhost:8888
+Access Jupyter at: <http://localhost:8888>
 
 ### Test LaTeX Compilation
 
@@ -150,6 +161,7 @@ TERM=xterm-256color
 **Problem**: `! LaTeX Error: File 'package.sty' not found.`
 
 **Solution**: MiKTeX should auto-install. If not:
+
 ```bash
 mpm --install package-name
 initexmf --update-fndb
@@ -162,6 +174,7 @@ initexmf --update-fndb
 ### Container Build Fails
 
 **Solution**: Rebuild without cache
+
 ```bash
 Cmd+Shift+P → "Dev Containers: Rebuild Container Without Cache"
 ```
@@ -171,14 +184,17 @@ Cmd+Shift+P → "Dev Containers: Rebuild Container Without Cache"
 **Problem**: Port 8888 already in use
 
 **Solution**: Change port in `.devcontainer/devcontainer.json`:
+
 ```json
 "forwardPorts": [8889, 8866],
 ```
+
 Then rebuild container.
 
 ### Python Package Issues
 
 **Solution**: Resync UV environment
+
 ```bash
 cd /workspaces/HAFiscal-Latest
 uv sync --all-groups
@@ -213,12 +229,14 @@ Configure in Docker Desktop → Settings → Resources
 ### Updating Container
 
 Pull latest devcontainer configuration:
+
 ```bash
 cd /workspaces/HAFiscal-Latest
 git pull origin main
 ```
 
 Rebuild:
+
 ```bash
 Cmd+Shift+P → "Dev Containers: Rebuild Container"
 ```
@@ -293,18 +311,21 @@ All checks should pass without errors.
 ## 🎉 Benefits
 
 ### For Users
+
 - No LaTeX installation required on host
 - Consistent environment across all platforms
 - Easy onboarding for new developers
 - No "works on my machine" issues
 
 ### For Development
+
 - Clean, reproducible builds
 - No package conflicts
 - Easy CI/CD integration
 - Faster troubleshooting
 
 ### For CI/CD
+
 - Identical to local environment
 - Predictable builds
 - Easy testing
@@ -316,15 +337,19 @@ All checks should pass without errors.
 
 1. **Start the container** (see Quick Start above)
 2. **Clone HAFiscal-make**:
+
    ```bash
    cd /workspaces
    git clone https://github.com/llorracc/HAFiscal-make.git
    ```
+
 3. **Build HAFiscal PDF**:
+
    ```bash
    cd HAFiscal-make
    ./makePDF-Portable-Latest.sh
    ```
+
 4. **Start developing!**
 
 ---

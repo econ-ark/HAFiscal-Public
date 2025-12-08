@@ -1,12 +1,32 @@
 # HAFiscal Replication Package
 
 [![Powered by Econ-ARK](./@resources/econ-ark/PoweredByEconARK.png)](https://econ-ark.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-See%20LICENSE%20file-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](README/INSTALLATION.md)
+[![Launch Dashboard](https://img.shields.io/badge/Launch-Interactive%20Dashboard-orange?logo=jupyter)](https://mybinder.org/v2/gh/llorracc/HAFiscal-Public/HEAD?urlpath=voila%2Frender%2Fdashboard%2Fapp.ipynb)
 
 **Paper**: *Welfare and Spending Effects of Consumption Stimulus Policies*  
 **Authors**: Christopher D. Carroll, Edmund Crawley, William Du, Ivan Frankovic, Hakon Tretvoll  
 **Keywords**: heterogeneous agents, fiscal policy, stimulus checks, iMPCs, HANK, consumption, welfare, QE replication
+
+---
+
+## Instant Results (No Installation Required)
+
+**Want to explore fiscal policy effects right now?**
+
+[![Launch Interactive Dashboard](https://img.shields.io/badge/Launch-Interactive%20Dashboard-orange?style=for-the-badge&logo=jupyter)](https://mybinder.org/v2/gh/llorracc/HAFiscal-Public/HEAD?urlpath=voila%2Frender%2Fdashboard%2Fapp.ipynb)
+
+The **interactive dashboard** lets you:
+
+- Compare stimulus checks, UI extensions, and tax cuts
+- Adjust model parameters in real-time
+- Visualize fiscal multipliers under different monetary policies
+- See results in seconds (no 100+ hour computation needed)
+
+**No installation required** — runs entirely in your browser via MyBinder.
+
+For local installation, see [dashboard/DASHBOARD_README.md](dashboard/DASHBOARD_README.md) or [README/DASHBOARD.md](README/DASHBOARD.md).
 
 ---
 
@@ -17,6 +37,7 @@
 For detailed documentation, see the [README/](README/) directory.
 
 The README/ directory contains:
+
 - **[GETTING-STARTED.md](README/GETTING-STARTED.md)** — Navigation guide and workflow overview (start here if new)
 - **Detailed README** — Complete replication instructions and documentation
 - [INSTALLATION.md](README/INSTALLATION.md) — Installation and setup instructions
@@ -56,65 +77,77 @@ The README/ directory contains:
 ### Core Methodological Foundations
 
 **HANK Models and Computational Methods**:
+
 - **Auclert et al. (2021)** [`Auclert2021`]: Sequence-space Jacobian methods for solving heterogeneous-agent models (computational framework extended here)
 - **Kaplan & Violante (2014)** [`kaplan2014model`]: Two-asset model with liquid/illiquid assets and high MPCs for hand-to-mouth households (calibration strategy extended)
 - **Carroll et al. (2017)** [`cstwMPC`]: Distribution of wealth and MPCs in heterogeneous-agent models (empirical targets extended)
 
 **Sticky Expectations and Consumption Dynamics**:
+
 - **Carroll et al. (2020)** [`cAndCwithStickyE`]: Sticky expectations model explaining aggregate consumption persistence (mechanism implemented here)
 - **Lian (2023)** [`Lian2023-ca`]: Future consumption mistakes and high MPCs (related behavioral mechanism)
 
 ### Empirical Evidence on MPCs and Consumption Responses
 
 **Microeconomic MPC Estimates**:
+
 - **Fagereng et al. (2021)** [`fagereng-mpc-2021`]: Norwegian lottery data showing MPC heterogeneity by liquid assets (empirical target)
 - **Kotsogiannis & Sakellaris (2024)** [`kotsogiannisMPCs`]: Tax lottery estimates of iMPCs (complementary evidence)
 - **Boehm et al. (2025)** [`boehm2025fivefacts`]: Randomized experiment on MPCs (recent empirical evidence)
 - **Parker et al. (2013)** [`parker2013consumer`]: Economic stimulus payments of 2008 (empirical benchmark)
 
 **Consumption During Unemployment**:
+
 - **Ganong & Noel (2019)** [`ganongConsumer2019`]: Consumer spending during unemployment (UI extension analysis relates)
 - **Graves (2024)** [`gravesUnemployment`]: Unemployment risk and consumption dynamics (related mechanism)
 
 ### Fiscal Multipliers and Policy Analysis
 
 **Fiscal Multipliers in HANK Models**:
+
 - **Broer et al. (2023)** [`broer2023fiscalmultipliers`]: Fiscal multipliers from heterogeneous-agent perspective (complementary analysis)
 - **Broer et al. (2025)** [`broer2025stimulus`]: Stimulus effects of common fiscal policies (recent related work)
 - **Hagedorn et al. (2019)** [`hagedorn2019fiscal`]: Fiscal multiplier in HANK models (methodological connection)
 
 **Automatic Stabilizers and Welfare**:
+
 - **McKay & Reis (2016, 2021)** [`mckay2016role`, `mckay2021optimal`]: Role of automatic stabilizers and optimal design (welfare analysis relates)
 - **Phan (2024)** [`phan2024welfare`]: Welfare consequences of countercyclical fiscal transfers (related welfare analysis)
 
 ### Behavioral Mechanisms
 
 **Near-Rationality and Bounded Rationality**:
+
 - **Andre et al. (2025)** [`ansQuickfix`]: Near-rationality in consumption and savings (related behavioral mechanism)
 - **Akerlof & Yellen (1985)** [`akerlof1985near`]: Near-rational model of business cycle (foundational work)
 - **Ilut & Valchev (2022)** [`ilutEconomic`]: Economic agents as imperfect problem solvers (related framework)
 
 **Present Bias and Mental Accounting**:
+
 - **Laibson et al. (2024)** [`lmmPresentBias`]: Present bias amplifies balance-sheet channels (related mechanism)
 - **Graham & McDowall (2024)** [`graham2024mental`]: Mental accounts and consumption sensitivity (related behavioral feature)
 
 ### Related HANK Literature
 
 **Unemployment and Business Cycles**:
+
 - **Ravn & Sterk (2017, 2021)** [`Ravn2017`, `Ravn2021`]: Job uncertainty, HANK & SAM models (related HANK extensions)
 - **Christiano et al. (2016)** [`Christiano2016`]: Unemployment and business cycles (search-and-matching framework)
 - **Graves (2024)** [`gravesUnemployment`]: Unemployment risk affects business cycle dynamics (related mechanism)
 
 **Distributional Effects of Monetary Policy**:
+
 - **Gornemann et al. (2021)** [`Gornemann2021`]: Distributional consequences of systematic monetary policy (related distributional analysis)
 
 ### Data and Calibration
 
 **SCF Data and Wealth Distribution**:
+
 - **SCF 2004** [`SCF2004`]: Survey of Consumer Finances 2004 (primary data source)
 - **Kaplan et al. (2014)** [`kaplan2014model`]: Liquid wealth construction methodology (followed here)
 
 **Income Process Calibration**:
+
 - **Crawley et al. (2024)** [`crawley2024parsimonious`]: Parsimonious model of idiosyncratic income (income process specification)
 
 ---
@@ -157,10 +190,12 @@ The README/ directory contains:
 ## Citation
 
 If you use this repository, please cite the paper and the Econ-ARK toolkit:
+
 ```
 Carroll, C.D., Crawley, E., Du, W., Frankovic, I., & Tretvoll, H. (2025).
 Welfare and Spending Effects of Consumption Stimulus Policies.
 ```
+
 Econ-ARK: [https://econ-ark.org](https://econ-ark.org)
 
 ---
@@ -175,4 +210,3 @@ Econ-ARK: [https://econ-ark.org](https://econ-ark.org)
 ---
 
 **Last Updated**: November 2025
-

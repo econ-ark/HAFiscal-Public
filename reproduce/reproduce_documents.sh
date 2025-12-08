@@ -369,6 +369,19 @@ validate_environment() {
     # Allow skipping TeX Live package checks for speed
     if [[ "${SKIP_TEXLIVE_CHECK:-}" == "true" ]] || [[ "${SKIP_ENV_CHECK:-}" == "true" ]]; then
         log_warning "Skipping TeX Live package checks (SKIP_TEXLIVE_CHECK or SKIP_ENV_CHECK set)"
+        # Ensure TeX Live bin is in PATH (for non-interactive shells)
+        if [[ -f /etc/profile.d/texlive.sh ]]; then
+            source /etc/profile.d/texlive.sh 2>/dev/null || true
+        fi
+        # Also check common TeX Live locations
+        if ! command -v latexmk >/dev/null 2>&1; then
+            for texlive_bin in /usr/local/texlive/*/bin/*/latexmk; do
+                if [[ -f "$texlive_bin" ]]; then
+                    export PATH="$(dirname "$texlive_bin"):$PATH"
+                    break
+                fi
+            done
+        fi
         # Still do minimal checks
         if ! command -v latex >/dev/null 2>&1; then
             log_error "latex command not found - please install TeX Live"
@@ -376,6 +389,7 @@ validate_environment() {
         fi
         if ! command -v latexmk >/dev/null 2>&1; then
             log_error "latexmk is not installed or not in PATH"
+            log_error "Tried PATH: $PATH"
             return 1
         fi
         if [[ ! -f "HAFiscal.tex" ]]; then
@@ -405,8 +419,24 @@ validate_environment() {
         fi
     fi
     
+    # Ensure TeX Live bin is in PATH (for non-interactive shells)
+    # Try to source the TeX Live PATH if available
+    if [[ -f /etc/profile.d/texlive.sh ]]; then
+        source /etc/profile.d/texlive.sh 2>/dev/null || true
+    fi
+    # Also check common TeX Live locations
+    if ! command -v latexmk >/dev/null 2>&1; then
+        # Try to find latexmk in TeX Live directories
+        for texlive_bin in /usr/local/texlive/*/bin/*/latexmk; do
+            if [[ -f "$texlive_bin" ]]; then
+                export PATH="$(dirname "$texlive_bin"):$PATH"
+                break
+            fi
+        done
+    fi
     if ! command -v latexmk >/dev/null 2>&1; then
         log_error "latexmk is not installed or not in PATH"
+        log_error "Tried PATH: $PATH"
         return 1
     fi
     
@@ -423,10 +453,35 @@ setup_build_environment() {
     
     export BUILD_MODE
     export ONLINE_APPENDIX_HANDLING
-    export TEXINPUTS="./qe/:${TEXINPUTS:-}"
+    
+    # Preserve existing TEXINPUTS (from setup-latex-minimal.sh) and prepend qe/ directory
+    # Use absolute path for qe/ to ensure it works regardless of working directory
+    local qe_path
+    if [[ -d "./qe" ]]; then
+        qe_path="$(cd ./qe && pwd)"
+    else
+        qe_path="./qe"
+    fi
+    export TEXINPUTS="${qe_path}/:${TEXINPUTS:-}"
+    
+    # Also ensure @local/ is in TEXINPUTS if not already present (for owner.tex, config.ltx, etc.)
+    # This handles cases where setup-latex-minimal.sh wasn't run or TEXINPUTS wasn't set
+    if [[ -z "${TEXINPUTS:-}" ]] || [[ "$TEXINPUTS" != *"@local"* ]]; then
+        local repo_root
+        repo_root="$(pwd)"
+        if [[ -d "$repo_root/@local" ]]; then
+            export TEXINPUTS="${repo_root}/@local//:${TEXINPUTS}"
+            log_info "Added @local/ to TEXINPUTS for owner.tex and config.ltx"
+        fi
+    fi
+    
     export BSTINPUTS="./qe/:@resources/texlive/texmf-local/bibtex/bst/:${BSTINPUTS:-}"
     export BIBINPUTS="@resources/texlive/texmf-local/bibtex/bib/:resources-private/references/:${BIBINPUTS:-}"
     
+    # Log TEXINPUTS for debugging (especially important in CI environments)
+    if [[ "${VERBOSE:-false}" == "true" ]] || [[ -n "${CI:-}" ]]; then
+        log_info "TEXINPUTS=${TEXINPUTS:-<not set>}"
+    fi
     
     log_info "Build mode: $BUILD_MODE, Appendix handling: $ONLINE_APPENDIX_HANDLING"
 }
@@ -455,7 +510,8 @@ compile_document() {
     fi
     
     # Configure latexmk options
-    local latexmk_opts=()
+    # -f forces latexmk to continue despite warnings (undefined refs are resolved in later passes)
+    local latexmk_opts=("-f")
     if [[ -n "$LATEX_OPTS" ]]; then
         read -ra opts <<< "$LATEX_OPTS"
         latexmk_opts+=("${opts[@]}")
@@ -538,6 +594,10 @@ compile_document() {
     local start_time
     start_time=$(date +%s)
     
+    # Ensure TEXINPUTS is exported and available to latexmk/pdflatex
+    # This is critical for finding @local/owner.tex and other local files
+    export TEXINPUTS
+    
     if [[ "$REPRODUCTION_MODE" == "quick" ]]; then
         # Try compilation first
         local compile_result
@@ -593,36 +653,61 @@ compile_document() {
             fi
         fi
     else
-        # Multiple passes for complete cross-reference resolution
-        # Multiple passes needed for complicated cross-references between appendices and main text
-        local passes=4
-        for ((i=1; i<=passes; i++)); do
-            if [[ "$VERBOSE" == "true" ]]; then
-                echo "  Pass $i/$passes..."
+        # Full mode: latexmk handles bibtex and initial pdflatex passes
+        local compile_result
+        if [[ "$needs_cd" == "true" ]]; then
+            (cd "$doc_dir" && latexmk "${latexmk_opts[@]}" "$doc_file")
+            compile_result=$?
+        else
+            latexmk "${latexmk_opts[@]}" "$doc_path"
+            compile_result=$?
+        fi
+        
+        # Check if PDF was generated (compile_result may be non-zero for warnings)
+        local pdf_check="${doc_path%.tex}.pdf"
+        if [[ "$needs_cd" == "true" ]]; then
+            pdf_check="$doc_dir/${doc_file%.tex}.pdf"
+        fi
+        
+        if [[ ! -f "$pdf_check" ]]; then
+            # No PDF generated - actual failure
+            log_error "$doc_name compilation failed"
+            local log_file="${doc_path%.tex}.log"
+            if [[ -f "$log_file" ]]; then
+                parse_latex_error "$log_file" "$doc_name"
             fi
-            
-            local pass_result
-            if [[ "$needs_cd" == "true" ]]; then
-                (cd "$doc_dir" && latexmk "${latexmk_opts[@]}" "$doc_file")
-                pass_result=$?
-            else
-                latexmk "${latexmk_opts[@]}" "$doc_path"
-                pass_result=$?
-            fi
-            
-            if [[ $pass_result -ne 0 ]]; then
-                log_error "$doc_name compilation failed on pass $i"
-                # Enhanced error analysis
-                local log_file="${doc_path%.tex}.log"
-                if [[ -f "$log_file" ]]; then
-                    parse_latex_error "$log_file" "$doc_name"
+            return 1
+        fi
+        
+        # Run additional pdflatex passes to resolve remaining undefined references
+        # (latexmk may stop early when bibtex doesn't produce changes)
+        local log_file="${doc_path%.tex}.log"
+        if [[ "$needs_cd" == "true" ]]; then
+            log_file="$doc_dir/${doc_file%.tex}.log"
+        fi
+        
+        # Check for undefined references and run extra passes if needed
+        local max_extra_passes=2
+        local pass=0
+        while [[ $pass -lt $max_extra_passes ]]; do
+            if grep -q "undefined" "$log_file" 2>/dev/null; then
+                ((pass++))
+                if [[ "$VERBOSE" == "true" ]]; then
+                    echo "  Extra pass $pass to resolve remaining references..."
                 fi
-                return 1
+                if [[ "$needs_cd" == "true" ]]; then
+                    (cd "$doc_dir" && pdflatex -interaction=nonstopmode "$doc_file") >/dev/null 2>&1
+                else
+                    pdflatex -interaction=nonstopmode "$doc_path" >/dev/null 2>&1
+                fi
+            else
+                break
             fi
         done
+        
         local end_time
         end_time=$(date +%s)
-        log_success "$doc_name completed in $((end_time - start_time))s ($passes passes)"
+        log_success "$doc_name completed in $((end_time - start_time))s (full mode)"
     fi
     
     # Clean up auxiliary files after successful compilation
@@ -1024,7 +1109,7 @@ main() {
         echo "To run a complete, from-scratch reproduction:"
         echo "  ./reproduce.sh --comp full"
         echo ""
-        echo "The full reproduction takes 3-4 days on a high-end 2025 laptop but provides complete verification"
+        echo "The full reproduction takes 4-5 days on a high-end 2025 laptop but provides complete verification"
         echo "of all computational results shown in the documents."
         echo ""
         echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

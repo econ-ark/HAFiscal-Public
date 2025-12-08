@@ -66,34 +66,10 @@
 \NewEnviron{hiddencontent}[1][Online]{%
   \setbox0\vbox{%
     % Force immediate writing of labels
-    \@ifpackageloaded{tex4ht}{%
-      % tex4ht is loaded - don't modify \write as it breaks href in section titles
-    }{%
-      % Normal PDF mode - use immediate writes for labels
-      \let\@orig@write\write
-      \protected\def\write{\immediate\@orig@write}%
-    }%
+    \let\@orig@write\write
+    \protected\def\write{\immediate\@orig@write}%
     % Override page number
     \def\thepage{#1}%
-    % Convert floating environments to non-floating versions
-    \renewenvironment{table}{\par\noindent}{\par}%
-    \renewenvironment{figure}{\par\noindent}{\par}%
-    \renewenvironment{table*}{\par\noindent}{\par}%
-    \renewenvironment{figure*}{\par\noindent}{\par}%
-    % Also handle subfigure environment from subcaption package
-    % subfigure expects to be inside a float, so make it a no-op too
-    \renewenvironment{subfigure}[2][]{\par\noindent}{\par}%
-    % Redefine \caption to work outside floats
-    % It becomes a no-op but still processes any \label commands inside
-    \renewcommand{\caption}[1]{%
-      % Process the caption text to extract any labels
-      \setbox\@tempboxa\hbox{##1}%
-    }%
-    % Handle optional argument version of \caption
-    \renewcommand{\@caption}[2]{%
-      % Process the caption text to extract any labels
-      \setbox\@tempboxa\hbox{##2}%
-    }%
     % Process the body
     \BODY
   }%

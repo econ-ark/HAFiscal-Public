@@ -5,20 +5,37 @@ Quick commands and information for working with HAFiscal.
 ## One-Line Installation
 
 ### macOS
+
 ```bash
-brew install --cask mactex && curl -LsSf https://astral.sh/uv/install.sh | sh && git clone https://github.com/llorracc/HAFiscal-Latest.git && cd HAFiscal-Latest && ./reproduce/reproduce_environment_comp_uv.sh
+brew install --cask mactex && curl -LsSf https://astral.sh/uv/install.sh | sh && git clone {{REPO_URL}}.git && cd {{REPO_NAME}} && ./reproduce/reproduce_environment_comp_uv.sh
 ```
 
 ### Linux (Ubuntu/Debian)
+
 ```bash
-sudo apt-get install -y texlive-full build-essential curl git && curl -LsSf https://astral.sh/uv/install.sh | sh && git clone https://github.com/llorracc/HAFiscal-Latest.git && cd HAFiscal-Latest && ./reproduce/reproduce_environment_comp_uv.sh
+sudo apt-get install -y texlive-full build-essential curl git && curl -LsSf https://astral.sh/uv/install.sh | sh && git clone {{REPO_URL}}.git && cd {{REPO_NAME}} && ./reproduce/reproduce_environment_comp_uv.sh
 ```
+
+---
+
+## Interactive Dashboard
+
+**No installation required** — explore results in your browser:
+
+| Task | Command/Link |
+|------|--------------|
+| Launch in browser | [![Launch](https://img.shields.io/badge/Launch-Dashboard-orange)](https://mybinder.org/v2/gh/llorracc/HAFiscal-Public/HEAD?urlpath=voila%2Frender%2Fdashboard%2Fapp.ipynb) |
+| Run locally | `cd dashboard && ./start-dashboard.sh` |
+| Run with Voila | `cd dashboard && voila app.ipynb` |
+| Documentation | [DASHBOARD.md](DASHBOARD.md) |
+| Full docs | [dashboard/DASHBOARD_README.md](../dashboard/DASHBOARD_README.md) |
 
 ---
 
 ## Common Commands
 
 ### Environment Setup
+
 ```bash
 # Setup environment (first time)
 ./reproduce/reproduce_environment_comp_uv.sh
@@ -31,6 +48,7 @@ conda activate hafiscal
 ```
 
 ### Document Generation
+
 ```bash
 # Generate main paper and slides (~5-10 min)
 ./reproduce.sh --docs main
@@ -43,11 +61,12 @@ BUILD_MODE=SHORT ./reproduce.sh --docs main --quick
 ```
 
 ### Computational Reproduction
+
 ```bash
 # Minimal computation (~1 hour)
 ./reproduce.sh --comp min
 
-# Full computation (3-4 days on a high-end 2025 laptop)
+# Full computation (4-5 days on a high-end 2025 laptop)
 ./reproduce.sh --comp full
 
 # Maximum computation including robustness (~5 days on a high-end 2025 laptop)
@@ -58,6 +77,7 @@ BUILD_MODE=SHORT ./reproduce.sh --docs main --quick
 ```
 
 ### Testing
+
 ```bash
 # Quick compatibility test (no Docker)
 ./reproduce/test-cross-platform.sh
@@ -71,16 +91,19 @@ BUILD_MODE=SHORT ./reproduce.sh --docs main --quick
 ## File Locations
 
 ### Main Outputs
+
 - `HAFiscal.pdf` - Main paper
 - `HAFiscal-Slides.pdf` - Presentation slides
 
 ### Configuration
+
 - `pyproject.toml` - Python dependencies
 - `uv.lock` - Locked dependency versions
 - `.latexmkrc` - LaTeX compilation config
 - `.gitattributes` - Line ending config (ensures cross-platform compatibility)
 
 ### Documentation
+
 - `README.md` - Main documentation
 - `INSTALLATION.md` - Platform-specific setup
 - `TROUBLESHOOTING.md` - Common issues
@@ -109,6 +132,7 @@ HAFiscal/
 ## Environment Variables
 
 ### LaTeX Compilation
+
 ```bash
 # Build mode
 BUILD_MODE=SHORT    # Quick debug build
@@ -140,6 +164,7 @@ BSTINPUTS=qe/:@resources/texlive/texmf-local/bibtex/bst/
 ## Troubleshooting Quick Fixes
 
 ### LaTeX not found
+
 ```bash
 # macOS
 export PATH="/Library/TeX/texbin:$PATH"
@@ -149,6 +174,7 @@ pdflatex --version
 ```
 
 ### Python environment not working
+
 ```bash
 # Reinstall
 rm -rf .venv
@@ -157,11 +183,13 @@ source .venv/bin/activate
 ```
 
 ### Scripts permission denied
+
 ```bash
 chmod +x reproduce.sh reproduce/*.sh
 ```
 
 ### Compilation errors
+
 ```bash
 # Clean and rebuild
 rm -f *.aux *.bbl *.blg *.log
@@ -173,16 +201,19 @@ rm -f *.aux *.bbl *.blg *.log
 ## Platform-Specific Notes
 
 ### macOS
+
 - Use `brew` for LaTeX: `brew install --cask mactex`
 - Use `zsh` by default (not bash)
 - Shell config: `~/.zshrc`
 
 ### Linux
+
 - Use `apt-get` for LaTeX: `sudo apt-get install texlive-full`
 - Shell config: `~/.bashrc`
 - May need: `sudo apt-get install build-essential`
 
 ### Windows (WSL2)
+
 - Install WSL2: `wsl --install` (PowerShell as Admin)
 - Work in WSL filesystem (`~/HAFiscal`) not Windows (`/mnt/c/...`)
 - Shell config: `~/.bashrc` (in Ubuntu)
@@ -198,7 +229,7 @@ rm -f *.aux *.bbl *.blg *.log
 | Environment setup (Conda) | ~3 min |
 | Document generation | 5-10 min |
 | Minimal computation | ~1 hour |
-| Full computation | 3-4 days on a high-end 2025 laptop |
+| Full computation | 4-5 days on a high-end 2025 laptop |
 | Cross-platform test | ~1 min |
 | Docker Ubuntu test | ~2 min |
 
@@ -207,6 +238,7 @@ rm -f *.aux *.bbl *.blg *.log
 ## Keyboard Shortcuts
 
 ### Interactive Menu (`./reproduce.sh`)
+
 - `1` - Documents only
 - `2` - Minimal computation
 - `3` - Full computation
@@ -216,11 +248,11 @@ rm -f *.aux *.bbl *.blg *.log
 
 ## URLs and Links
 
-- **Main Repository**: https://github.com/llorracc/HAFiscal-Latest
-- **Econ-ARK**: https://econ-ark.org
-- **UV Package Manager**: https://astral.sh/uv
-- **MacTeX**: https://tug.org/mactex/
-- **TeX Live**: https://tug.org/texlive/
+- **Main Repository**: {{REPO_URL}}
+- **Econ-ARK**: <https://econ-ark.org>
+- **UV Package Manager**: <https://astral.sh/uv>
+- **MacTeX**: <https://tug.org/mactex/>
+- **TeX Live**: <https://tug.org/texlive/>
 
 ---
 
@@ -249,6 +281,7 @@ rm -f *.aux *.bbl *.blg *.log
 ## Python Packages
 
 Key dependencies (managed by UV or Conda):
+
 - `econ-ark` (HARK) - Heterogeneous agent modeling
 - `sequence-jacobian` - Jacobian computation
 - `numpy`, `scipy` - Numerical computing
@@ -260,6 +293,7 @@ Key dependencies (managed by UV or Conda):
 ## LaTeX Packages
 
 Key packages required:
+
 - `latexmk` - Automated compilation
 - `econark` - Document class (included)
 - `subfiles` - Modular documents
@@ -272,4 +306,3 @@ Key packages required:
 **Last Updated**: 2025-10-22
 
 For comprehensive documentation, see [`README.md`](README.md).
-

@@ -15,9 +15,9 @@ This guide explains how to use Cursor (or VS Code) to interact with the HAFiscal
 
 ## Prerequisites
 
-1. **Install Cursor** (or VS Code): https://cursor.sh/
-2. **Install Docker Desktop**: https://www.docker.com/products/docker-desktop/
-3. **Install Dev Containers extension**: 
+1. **Install Cursor** (or VS Code): <https://cursor.sh/>
+2. **Install Docker Desktop**: <https://www.docker.com/products/docker-desktop/>
+3. **Install Dev Containers extension**:
    - Open Cursor
    - Press `Cmd+Shift+X` (macOS) or `Ctrl+Shift+X` (Windows/Linux)
    - Search for "Dev Containers"
@@ -37,17 +37,20 @@ This method clones the repository **inside** the container, keeping it completel
    - macOS: `Cmd+Shift+P`
    - Windows/Linux: `Ctrl+Shift+P`
 
-3. **Type and select**: 
+3. **Type and select**:
+
    ```
    Dev Containers: Clone Repository in Container Volume...
    ```
 
 4. **Enter the Git URL**:
+
    ```
    https://github.com/llorracc/HAFiscal-Latest.git
    ```
-   
+
    Or if you have SSH access:
+
    ```
    git@github.com:llorracc/HAFiscal-Latest.git
    ```
@@ -84,14 +87,17 @@ If you already have the repository on your host machine but want standalone mode
 2. **Command Palette** (`Cmd+Shift+P` or `Ctrl+Shift+P`)
 
 3. **Type and select**:
+
    ```
    Dev Containers: Open Folder in Container...
    ```
 
 4. **Navigate to**:
+
    ```
    ~/projects/HAFiscal-Latest
    ```
+
    (or wherever your local clone is)
 
 5. **Select "Open in Container"**
@@ -128,10 +134,12 @@ When you're in the devcontainer, you have:
 ### 1. Terminal Access
 
 Open integrated terminal in Cursor:
+
 - macOS: `` Ctrl+` ``
 - Windows/Linux: `` Ctrl+` ``
 
 You'll see:
+
 ```bash
 vscode@container-id:/workspaces/HAFiscal-Latest$
 ```
@@ -228,7 +236,8 @@ mpm --list
 ### Container Build Fails
 
 **Problem**: MiKTeX installation fails  
-**Solution**: 
+**Solution**:
+
 ```bash
 # Rebuild without cache
 Cmd+Shift+P → "Dev Containers: Rebuild Container Without Cache"
@@ -238,6 +247,7 @@ Cmd+Shift+P → "Dev Containers: Rebuild Container Without Cache"
 
 **Problem**: MiKTeX can't find packages  
 **Solution**: Refresh package database
+
 ```bash
 initexmf --update-fndb
 mpm --update
@@ -247,6 +257,7 @@ mpm --update
 
 **Problem**: Poor performance  
 **Solutions**:
+
 - Increase Docker Desktop resources (CPU, RAM)
 - Close other heavy applications
 - Use SSD for Docker storage
@@ -255,17 +266,21 @@ mpm --update
 
 **Problem**: Closed container, can't find files  
 **Solutions**:
+
 - Method 1 (standalone): Find container volume:
+
   ```bash
   docker volume ls
   docker volume inspect <volume-name>
   ```
+
 - Method 2: Files are on your host filesystem
 
 ### Port Already in Use
 
 **Problem**: Jupyter port 8888 already taken  
 **Solution**: Change port in devcontainer.json:
+
 ```json
 "forwardPorts": [8889, 8866],
 ```
@@ -293,6 +308,7 @@ mpm --update
 3. **Sync regularly**: `git pull` before starting work, `git push` when done
 4. **Monitor resources**: Keep an eye on Docker Desktop resource usage
 5. **Clean up**: Remove old containers/volumes periodically:
+
    ```bash
    docker system prune
    ```
@@ -322,6 +338,7 @@ docker exec -it <container-id> bash
 ## Summary
 
 **Method 1 (Recommended for Standalone)**:
+
 1. Cursor → `Cmd+Shift+P` → "Clone Repository in Container Volume"
 2. Enter: `https://github.com/llorracc/HAFiscal-Latest.git`
 3. Wait for build (10-15 min first time)
@@ -329,6 +346,7 @@ docker exec -it <container-id> bash
 5. Git push to save changes
 
 **What you get**:
+
 - Complete isolation from host machine
 - Fresh MiKTeX LaTeX (no host dependencies)
 - Python 3.9 + UV + all packages
@@ -336,6 +354,7 @@ docker exec -it <container-id> bash
 - Ready to build HAFiscal PDF
 
 **Next steps after setup**:
+
 ```bash
 # Inside container terminal:
 cd /workspaces
@@ -353,4 +372,3 @@ First PDF build will take 10-15 minutes as MiKTeX downloads packages on-demand. 
 - Check Docker Desktop for container status
 - View container logs: Docker Desktop → Containers → HAFiscal → Logs
 - Rebuild if issues: `Cmd+Shift+P` → "Rebuild Container Without Cache"
-

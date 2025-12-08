@@ -7,7 +7,7 @@ This directory contains the core computational code for the heterogeneous agent 
 ### Running the Complete Pipeline
 
 ```bash
-# Run all computational steps (3-4 days)
+# Run all computational steps (4-5 days)
 python do_all.py
 
 # Or run minimal validation (~1 hour)
@@ -35,16 +35,18 @@ python AggFiscalMAIN.py
 The model estimation and policy analysis follows a 5-step pipeline controlled by `do_all.py`:
 
 ### Step 1: Estimate Splurge Factor
+
 - **Script**: `Target_AggMPCX_LiquWealth/Estimation_BetaNablaSplurge.py`
 - **Purpose**: Jointly estimate discount factor distribution (Beta, Nabla) and splurge factor
 - **Targets**: Aggregate MPC and liquid wealth distribution from SCF 2004
-- **Output**: 
+- **Output**:
   - Figure 1 (liquid wealth distribution fit)
   - Estimated parameters saved for later steps
   - Table 1 (calibration results)
 - **Runtime**: ~20 minutes
 
 ### Step 2: Estimate Discount Factor Distributions  
+
 - **Script**: `FromPandemicCode/EstimAggFiscalMAIN.py`
 - **Purpose**: Estimate separate discount factor distributions for three education groups
 - **Method**: Simulated Method of Moments matching consumption drop upon UI exit
@@ -56,12 +58,14 @@ The model estimation and policy analysis follows a 5-step pipeline controlled by
 - **Runtime**: ~21 hours (7 hours per education group)
 
 ### Step 3: Robustness with Splurge=0 (Optional)
+
 - **Script**: `FromPandemicCode/EstimAggFiscalMAIN.py` with Splurge=0
 - **Purpose**: Online appendix robustness check with zero splurge
 - **Output**: Alternative parametrization results
 - **Runtime**: Similar to Step 2 (~21 hours)
 
 ### Step 4: HANK-SAM Model Robustness
+
 - **Scripts**:
   - `HA-Fiscal-HANK-SAM.py` - Compute Jacobian matrices
   - `HA-Fiscal-HANK-SAM-to-python.py` - Run experiments
@@ -72,6 +76,7 @@ The model estimation and policy analysis follows a 5-step pipeline controlled by
 - **Runtime**: ~1 hour
 
 ### Step 5: Compare Fiscal Stimulus Policies
+
 - **Script**: `FromPandemicCode/AggFiscalMAIN.py`
 - **Purpose**: Welfare and spending analysis of three policies:
   - UI benefit extension
@@ -118,6 +123,7 @@ Code/HA-Models/
 ## Key Python Modules
 
 ### Model Definition
+
 - **`AggFiscalModel.py`**: Core model classes
   - `AggFiscalType`: Individual agent type with fiscal parameters
   - `AggregateDemandEconomy`: Market with aggregate demand externality
@@ -125,37 +131,69 @@ Code/HA-Models/
 - **`EstimAggFiscalModel.py`**: Estimation-specific model variants
 
 ### Estimation and Calibration
+
 - **`EstimAggFiscalMAIN.py`**: Main estimation script (Step 2)
 - **`EstimParameters.py`**: Calibrated parameter values
 - **`EstimSetupEconomy.py`**: Economy setup for estimation
 
 ### Policy Analysis
+
 - **`AggFiscalMAIN.py`**: Main policy comparison (Step 5)
   - Also has `AggFiscalMAIN_reduced.py` variant for faster runs
 - **`Output_Results.py`**: Generate policy comparison results and figures
 - **`Welfare.py`**: Welfare calculations and comparisons
 
 ### Utilities
+
 - **`FiscalTools.py`**: Helper functions for fiscal policy analysis
-- **`Clean_Folders.py`**: Cleanup utility for output directories
+- **`Clean_Folders.py`**: **Intelligent cleanup utility** - reads flags from `AggFiscalMAIN.py` (SST) and cleans accordingly
 - **`CreateLPfig.py`**: Generate lifecycle profile figures
 - **`CreateIMPCfig.py`**: Generate impulse response figures
+
+### Intelligent Cleanup (SST Pattern)
+
+`Clean_Folders.py` implements **intelligent cleanup** by reading the Single Source of Truth:
+
+- **Single Source of Truth**: `AggFiscalMAIN.py` defines robustness control flags (e.g., `Run_CRRA1_robustness = False`)
+
+- **How it works**: 
+  1. `Clean_Folders.py` parses `AggFiscalMAIN.py` to extract flag values
+  2. For each flag set to `False`, it deletes large files (>1MB) in corresponding directories
+  3. Preserves small files (logs, metadata, config)
+
+- **Why**: This prevents accumulation of orphaned PDFs from development experiments or previously-enabled robustness checks that were later disabled.
+
+- **Usage**:
+  ```bash
+  cd Code/HA-Models/FromPandemicCode
+  python Clean_Folders.py               # Clean with default settings
+  python Clean_Folders.py --dry-run     # Preview what would be deleted
+  python Clean_Folders.py --size-threshold 5  # Only delete files >5MB
+  ```
+
+- **Benefits**: 
+  - No duplication of directory lists
+  - Always synced with `AggFiscalMAIN.py` flags
+  - Can be run manually or integrated into workflow
 
 ## Model Features
 
 ### Three Education Groups
 The model includes separate agent types for:
+
 - **Dropout** (<12 years education)
 - **HighSchool** (12 years education)  
 - **College** (>12 years education)
 
 Each group has:
+
 - Different income processes
 - Different unemployment risks
 - Different unemployment benefit replacement rates
 - Estimated discount factor distributions
 
 ### Key Economic Features
+
 - **Heterogeneous agents**: Idiosyncratic income and unemployment risk
 - **Incomplete markets**: Agents cannot fully insure against shocks
 - **Liquid wealth**: Excludes "splurge" portion of assets
@@ -182,6 +220,7 @@ The code supports multiple parametrizations controlled by flags in `AggFiscalMAI
 ## Dependencies
 
 ### Required Python Packages
+
 - **econ-ark** >= 0.16.0 - HARK toolkit for heterogeneous agents
 - **numpy** >= 1.21.0 - Numerical computing
 - **scipy** >= 1.7.0 - Scientific computing and optimization
@@ -191,6 +230,7 @@ The code supports multiple parametrizations controlled by flags in `AggFiscalMAI
 - **sequence-jacobian** - Sequence space Jacobian methods (Step 4)
 
 ### Installation
+
 ```bash
 # Using UV (recommended)
 cd ../..  # Return to repository root
@@ -205,6 +245,7 @@ conda activate HAFiscal
 
 ### Figures
 Generated figures are saved in `FromPandemicCode/Figures/` organized by parametrization:
+
 - **Figure 1**: `../../Figures/liquwealthdistribution.pdf`
 - **Figure 2**: `Figures/CRRA2/LPbyType.pdf` (lifecycle profiles)
 - **Figure 3**: `Figures/CRRA2/IMPC_*.pdf` (impulse responses)
@@ -214,6 +255,7 @@ Generated figures are saved in `FromPandemicCode/Figures/` organized by parametr
 
 ### Tables
 Generated LaTeX tables are saved in `FromPandemicCode/Tables/` organized by parametrization:
+
 - **Table 1**: Created by `Target_AggMPCX_LiquWealth/Estimation_BetaNablaSplurge.py:680`
 - **Table 6**: `Tables/CRRA2/Multiplier.tex` (fiscal multipliers)
 - **Table 7**: `Tables/CRRA2/welfare6.tex` (welfare comparisons)
@@ -221,6 +263,7 @@ Generated LaTeX tables are saved in `FromPandemicCode/Tables/` organized by para
 
 ### Results Files
 Numerical results are written to text files in `Results/`:
+
 - **AllResults_CRRA_2.0_R_1.01.txt**: Main estimation results (created by `EstimAggFiscalMAIN.py:1105,1111`)
 - Values from these files are manually transcribed into paper tables
 
@@ -230,7 +273,7 @@ Based on reference hardware (8-core CPU, 16GB RAM, NVMe SSD):
 
 | Task | Script | Runtime |
 |------|--------|---------|
-| **Complete Pipeline** | `do_all.py` | 3-4 days |
+| **Complete Pipeline** | `do_all.py` | 4-5 days |
 | **Minimal Validation** | `reproduce_min.py` | ~1 hour |
 | Step 1 | `Estimation_BetaNablaSplurge.py` | ~20 min |
 | Step 2 | `EstimAggFiscalMAIN.py` | ~21 hours |
@@ -244,12 +287,14 @@ Actual runtimes vary significantly based on hardware. See `../../reproduce/bench
 
 ### Liquid Wealth Calculation
 Liquid wealth excludes the "splurge" portion of assets:
+
 ```python
 liquid_wealth = (1 - ThisType.Splurge) * ThisType.state_now["aLvl"]
 ```
 
 ### Agent Type Organization
 Agent types are organized in arrays:
+
 ```python
 # For each education group, multiple discount factors
 num_agents = num_education_types * DiscFacCount
@@ -258,6 +303,7 @@ num_agents = num_education_types * DiscFacCount
 
 ### Path Handling
 Scripts detect their execution context and adjust paths:
+
 ```python
 if os.path.basename(os.getcwd()) == "FromPandemicCode":
     # Running from within FromPandemicCode/
@@ -273,6 +319,7 @@ Optimization routines use fixed random seeds for reproducibility, but small envi
 ## Troubleshooting
 
 ### Import Errors
+
 ```bash
 # Make sure econ-ark is installed
 pip install econ-ark --upgrade
@@ -283,6 +330,7 @@ uv sync
 ```
 
 ### Memory Issues
+
 ```bash
 # Reduce number of simulated agents in EstimParameters.py
 AgentCount = 5000  # Default: 10000
@@ -291,6 +339,7 @@ AgentCount = 5000  # Default: 10000
 ```
 
 ### Long Run Times
+
 ```bash
 # Use reduced version for faster testing
 python AggFiscalMAIN_reduced.py
@@ -300,6 +349,7 @@ python reproduce_min.py
 ```
 
 ### Missing Output Files
+
 ```bash
 # Make sure you've run prior steps
 python do_all.py  # Runs all steps in order
@@ -322,8 +372,8 @@ python AggFiscalMAIN.py
 ## References
 
 - **Paper**: Carroll, Crawley, Du, Frankovic, Tretvoll (2025). "Welfare and Spending Effects of Consumption Stimulus Policies"
-- **HARK Documentation**: https://hark.readthedocs.io/
-- **Econ-ARK**: https://econ-ark.org/
+- **HARK Documentation**: <https://hark.readthedocs.io/>
+- **Econ-ARK**: <https://econ-ark.org/>
 
 ---
 

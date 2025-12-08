@@ -6,17 +6,20 @@
 ## What We've Accomplished
 
 ### 1. Created Directory Structure ✅
+
 - Created `@local/texlive/texmf-local/tex/latex/`
 - Added 37 packages from tlmgr user installation
 - Updated `@resources/tex-add-search-paths.tex` to include this path
 
 ### 2. Configured TEXMFHOME ✅
+
 - Set `TEXMFHOME=/workspaces/HAFiscal-Latest/@local/texlive/texmf-local`
 - This makes LaTeX automatically find packages in `@local/`
 - Verified with `kpsewhich changepage.sty` ✅ WORKS
 
 ### 3. Documentation ✅
-- Created `@local/texlive/README.md` 
+
+- Created `@local/texlive/README.md`
 - Lists all 37 packages included
 - Explains purpose and usage
 
@@ -25,10 +28,12 @@
 **Problem**: Some packages have files in multiple TEXMF directories
 
 Example: `tracklang` package
+
 - Has `tracklang.sty` in `tex/latex/tracklang/` ✅
 - Also needs `tracklang.tex` in `tex/generic/tracklang/` ❌ MISSING
 
 We copied only `tex/latex/` but packages also use:
+
 - `tex/generic/` - Generic TeX files
 - `tex/plain/` - Plain TeX files  
 - `tex/context/` - ConTeXt files
@@ -37,6 +42,7 @@ We copied only `tex/latex/` but packages also use:
 
 ### Option A: Copy Complete TEXMF Tree
 Instead of just `tex/latex/`, copy entire structure:
+
 ```
 @local/texlive/texmf-local/
 ├── tex/
@@ -52,6 +58,7 @@ Instead of just `tex/latex/`, copy entire structure:
 
 ### Option B: Install texlive-latex-extra  
 Just use the Debian package:
+
 ```bash
 sudo apt-get install texlive-latex-extra
 ```
@@ -61,6 +68,7 @@ sudo apt-get install texlive-latex-extra
 
 ### Option C: Hybrid - Base + Essential Extras
 Install only critical missing distributions:
+
 ```bash
 sudo apt-get install \
   texlive-latex-extra \      # Has changepage, cancel, etc.
@@ -73,11 +81,13 @@ sudo apt-get install \
 ## Recommendation
 
 For **immediate use**: Option B (texlive-latex-extra)
+
 - Simple, reliable
 - One-time ~5 min install in container
 - Container image size doesn't matter much with Docker layer caching
 
 For **optimal solution**: Option A (Complete TEXMF tree)
+
 - Need to copy from a full tlmgr installation:
   - `tex/latex/` ✅ Already have
   - `tex/generic/` ❌ Need to add
@@ -101,12 +111,14 @@ For **optimal solution**: Option A (Complete TEXMF tree)
 ## Next Steps
 
 **Quick Fix** (5 minutes):
+
 ```bash
-# In .devcontainer/setup.sh, add:
+# In reproduce/docker/setup.sh, add:
 sudo apt-get install -y texlive-latex-extra
 ```
 
 **Complete Fix** (requires investigation):
+
 1. Get full tlmgr package lists
 2. Download complete CTAN packages
 3. Extract to proper TEXMF structure
@@ -116,7 +128,7 @@ sudo apt-get install -y texlive-latex-extra
 ## Files Modified
 
 - `@resources/tex-add-search-paths.tex` - Added @local paths
-- `.devcontainer/setup.sh` - Added TEXMFHOME configuration
+- `reproduce/docker/setup.sh` - Added TEXMFHOME configuration
 - `@local/texlive/texmf-local/tex/latex/` - 37 packages (partial)
 - `@local/texlive/README.md` - Documentation
 

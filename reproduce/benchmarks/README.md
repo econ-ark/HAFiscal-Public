@@ -5,6 +5,7 @@ This directory contains benchmark data for reproduction runs, following industry
 ## Purpose
 
 Track and document the time required to reproduce HAFiscal results across different:
+
 - Hardware configurations (CPU, RAM, storage)
 - Operating systems (macOS, Linux, Windows/WSL2)
 - Reproduction modes (`--docs`, `--comp min`, `--comp full`)
@@ -188,9 +189,10 @@ git commit -m "Add benchmark: comp-min on M1 Max"
 |-------------------|-------------------|-------------------|
 | `--docs` | High-end 2025 laptop | 5-10 minutes |
 | `--comp min` | High-end 2025 laptop | ~1 hour |
-| `--comp full` | High-end 2025 laptop | 3-4 days on a high-end 2025 laptop |
+| `--comp full` | High-end 2025 laptop | 4-5 days on a high-end 2025 laptop |
 
-**Reference Hardware**: 
+**Reference Hardware**:
+
 - CPU: 8+ cores, 3.0+ GHz
 - RAM: 32 GB
 - Storage: NVMe SSD
@@ -238,6 +240,7 @@ For automated benchmarking in CI:
 ## Questions or Issues?
 
 For questions about benchmarking:
+
 - See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - Open an issue with label `benchmarking`
 - Contact maintainers
@@ -246,6 +249,3 @@ For questions about benchmarking:
 
 **Last Updated**: 2025-10-24  
 **Benchmark Format Version**: 1.0.0
-
-
-

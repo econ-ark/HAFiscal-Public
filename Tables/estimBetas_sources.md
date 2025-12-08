@@ -28,6 +28,7 @@
 | College    | (0.983, 0.014) | Line 24 |
 
 The discount factor for each agent type is drawn from a uniform distribution:
+
 ```
 DiscFac ~ Uniform(β - ∇, β + ∇)
 ```
@@ -75,6 +76,7 @@ The model is estimated to match these median wealth-to-income ratios exactly.
 ### What is Estimated
 
 For each education group, the estimation finds (β_e, ∇_e) that minimize:
+
 ```python
 distance = ||median_LW_PI_model - median_LW_PI_data||
 ```
@@ -84,6 +86,7 @@ distance = ||median_LW_PI_model - median_LW_PI_data||
 **File**: `Code/HA-Models/FromPandemicCode/EstimAggFiscalMAIN.py`
 
 **Method**: Simulated Method of Moments (SMM)
+
 - Simulates heterogeneous agent economy
 - Computes median liquid wealth / permanent income ratio
 - Uses optimization to find (β, ∇) that match empirical targets
@@ -101,6 +104,7 @@ The estimation also uses information from consumption drops upon UI expiration (
 - **College**: High β (0.983) and low ∇ (0.014) → Very patient, low heterogeneity
 
 This reflects that:
+
 1. Higher education correlates with greater patience
 2. Higher education groups have more homogeneous time preferences
 3. Lower education groups include both very impatient and moderately patient households
@@ -112,6 +116,7 @@ This reflects that:
 ## To Regenerate
 
 ### Step 1: Run Estimation
+
 ```bash
 cd Code/HA-Models/FromPandemicCode
 python EstimAggFiscalMAIN.py
@@ -121,6 +126,7 @@ This generates `Results/AllResults_CRRA_2.0_R_1.01.txt`
 
 ### Step 2: Extract Values
 Open `Results/AllResults_CRRA_2.0_R_1.01.txt` and extract:
+
 - Lines 4, 10 (dropout β, ∇, and min/max)
 - Lines 14, 20 (highschool β, ∇, and min/max)  
 - Lines 24, 30 (college β, ∇, and min/max)
@@ -135,6 +141,7 @@ Manually update `Tables/estimBetas.tex` with the new values.
 **Better**: Generate this table programmatically
 
 **Suggested implementation**:
+
 ```python
 # In EstimAggFiscalMAIN.py or a post-processing script
 def write_estimBetas_table(results_dict, output_path):
@@ -155,6 +162,5 @@ def write_estimBetas_table(results_dict, output_path):
 
 ## References
 
-- SCF 2004: Survey of Consumer Finances, Federal Reserve Board (https://www.federalreserve.gov/econres/scf_2004.htm)
+- SCF 2004: Survey of Consumer Finances, Federal Reserve Board (<https://www.federalreserve.gov/econres/scf_2004.htm>)
 - Liquid wealth definition excludes illiquid assets (housing, retirement accounts) and the "splurge" portion of liquid assets
-

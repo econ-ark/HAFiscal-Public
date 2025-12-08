@@ -13,9 +13,9 @@ For detailed documentation on the SCF 2004 data used in this replication package
 **[SCF Data Appendix](reproduce/reproduce_data_moments/SCF-data-appendix.md)**
 
 This document provides comprehensive information for the QE Data Editor on:
+
 - Data files used (Summary Extract Data only - `rscfp2004.dta`)
 - Data provenance and sources
 - Inflation adjustment procedures (2013 dollars vs 2022 dollars)
 - Verification and comparison workflows
 - Commands to reproduce data processing
-

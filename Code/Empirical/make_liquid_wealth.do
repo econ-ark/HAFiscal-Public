@@ -1,7 +1,10 @@
 // File to construct liquid wealth from 2004 SCF dataset 
 
 clear 
-cd C:/Github/HAFiscal-Latest/Code/Empirical // Point to directory containing this file and data files
+// Use relative path - script should be run from repo root (Code/Empirical/)
+// For Windows with hardcoded path, use: cd C:/Github/{{REPO_NAME}}/Code/Empirical
+// For cross-platform: cd Code/Empirical (from repo root)
+cd Code/Empirical // Point to directory containing this file and data files
 
 // First: Create the file ccbal_answer if it does not exist 
 // Assumption: The file p04i6.dta exists in this directory.

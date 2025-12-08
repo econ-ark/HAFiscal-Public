@@ -105,16 +105,16 @@
 
 \newcommand{\tranShkEmp}{\theta}     % ind
 \newcommand{\TranShkEmp}{\Theta}     % agg
-\newcommand{\tranShkEmpMin}{\Min{\tranShkEmp}}    
-\newcommand{\tranShkEmpMax}{\Max{\tranShkEmp}}    
+\newcommand{\tranShkEmpMin}{\Min{\tranShkEmp}}
+\newcommand{\tranShkEmpMax}{\Max{\tranShkEmp}}
 \newcommand{\IncUnemp}{\mu}  % Income in unemployment
 
-\newcommand{\TranShkAgg}{\Theta}   % 
-\newcommand{\PermShkAgg}{\Psi}  % 
+\newcommand{\TranShkAgg}{\Theta}   %
+\newcommand{\PermShkAgg}{\Psi}  %
 
 \newcommand{\std}{\sigma}
-\newcommand{\tranShkIndStd}{\std_{\tranShkInd}}     % 
-\newcommand{\tranShkIndVar}{\std^{2}_{\tranShkInd}} % 
+\newcommand{\tranShkIndStd}{\std_{\tranShkInd}}     %
+\newcommand{\tranShkIndVar}{\std^{2}_{\tranShkInd}} %
 \newcommand{\TranShkAggStd}{\std_{\TranShkAgg}}     %
 \newcommand{\TranShkAggVar}{\std^{2}_{\TranShkAgg}} %
 
@@ -122,14 +122,14 @@
 \newcommand{\PermShkAllStd}{\std_{\PermShkAll}}
 \newcommand{\PermShkAllVar}{\std^{2}_{\PermShkAll}}
 
-\newcommand{\PermLvlAgg}{\pmb{P}}}      % 
-\newcommand{\permLvlInd}{\pmb{p}}}      % 
-\newcommand{\permLvl}{\permLvlInd}      % 
-\newcommand{\PermLvl}{\PermLvlAgg}      % 
+\newcommand{\PermLvlAgg}{\pmb{P}}}      %
+\newcommand{\permLvlInd}{\pmb{p}}}      %
+\newcommand{\permLvl}{\permLvlInd}      %
+\newcommand{\PermLvl}{\PermLvlAgg}      %
 \newcommand{\PermLvlAll}{\mathfrak{P}}
 
-\newcommand{\tranShkAll}{\pmb{\xi}} 
-\newcommand{\TranShkAll}{\pmb{\Xi}}  % doesn't make sense ; \tranShkAll already includes 
+\newcommand{\tranShkAll}{\pmb{\xi}}
+\newcommand{\TranShkAll}{\pmb{\Xi}}  % doesn't make sense ; \tranShkAll already includes
 \newcommand{\tranShkAllStd}{\std_{\tranShkAll}}
 \newcommand{\tranShkAllVar}{\std^{2}_{\tranShkAll}}
 
@@ -155,7 +155,7 @@
 \newcommand{\DiePrb}{\mathsf{D}} % Discrete-time one-period death rate
 
 \newcommand{\DeprFac}{\daleth}
-\newcommand{\deprRte}{\delta}  % 
+\newcommand{\deprRte}{\delta}  %
 \newcommand{\DiscFac}{\beta}
 \newcommand{\DiscFacAlt}{\beth}
 \newcommand{\DiscAlt}{}\renewcommand{\DiscAlt}{\beth}
@@ -163,7 +163,7 @@
 \newcommand{\DiscFacRaw}{\beta}
 \newcommand{\DiscFacLiv}{\Min{\DiscFacRaw}}
 \newcommand{\DiscRte}{\nu} % vartheta is too easily confused with theta
-\newcommand{\discRte}{\nu} % 
+\newcommand{\discRte}{\nu} %
 
 \newcommand{\APFac}{\text{\pmb{\Thorn}}} % Former \Pat
 \newcommand{\APFacDefn}{\hyperlink{APFacDefn}{\textrm{APF}}}
@@ -199,7 +199,7 @@
 \newcommand{\pZero}{\wp}
 
 \newcommand{\rfree}{\mathsf{r}}   % The net return rate on the safe asset
-\newcommand{\Rfree}{\mathsf{R}}   % The return factor on the safe asset 
+\newcommand{\Rfree}{\mathsf{R}}   % The return factor on the safe asset
 \newcommand{\RSave}{\Min{\Rfree}}
 \newcommand{\rsave}{\Min{\rfree}}
 \newcommand{\RBoro}{\bar{\Rfree}}
@@ -221,12 +221,12 @@
 \newcommand{\Kap}{K}
 \newcommand{\kap}{k}
 
-\newcommand{\leiShare}{\zeta} % 
+\newcommand{\leiShare}{\zeta} %
 
 \newcommand{\MPSmin}{\pZero^{1/\CRRA} \RPFac}
 \newcommand{\MPSmax}{\RPFac}
 
-\newcommand{\PDV}{\mathbb{P}} % 
+\newcommand{\PDV}{\mathbb{P}} %
 \newcommand{\Wage}{\mathsf{W}
 \newcommand{\wage}{\mathsf{w}
 
@@ -251,8 +251,8 @@
 \newcommand{\uFuncInv}{\rotatebox{180}{$\uFunc$}}
 \newcommand{\muFuncInv}{\rotatebox{180}{$\uFunc$}}
 
-\newcommand{\HARKdocs}{\href{https://docs.econ-ark.org}{documentation}}
-\newcommand{\HARKrepo}{\texttt{\href{https://github.com/econ-ark/HARK}{HARK}}}
+\newcommand{\HARKdocs}{\href{<https://docs.econ-ark.org}{documentation}}>
+\newcommand{\HARKrepo}{\texttt{\href{<https://github.com/econ-ark/HARK}{HARK}}}>
 
 \newcommand{\Rnorm}{\mathcal{R}}    % Normalized version of riskless return factor
 \newcommand{\rnorm}{\mathit{r}}    % Normalized version of riskless rate of return
@@ -270,29 +270,22 @@
 
 \newcommand{\Nrml}{}\renewcommand{\Nrml}{\mathcal{N}}
 
-
-\newcommand{\TargetNrm}{\hat}   % Target 
+\newcommand{\TargetNrm}{\hat}   % Target
 \newcommand{\mTrgNrm}{\TargetNrm{\mNrm}} % m where E[m_{t+1}]=m_{t}
 
-
 \newcommand{\cFuncAbove}{}
-\renewcommand{\cFuncAbove}{\Max{\cFunc}} 
+\renewcommand{\cFuncAbove}{\Max{\cFunc}}
 \newcommand{\cFuncBelow}{}
-\renewcommand{\cFuncBelow}{\Min{\cFunc}} 
-
+\renewcommand{\cFuncBelow}{\Min{\cFunc}}
 
 \newcommand{\chiFunc}{\pmb{\chi}}
 \newcommand{\Chi}{\mathrm{X}} % capital chi is sometimes useful, and not native to LaTeX
-
-
-
 
 \newcommand{\PopGroFac}{}
 \renewcommand{\PopGroFac}{\Xi}
 
 \newcommand{\popGroRte}{}
 \renewcommand{\popGroRte}{\xi}
-
 
 \newcommand{\PtyGroFac}{}
 \renewcommand{\PtyGroFac}{\mathscr{G}}
@@ -306,10 +299,8 @@
 \newcommand{\ptyGroRte}{}
 \renewcommand{\ptyGroRte}{g}
 
-
 \newcommand{\Reals}{}
 \renewcommand{\Reals}{\mathbb{R}}
-
 
 \newcommand{\TMap}{}
 \renewcommand{\TMap}{\mathbb{T}}                  % Bellman operator for normalized problem
@@ -319,8 +310,6 @@
 \renewcommand\cncl[1]{\
 \newcomm}}
 
-
-
 \newcommand{\cnstr}[1]{\grave{#1}} %% Constrained
 \newcommand{\avg}{\bar}
 \newcommand{\Max}{\overline}
@@ -329,11 +318,10 @@
 \newcommand{\Opt}{}\renewcommand{\Opt}{\breve}
 \newcommand{\Lvl}{\boldsymbol}
 
-
 \newcommand{\nxt}{\texttt{next}}
 \newcommand{\lst}{\texttt{last}}
 
-\newcommand{\RNrm}{\cancel{\mathbf{R}}} 
+\newcommand{\RNrm}{\cancel{\mathbf{R}}}
 \newcommand{\RNrmByG}{\mathscr{R}}
 \newcommand{\RNrmByGRnd}{\Rnd{\mathscr{R}}}
 
@@ -361,8 +349,8 @@
 \newcommand{\zFunc}{\mathrm{z}}
 
 \newcommand{\vFuncLvl}{\mathbf{v}}
-\newcommand{\cFuncLvl}{}  % in case already defined 
-\renewcommand{\cFuncLvl}{\boldsymbol{\mathrm{c}}}   % consumption function 
+\newcommand{\cFuncLvl}{}  % in case already defined
+\renewcommand{\cFuncLvl}{\boldsymbol{\mathrm{c}}}   % consumption function
 \renewcommand{\vFuncLvl}{\boldsymbol{\mathrm{v}}}   % value function
 
 \newcommand{\AFunc}{\mathrm{A}}
@@ -394,10 +382,9 @@
 
 \newcommand{\cov}{}\renewcommand{\cov}{\textup{cov}}
 
-
 \newcommand{\CDF}{\mathcal{F}}
 
-\newcommand{\ARKurl}{\href{https://econ-ark.org}{Econ-ARK}}
-\newcommand{\REMARK}{\href{https://github.com/econ-ark/REMARK}{REMARK}}
+\newcommand{\ARKurl}{\href{<https://econ-ark.org}{Econ-ARK}}>
+\newcommand{\REMARK}{\href{<https://github.com/econ-ark/REMARK}{REMARK}}>
 
 {% endraw %}

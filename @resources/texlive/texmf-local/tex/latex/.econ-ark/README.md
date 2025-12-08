@@ -20,11 +20,13 @@ This directory contains the **single source of truth** for all mathematical nota
 ## Quick Start
 
 ### Generate macro files:
+
 ```bash
 python .econ-ark/generate-macros.py
 ```
 
 ### Check if files are up-to-date:
+
 ```bash
 python .econ-ark/generate-macros.py --check
 ```
@@ -33,6 +35,7 @@ python .econ-ark/generate-macros.py --check
 
 ### LaTeX Files
 Add to your preamble:
+
 ```latex
 \usepackage{econark-shortcuts}
 
@@ -48,6 +51,7 @@ MyST supports importing external configuration files, avoiding the need to copy 
 
 #### Option 1: Global MyST Project (Recommended)
 Add to your `myst.yml`:
+
 ```yaml
 version: 1
 site: ...
@@ -58,6 +62,7 @@ extends:
 
 #### Option 2: Individual File Import
 Add to specific `.md` files when you need file-specific overrides:
+
 ```yaml
 ---
 extends:
@@ -69,6 +74,7 @@ math:
 
 #### Option 3: Jupyter Book Global Config
 Copy the `math:` section from `generated/jupyter-book-config.yaml` into your `_config.yml`:
+
 ```yaml
 # In _config.yml
 math:
@@ -82,6 +88,7 @@ See `generated/myst-frontmatter.yaml` for import instructions instead of copying
 
 #### Option 5: Sphinx
 Add configuration from `generated/sphinx-config.py` to your `conf.py`:
+
 ```python
 myst_substitutions = {
     '\PermGroFac': '\mathcal{G}',
@@ -91,6 +98,7 @@ myst_substitutions = {
 ```
 
 Then use in your `.md` files:
+
 ```markdown
 The growth factor $\PermGroFac$ determines consumption $\cLvl$.
 ```
@@ -112,6 +120,7 @@ extends:
 ```
 
 Now **all MyST files** automatically inherit macros regardless of directory depth:
+
 ```
 repo-root/
 ├── myst.yml                    # ← extends here
@@ -122,6 +131,7 @@ repo-root/
 
 ### **Alternative: Remote URL**
 Reference directly from your repository:
+
 ```yaml
 ---
 extends:
@@ -141,6 +151,7 @@ For individual file extends, calculate the relative path:
 
 ### **Alternative: Symlinks**
 Create symlinks in common directories:
+
 ```bash
 # Create symlinks for easier access
 ln -s ../../.econ-ark/generated/econark-macros.yml papers/econark-macros.yml
@@ -156,6 +167,7 @@ Then use: `extends: [econark-macros.yml]`
 3. **Commit both** - The source YAML and generated files
 
 ### Individual Variables
+
 ```yaml
 variables:
   MyNewVar:
@@ -165,6 +177,7 @@ variables:
 ```
 
 ### Pattern-Based Variables  
+
 ```yaml
 patterns:
   - name: "Special functions"
@@ -180,17 +193,19 @@ This generates: `\aSpecial`, `\bSpecial`, `\cSpecial`
 ## Build Integration
 
 ### Make Integration
+
 ```make
 # In your Makefile
 .econ-ark/generated/econark-shortcuts.sty: .econ-ark/macros.yaml
-	python .econ-ark/generate-macros.py
+ python .econ-ark/generate-macros.py
 
 # Add as dependency to your targets
 paper.pdf: paper.tex .econ-ark/generated/econark-shortcuts.sty
-	pdflatex paper.tex
+ pdflatex paper.tex
 ```
 
 ### CI/CD Integration
+
 ```yaml
 # In your GitHub Actions workflow
 - name: Generate macros
@@ -225,6 +240,7 @@ paper.pdf: paper.tex .econ-ark/generated/econark-shortcuts.sty
 
 ### LaTeX can't find package
 Ensure your LaTeX files can find the generated `.sty` file:
+
 ```latex
 % Option 1: Relative path
 \usepackage{.econ-ark/generated/econark-shortcuts}
@@ -235,11 +251,13 @@ Ensure your LaTeX files can find the generated `.sty` file:
 ```
 
 ### MyST macros not working
+
 1. Check your `_config.yml` includes the math section
 2. Verify MyST extensions are enabled
 3. Ensure single quotes around macro definitions
 
 ### Generator errors
+
 ```bash
 # Check YAML syntax
 python -c "import yaml; yaml.safe_load(open('.econ-ark/macros.yaml'))"
@@ -251,4 +269,4 @@ python .econ-ark/generate-macros.py -v
 ---
 
 **Maintainer:** econ-ark.org  
-**Last Updated:** Auto-generated from macros.yaml 
+**Last Updated:** Auto-generated from macros.yaml

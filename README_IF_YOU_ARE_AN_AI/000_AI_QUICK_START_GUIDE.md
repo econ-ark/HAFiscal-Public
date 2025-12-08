@@ -31,7 +31,8 @@ This repository contains a complete research replication package with organized 
 **Research Question**: Which fiscal stimulus policy is most effective during recessions?
 
 **Three Policies Analyzed**:
-1. **Unemployment Insurance (UI) Extensions** 
+
+1. **Unemployment Insurance (UI) Extensions**
 2. **Stimulus Checks (Direct Payments)**
 3. **Temporary Tax Cuts (Payroll Tax Reduction)**
 
@@ -42,6 +43,7 @@ This repository contains a complete research replication package with organized 
 ## AI Interaction Workflows
 
 ### 🎯 **Quick Validation** (AI Testing Repository)
+
 ```bash
 # Test basic environment
 python -c "import numpy, pandas, matplotlib; print('Environment OK')"
@@ -54,6 +56,7 @@ python -c "import numpy, pandas, matplotlib; print('Environment OK')"
 ```
 
 ### 🔍 **Research Exploration** (AI Understanding Content)
+
 ```bash
 # Interactive exploration
 jupyter lab *.ipynb
@@ -64,8 +67,9 @@ python do_all.py  # (Configure flags for specific steps)
 ```
 
 ### 🚀 **Full Replication** (AI Reproducing Results)
+
 ```bash
-# Complete reproduction (3-4 days on a high-end 2025 laptop compute time)
+# Complete reproduction (4-5 days on a high-end 2025 laptop compute time)
 ./reproduce.sh --all
 
 # Verify key outputs
@@ -75,13 +79,15 @@ ls -la Figures/ Tables/ Code/HA-Models/Results/
 ## Critical AI Guidelines
 
 ### ✅ **Do This**
+
 - **Start with `./reproduce.sh`** - it handles all complexity
 - **Use the tiered reproduction system** (docs → min → core → all)
 - **Check environment setup first** before attempting computation
 - **Read existing AI docs** in this directory for specific topics
 
 ### ❌ **Avoid This**
-- **Don't assume immediate execution** - full computational results take 3-4 days on a high-end 2025 laptop
+
+- **Don't assume immediate execution** - full computational results take 4-5 days on a high-end 2025 laptop
 - **Don't ignore dependency management** - use provided environment files
 - **Don't skip validation steps** - verify outputs match expected results
 - **Don't modify core computational scripts** without understanding dependencies
@@ -89,6 +95,7 @@ ls -la Figures/ Tables/ Code/HA-Models/Results/
 ## AI-Specific Features
 
 ### 🔧 **Automated Reproduction**
+
 ```bash
 # Non-interactive mode for AI systems
 REPRODUCE_TARGETS=docs ./reproduce.sh
@@ -97,12 +104,14 @@ echo | REPRODUCE_TARGETS=all ./reproduce.sh
 ```
 
 ### 📊 **Programmatic Data Access**
+
 - **Computational Results**: `Code/HA-Models/Results/`
 - **Figure Data**: `Figures/` (both LaTeX and data files)
 - **Table Data**: `Tables/` (LaTeX format with data sources)
 - **Empirical Data**: `Code/Empirical/` (Stata .dta files)
 
 ### 🤖 **AI-Friendly Outputs**
+
 - **Structured logs**: All scripts provide detailed progress information
 - **Validation checksums**: Expected file sizes and output verification
 - **Error reporting**: Clear error messages with suggested solutions
@@ -118,6 +127,7 @@ echo | REPRODUCE_TARGETS=all ./reproduce.sh
 ## Repository Philosophy for AI
 
 This repository embodies **computational reproducibility** principles:
+
 - **Portability**: Works across different computing environments
 - **Transparency**: All steps documented and automated
 - **Verification**: Multiple validation layers ensure correctness
@@ -126,6 +136,7 @@ This repository embodies **computational reproducibility** principles:
 ## Emergency AI Support
 
 If you encounter issues:
+
 1. **Check** `080_TROUBLESHOOTING_FOR_AI_SYSTEMS.md`
 2. **Verify environment** using provided test commands
 3. **Use dry-run mode** (`--dry-run` flag) to see commands without execution
@@ -133,4 +144,4 @@ If you encounter issues:
 
 ---
 
-**🎯 Ready to Start?** Run `./reproduce.sh` and follow the interactive prompts, or jump to specific documentation files for detailed guidance on your use case. 
+**🎯 Ready to Start?** Run `./reproduce.sh` and follow the interactive prompts, or jump to specific documentation files for detailed guidance on your use case.

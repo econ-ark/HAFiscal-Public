@@ -39,6 +39,7 @@ Subject to the budget constraint:
 $$\aLvl_{t+1} = \Rfree(\aLvl_t + \yLvl_t - \cLvl_t)$$
 
 Where:
+
 - $\DiscFac$ is the discount factor (imported from root config)
 - $\cLvl_t$ is consumption at time $t$ (imported from root config)  
 - $\aLvl_t$ is assets (imported from root config)
@@ -79,4 +80,4 @@ This demonstrates the power of your single-source macro system:
 4. **Format consistency**: Same macros work in LaTeX and MyST
 5. **Zero maintenance**: Deep files require no path management
 
-**The macro system just works, everywhere! 🚀** 
+**The macro system just works, everywhere! 🚀**

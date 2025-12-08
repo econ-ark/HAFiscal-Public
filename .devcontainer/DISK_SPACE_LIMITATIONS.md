@@ -36,6 +36,7 @@ Docker containers by default have limited disk space allocation. The LaTeX packa
 ## Current DevContainer Status
 
 **✅ WORKS FOR:**
+
 - Python environment (UV + all dependencies)
 - Basic development
 - Code editing with full IDE support
@@ -43,6 +44,7 @@ Docker containers by default have limited disk space allocation. The LaTeX packa
 - Minimal LaTeX (if needed for testing specific features)
 
 **❌ DOES NOT WORK FOR:**
+
 - Full `./reproduce.sh --docs all` (LaTeX too large)
 - Complete document reproduction in container
 
@@ -51,6 +53,7 @@ Docker containers by default have limited disk space allocation. The LaTeX packa
 ## Recommended Workflows
 
 ### Workflow 1: Host Machine (RECOMMENDED for full reproduction)
+
 ```bash
 # On your Mac/Linux/WSL2 host:
 cd HAFiscal-Latest
@@ -73,6 +76,7 @@ uv sync --all-groups
 **Cons**: Requires local setup
 
 ### Workflow 2: Devcontainer for Development Only
+
 ```bash
 # Use devcontainer for:
 - Python development
@@ -88,6 +92,7 @@ uv sync --all-groups
 **Cons**: Need to switch between container and host
 
 ### Workflow 3: GitHub Actions CI
+
 ```bash
 # Push to GitHub
 git push
@@ -106,6 +111,7 @@ git push
 If you want to make the devcontainer work, you need to increase Docker's disk allocation:
 
 ### Option A: Docker Desktop Settings
+
 1. Open Docker Desktop
 2. Settings → Resources → Advanced
 3. Increase "Virtual disk limit" to 100GB+
@@ -113,6 +119,7 @@ If you want to make the devcontainer work, you need to increase Docker's disk al
 5. Rebuild devcontainer
 
 ### Option B: Docker CLI (Linux)
+
 ```bash
 # Increase devicemapper/overlay2 space
 docker system prune -a
@@ -121,6 +128,7 @@ docker system prune -a
 
 ### Option C: Use Docker Volume
 Mount a host directory with more space for apt cache:
+
 ```json
 "mounts": [
   "source=/tmp/apt-cache,target=/var/cache/apt/archives,type=bind"
@@ -139,13 +147,15 @@ Mount a host directory with more space for apt cache:
 ❌ Full LaTeX installation hits disk limits  
 
 ### What Works
+
 - Container starts correctly
 - UV + Python environment perfect
 - Code development fully functional
 - Python scripts run fine
--  Minimal LaTeX (base + recommended) MIGHT work with tweaks
+- Minimal LaTeX (base + recommended) MIGHT work with tweaks
 
 ### What Doesn't Work
+
 - Installing texlive-latex-extra (adds ~2GB)
 - Installing texlive-fonts-extra (adds ~1GB)
 - Installing texlive-science (adds ~500MB)
@@ -156,11 +166,13 @@ Mount a host directory with more space for apt cache:
 ## Recommendations for Project
 
 ### Short Term
+
 1. **Document this limitation** in README ✅ (this file)
 2. **Keep devcontainer for Python development** ✅  
 3. **Use host machine for document compilation** ✅
 
 ### Long Term Options
+
 1. **Create minimal LaTeX devcontainer** - just enough for main paper (not all docs)
 2. **Create separate "docs" devcontainer** - LaTeX-only, no Python
 3. **Pre-built Docker image** - With LaTeX pre-installed, hosted on Docker Hub
@@ -172,11 +184,13 @@ Mount a host directory with more space for apt cache:
 ## For Users
 
 **If you want to use the devcontainer:**
+
 - It's perfect for Python development
 - Use it for running computations
 - Compile documents on your host machine
 
 **If you want everything in one place:**
+
 - Use your host machine with local setup
 - Or use GitHub Codespaces (has more disk space)
 - Or increase Docker Desktop disk allocation
@@ -196,6 +210,7 @@ Mount a host directory with more space for apt cache:
 ## What We Delivered
 
 Despite disk space issues, we successfully:
+
 1. ✅ Migrated devcontainer to UV (Python 3.9)
 2. ✅ Fixed all Python path handling issues
 3. ✅ Created comprehensive documentation

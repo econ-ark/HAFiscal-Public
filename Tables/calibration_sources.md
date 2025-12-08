@@ -17,6 +17,7 @@ Only **one parameter** in the calibration table is computationally estimated:
      - Aggregate MPC from lottery winners (Fagereng et al. 2021)
      - Liquid wealth distribution from SCF 2004
    - **Used in main code**: Loaded in `EstimParameters.py` (lines 58-60)
+
    ```python
    f = open('../Target_AggMPCX_LiquWealth/Result_AllTarget.txt', 'r')
    dictload = eval(f.read())
@@ -30,85 +31,108 @@ All other parameters are **hardcoded** based on literature values or standard ca
 ## Panel A: Parameters Common to All Types
 
 ### 1. Risk Aversion (γ = 2.0)
+
 - **Location**: `EstimParameters.py` line 56
 - **Source**: Standard value in macroeconomic literature
+
 ```python
 CRRA = 2.0  # Coefficient of relative risk aversion
 ```
 
 ### 2. Survival Probability (1-D = 0.994)
+
 - **Location**: `EstimParameters.py` line 171
 - **Source**: Calibrated to 40-year working life (160 quarters)
 - **Calculation**: `1 - 1/160 = 0.99375 ≈ 0.994`
+
 ```python
 LivPrb_base = [1.0-1/160.0]  # 40 years (160 quarters) working life
 ```
 
 ### 3. Risk-Free Interest Rate (R = 1.01)
+
 - **Location**: `EstimParameters.py` line 168
 - **Source**: Standard quarterly interest rate
+
 ```python
 Rfree_base = [1.01]  # Baseline quarterly gross interest rate
 ```
 
 ### 4. Standard Deviation of Transitory Shock (σ_ξ = 0.346)
+
 - **Location**: `EstimParameters.py` line 165
 - **Source**: From "Sticky Expectations" paper
 - **Calculation**: `√0.12 ≈ 0.346`
+
 ```python
 TranShkStd = [np.sqrt(0.12)]  # Variances from Sticky expectations paper
 ```
 
 ### 5. Standard Deviation of Permanent Shock (σ_ψ = 0.0548)
+
 - **Location**: `EstimParameters.py` line 166
 - **Source**: From "Sticky Expectations" paper
 - **Calculation**: `√0.003 ≈ 0.0548`
+
 ```python
 PermShkStd = [np.sqrt(0.003)]  # Variances from Sticky expectations paper
 ```
 
 ### 6. Unemployment Benefits Replacement Rate (ρ_b = 0.7)
+
 - **Location**: `EstimParameters.py` line 77
 - **Source**: Standard UI replacement rate
+
 ```python
 IncUnemp = 0.7  # Unemployment benefits replacement rate (proportion of permanent income)
 ```
 
 ### 7. Unemployment Income Without Benefits (ρ_{nb} = 0.5)
+
 - **Location**: `EstimParameters.py` line 78
 - **Source**: Calibrated value for income when benefits expire
+
 ```python
 IncUnempNoBenefits = 0.5  # Unemployment income when benefits run out (proportion of permanent income)
 ```
 
 ### 8. Average Duration of Unemployment Benefits (2 quarters)
+
 - **Location**: `EstimParameters.py` line 53
 - **Source**: Standard normal-times UI duration
+
 ```python
 UBspell_normal = 2  # Average duration of unemployment benefits in normal times, in quarters
 ```
 
 ### 9. Average Duration of Unemployment Spell (1.5 quarters)
+
 - **Location**: `EstimParameters.py` line 52
 - **Source**: Standard unemployment duration
+
 ```python
 Uspell_normal = 1.5  # Average duration of unemployment spell in normal times, in quarters
 ```
 
 ### 10. Probability of Leaving Unemployment (π_{ue} = 0.667)
+
 - **Location**: Calculated from `Uspell_normal`
 - **Calculation**: `1/1.5 ≈ 0.667`
 - **Code reference**: Line 130
+
 ```python
 U_persist_normal = 1.-1./Uspell_normal  # Persistence = 1 - exit rate
 ```
 
 ### 11. Consumption Elasticity of Aggregate Demand (κ = 0.3)
+
 - **Location**: `EstimParameters.py` line 302
 - **Source**: Calibrated value
+
 ```python
 ADelasticity = 0.30  # Elasticity of productivity to consumption
 ```
+
 - **Also in**: `Parameters.py` line 36
 - **Usage**: `ADFunc = lambda C, RecState : C**(RecState*self.ADelasticity)` in `AggFiscalModel.py` line 706
 
@@ -117,6 +141,7 @@ ADelasticity = 0.30  # Elasticity of productivity to consumption
 ### Population Shares
 
 **Source**: SCF 2004 (line 22 of `EstimParameters.py`)
+
 ```python
 data_EducShares = [0.093, 0.527, 0.38]  # Dropout, HS, College
 ```
@@ -130,6 +155,7 @@ data_EducShares = [0.093, 0.527, 0.38]  # Dropout, HS, College
 ### Average Quarterly Permanent Income of "Newborn" Agent ($1000)
 
 **Source**: `EstimParameters.py` lines 85-87
+
 ```python
 pLvlInitMean_d = np.log(6.2)   # Dropout: $6,200/quarter
 pLvlInitMean_h = np.log(11.1)  # Highschool: $11,100/quarter  
@@ -145,6 +171,7 @@ pLvlInitMean_c = np.log(14.5)  # College: $14,500/quarter
 ### Standard Deviation of log(PI) of "Newborn" Agent
 
 **Source**: `EstimParameters.py` lines 88-90
+
 ```python
 pLvlInitStd_d  = 0.32  # Dropout
 pLvlInitStd_h  = 0.42  # Highschool
@@ -154,7 +181,9 @@ pLvlInitStd_c  = 0.53  # College
 ### Average Quarterly Gross Growth Factor for PI (Γ_e)
 
 **Source**: `EstimParameters.py` lines 156-159
+
 - **Original source**: "Pandemic paper" - average growth rates during working life
+
 ```python
 PermGroFac_base_d = [1.0 + 0.01421/4]  # = 1.0036
 PermGroFac_base_h = [1.0 + 0.01812/4]  # = 1.0045
@@ -170,8 +199,10 @@ PermGroFac_base_c = [1.0 + 0.01958/4]  # = 1.0049
 ### Unemployment Rate in Normal Times (%)
 
 **Source**: `EstimParameters.py` lines 48-50
-- **Data source**: Statista (https://www.statista.com/statistics/232942/unemployment-rate-by-level-of-education-in-the-us/)
+
+- **Data source**: Statista (<https://www.statista.com/statistics/232942/unemployment-rate-by-level-of-education-in-the-us/>)
 - **Year**: 2004
+
 ```python
 Urate_normal_d = 0.085  # Dropout: 8.5%
 Urate_normal_h = 0.044  # Highschool: 4.4%
@@ -181,8 +212,10 @@ Urate_normal_c = 0.027  # College: 2.7%
 ### Probability of Entering Unemployment (π_{eu}^e, %)
 
 **Source**: Calculated from unemployment rate and spell duration
+
 - **Location**: `EstimParameters.py` lines 129-131
-- **Formula**: 
+- **Formula**:
+
 ```python
 U_persist_normal = 1.-1./Uspell_normal  # = 1 - 1/1.5 = 0.333
 E_persist_normal = 1.-Urate_normal*(1.-U_persist_normal)/(1.-Urate_normal)
@@ -198,6 +231,7 @@ E_persist_normal = 1.-Urate_normal*(1.-U_persist_normal)/(1.-Urate_normal)
 ## Table Generation
 
 The `Tables/calibration.tex` file is **NOT programmatically generated**. The parameter values are:
+
 - Hardcoded in the LaTeX table
 - Manually transcribed from the Python code
 - Updated when calibration changes
@@ -207,6 +241,7 @@ The `Tables/calibration.tex` file is **NOT programmatically generated**. The par
 ## Updating the Calibration Table
 
 If parameters change, the table must be **manually updated** by:
+
 1. Checking parameter values in `EstimParameters.py` and `Parameters.py`
 2. Re-running estimation if needed: `Estimation_BetaNablaSplurge.py` for Splurge
 3. Editing `Tables/calibration.tex` directly with new values
@@ -223,7 +258,7 @@ If parameters change, the table must be **manually updated** by:
 
 1. **Fagereng, Holm, and Natvik (2021)**: "MPC Heterogeneity and Household Balance Sheets." *American Economic Journal: Macroeconomics*, 13(4): 1-54.
    - Source for lottery winner MPC data used in splurge estimation
-   
+
 2. **"Sticky Expectations" paper**: Source for income shock variances (TranShkStd, PermShkStd)
 
 3. **"Pandemic paper"** (likely Carroll et al.): Source for permanent income growth rates by education
@@ -232,6 +267,5 @@ If parameters change, the table must be **manually updated** by:
    - Source for liquid wealth distribution targets
    - Source for education shares
    - Source for initial permanent income levels
-   
-5. **Statista unemployment data**: Source for unemployment rates by education (2004)
 
+5. **Statista unemployment data**: Source for unemployment rates by education (2004)

@@ -7,15 +7,18 @@ This directory contains **shared environment setup scripts** that are used acros
 ## Why SST?
 
 Previously, the HAFiscal project had **duplicate LaTeX installation logic** in two places:
+
 - `.devcontainer/setup.sh` (for Docker/DevContainer)
 - `.github/workflows/push-build-docs.yml` (for GitHub Actions)
 
 This led to:
+
 - ❌ **Drift**: Changes to one might not be applied to the other
 - ❌ **Errors**: Copy-paste mistakes (we had a syntax error in one but not the other!)
 - ❌ **Maintenance burden**: Every change requires updating multiple files
 
 With SST, we now have:
+
 - ✅ **Single script**: `setup-latex-minimal.sh` contains all LaTeX setup logic
 - ✅ **Consistency**: All environments call the same script
 - ✅ **Easy maintenance**: Changes in one place automatically apply everywhere
@@ -38,24 +41,28 @@ With SST, we now have:
 **Purpose**: Install and configure minimal LaTeX environment for HAFiscal compilation.
 
 **What it does**:
+
 1. Installs base LaTeX packages (`texlive-latex-base` + `texlive-latex-recommended`)
 2. Verifies LaTeX installation (`pdflatex`, `latexmk`)
 3. Configures `TEXMFHOME` to point to `@local/texlive/texmf-local/`
 4. Configures `TEXINPUTS` to include `@resources/texlive/texmf-local/`
 
 **Used by**:
+
 - `.devcontainer/setup.sh` (DevContainer initialization)
 - `.github/workflows/push-build-docs.yml` (GitHub Actions Ubuntu)
 
 **Strategy**:
+
 - Base installation: ~122 MB (`texlive-latex-base` + `texlive-latex-recommended`)
 - Additional packages: 43 `.sty` files from `@local/texlive/texmf-local/` (in repo)
 - **Total LaTeX size: ~200 MB** (vs ~4 GB for full TeXLive installation)
 
 **Environment detection**:
 The script automatically detects whether it's running in:
+
 - GitHub Actions (`$GITHUB_WORKSPACE`)
-- DevContainer (`/workspaces/HAFiscal-Latest`)
+- DevContainer (`/workspaces/{{REPO_NAME}}`)
 - Other environments (finds repo root from script location)
 
 ## How to Use
@@ -80,7 +87,7 @@ bash @resources/environment/setup-latex-minimal.sh
 
 ```bash
 # If you want to install minimal LaTeX on your local machine
-cd /path/to/HAFiscal-Latest
+cd /path/to/{{REPO_NAME}}
 bash @resources/environment/setup-latex-minimal.sh
 ```
 
@@ -157,18 +164,21 @@ git commit --no-verify -m "Emergency commit"
 ### ❌ Wrong Way (breaks SST)
 
 Don't directly modify:
+
 - `.devcontainer/setup.sh` LaTeX section ← should only call SST script
 - `.github/workflows/push-build-docs.yml` Ubuntu LaTeX steps ← should only call SST script
 
 ## Package Management
 
 ### Base Packages (installed via apt)
+
 - `latexmk`
 - `texlive-latex-base`
 - `texlive-latex-recommended`
 
 ### Additional Packages (from repo)
 45 packages stored in `@local/texlive/texmf-local/tex/latex/`:
+
 - See `reproduce/required_latex_packages.txt` for full list
 - See `@local/texlive/README.md` for package details
 - Includes `pdfsuppressruntime` and `pgf` (PGF/TikZ) for HAFiscal-Slides.tex
@@ -186,17 +196,19 @@ If HAFiscal requires a new LaTeX package:
 ## Testing SST Changes
 
 ### Test in DevContainer
+
 ```bash
 # Rebuild devcontainer
 # Cmd+Shift+P → "Dev Containers: Rebuild Container"
 ```
 
 ### Test in GitHub Actions
+
 ```bash
 git add @resources/environment/setup-latex-minimal.sh
 git commit -m "Update LaTeX SST script"
 git push
-# Check: https://github.com/llorracc/HAFiscal-Latest/actions
+# Check: {{REPO_URL}}/actions
 ```
 
 ## History
@@ -221,4 +233,3 @@ git push
 - `reproduce/required_latex_packages.txt` - List of required LaTeX packages
 - `.devcontainer/setup.sh` - DevContainer initialization script
 - `.github/workflows/push-build-docs.yml` - GitHub Actions workflow
-

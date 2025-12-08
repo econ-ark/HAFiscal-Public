@@ -1,7 +1,8 @@
 # Devcontainer Improvements from HAFiscal-dev
 
 **Date**: 2025-11-17  
-**Backup Files**: 
+**Backup Files**:
+
 - `setup.sh.backup-20251117-084625`
 - `devcontainer.json.backup-20251117-084626`
 
@@ -14,6 +15,7 @@ Updated the HAFiscal-Latest devcontainer setup to incorporate improvements from 
 ### 1. Enhanced MiKTeX Configuration
 
 **Admin-level configuration:**
+
 - Added `[MPM]AutoAdmin=1` for automatic admin-level package installation
 - Added `[MPM]InstallDocFiles=0` to skip documentation (saves disk space)
 - Added `[MPM]InstallSourceFiles=0` to skip source files (saves disk space)
@@ -22,6 +24,7 @@ Updated the HAFiscal-Latest devcontainer setup to incorporate improvements from 
 - Added package update check (`mpm --admin --update`)
 
 **User-level configuration:**
+
 - Added user-level auto-install configuration
 - Added user-level docs/sources skipping
 - Added user-level update check (`mpm --find-updates`)
@@ -29,6 +32,7 @@ Updated the HAFiscal-Latest devcontainer setup to incorporate improvements from 
 ### 2. Essential LaTeX Packages Pre-installation
 
 Added installation of critical LaTeX3 and core packages:
+
 - `l3backend` - LaTeX3 backend
 - `l3kernel` - LaTeX3 kernel
 - `l3packages` - LaTeX3 packages
@@ -42,6 +46,7 @@ These packages are installed with `--verbose` flag for better feedback and using
 ### 3. Optional miktex-packages.txt Support
 
 Added support for pre-installing packages from `miktex-packages.txt` if it exists:
+
 - Checks for file in current directory or parent directory
 - Pre-installs packages to speed up builds
 - Skips packages already installed
@@ -51,6 +56,7 @@ Added support for pre-installing packages from `miktex-packages.txt` if it exist
 ### 4. Improved Summary Messages
 
 Updated the final summary to reflect:
+
 - Essential packages are pre-installed
 - Docs/Sources are skipped to save space
 
@@ -65,10 +71,12 @@ Updated the final summary to reflect:
 ## Testing
 
 The original working setup has been backed up. To test:
+
 1. Rebuild the devcontainer
 2. Verify MiKTeX installation works correctly
 3. Test LaTeX compilation
 4. If issues occur, restore from backup:
+
    ```bash
    cp setup.sh.backup-20251117-084625 setup.sh
    ```

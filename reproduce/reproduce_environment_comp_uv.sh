@@ -189,6 +189,21 @@ if [[ -L ".venv" ]]; then
     rm -f .venv
 fi
 
+# Clean up any existing .venv symlink/directory before creating venv
+# This prevents issues where UV detects a symlink before the venv is ready
+# (e.g., in Docker builds where previous layers may have left artifacts)
+if [[ -e ".venv" ]] || [[ -L ".venv" ]]; then
+    echo "Removing existing .venv (symlink or directory) for clean venv creation..."
+    rm -rf .venv
+fi
+
+# Also check if platform-specific venv exists but is invalid (missing Python executable)
+# This can happen in Docker builds where a previous layer created an incomplete venv
+if [[ -d "$VENV_PATH" ]] && [[ ! -f "$VENV_PATH/bin/python" ]]; then
+    echo "Removing invalid platform-specific venv (missing Python executable)..."
+    rm -rf "$VENV_PATH"
+fi
+
 # Create platform-specific venv if it doesn't exist
 if [[ ! -d "$VENV_PATH" ]]; then
     echo "Creating virtual environment at $VENV_NAME..."
@@ -216,6 +231,7 @@ fi
 
 # Now create symlink so UV can find the venv (UV expects .venv)
 # This symlink will be automatically fixed when switching platforms
+# Note: We already removed any existing .venv above, so this should always create a fresh symlink
 if [[ "$VENV_PATH" != "$PROJECT_ROOT/.venv" ]]; then
     if [[ ! -e ".venv" ]]; then
         ln -s "$VENV_NAME" .venv

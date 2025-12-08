@@ -21,6 +21,12 @@ from Simulate import Simulate
 from Output_Results import Output_Results
 
 #%%
+# ============================================================================
+# SINGLE SOURCE OF TRUTH: Robustness Control Flags
+# ============================================================================
+# These flags control which robustness checks are executed.
+# The Clean_Folders.py utility reads these flags to determine which
+# orphaned outputs to clean up (when flags are False).
 
 Run_Main                = True 
 Run_EqualPVs            = True 

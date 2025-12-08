@@ -10,17 +10,16 @@ This directory contains scripts for processing Survey of Consumer Finances (SCF)
 ## Quick Start
 
 ### Download Data
+
 ```bash
 ./download_scf_data.sh
 ```
 
 ### Run Analysis
-```bash
-# Python version (recommended - no Stata required)
-python3 make_liquid_wealth.py
 
-# Or Stata version
-stata -b make_liquid_wealth.do
+```bash
+# Python version (recommended)
+python3 make_liquid_wealth.py
 ```
 
 ---
@@ -32,6 +31,7 @@ This directory processes SCF 2004 data to construct liquid wealth measures follo
 ### Key Outputs
 
 The analysis produces empirical moments used throughout the paper:
+
 - Liquid wealth distribution by education group (Table 2, Panel B; Table 4, Panel B; Table 5)
 - Permanent income statistics by education group (Table 2, Panel B)
 - Lorenz curve percentiles for wealth inequality (Figure 2)
@@ -43,9 +43,7 @@ The analysis produces empirical moments used throughout the paper:
 
 ### Analysis Scripts
 
-- **`make_liquid_wealth.py`**: **[PRIMARY]** Python script that produces all empirical numbers used in the paper from SCF 2004. Equivalent to the Stata version but doesn't require Stata. Outputs results to console and creates intermediate data files.
-
-- **`make_liquid_wealth.do`**: Original Stata script that produces the numbers used in the paper from the 2004 wave of the Survey of Consumer Finance. Requires Stata (tested with Stata MP).
+- **`make_liquid_wealth.py`**: **[PRIMARY]** Python script that produces all empirical numbers used in the paper from SCF 2004. Outputs results to console and creates intermediate data files.
 
 - **`compare_scf_datasets.py`**: Utility script to compare different vintages of SCF data and detect inflation adjustments. Used for data quality assurance.
 
@@ -65,6 +63,7 @@ The analysis produces empirical moments used throughout the paper:
 - **`rscfp2004_dta.about`**: Metadata file describing the data vintage and source.
 
 **CSV versions** (when available):
+
 - `rscfp2004.csv`: CSV version of summary extract
 - `ccbal_answer.csv`: CSV version of credit card balance data
 
@@ -77,6 +76,7 @@ The analysis produces empirical moments used throughout the paper:
 **Official Source**: [Federal Reserve Board - 2004 Survey of Consumer Finances](https://www.federalreserve.gov/econres/scf_2004.htm)
 
 **Required Files**:
+
 - **Main survey data**: Stata version - **scf2004s.zip** → **p04i6.dta**
 - **Summary Extract Data**: Stata format - **scfp2004s.zip** → **rscfp2004.dta**
 
@@ -84,7 +84,7 @@ Place these `.dta` files in this directory before running analysis scripts.
 
 ### Data Vintage Warning
 
-⚠️ **Important**: When releasing new waves of the SCF, the Federal Reserve Board inflation-adjusts older versions. 
+⚠️ **Important**: When releasing new waves of the SCF, the Federal Reserve Board inflation-adjusts older versions.
 
 - **Original data** (used in paper): Dollar variables in 2004 nominal dollars
 - **Current download** (as of 2025): Dollar variables inflation-adjusted to 2022 dollars
@@ -97,14 +97,16 @@ With an inflation-adjusted version of `rscfp2004.dta`, numbers marked **USD** be
 
 ## Empirical Results
 
-The analysis scripts (`make_liquid_wealth.py` or `make_liquid_wealth.do`) produce the following empirical moments:
+The analysis script (`make_liquid_wealth.py`) produces the following empirical moments:
 
 ### Population Distribution
-- **Percent of population in each education group** 
+
+- **Percent of population in each education group**
   - Used in: Table 2, Panel B
   - Groups: Dropout (<12 yrs), HighSchool (12 yrs), College (>12 yrs)
 
 ### Income Statistics
+
 - **Average quarterly permanent income (PI) of "newborn" agents** ⚠️ **USD**
   - Used in: Table 2, Panel B
   - Calculated as normal annual income / 4
@@ -115,6 +117,7 @@ The analysis scripts (`make_liquid_wealth.py` or `make_liquid_wealth.do`) produc
   - Measures income heterogeneity within education groups
 
 ### Wealth Distribution
+
 - **Median liquid wealth / quarterly PI in each education group**
   - Used in: Table 4, Panel B
   - Ratio of liquid wealth to permanent income
@@ -139,6 +142,7 @@ The analysis scripts (`make_liquid_wealth.py` or `make_liquid_wealth.do`) produc
 Following **Kaplan, Violante, and Weidner (2014)**, liquid wealth includes:
 
 ### Included Assets
+
 - Cash and cash equivalents
 - Checking accounts
 - Savings accounts  
@@ -150,6 +154,7 @@ Following **Kaplan, Violante, and Weidner (2014)**, liquid wealth includes:
 - Other liquid financial assets
 
 ### Excluded Assets
+
 - Housing equity (illiquid)
 - Business equity (illiquid)
 - Retirement accounts (illiquid, tax-penalized)
@@ -157,11 +162,13 @@ Following **Kaplan, Violante, and Weidner (2014)**, liquid wealth includes:
 - Other durables
 
 ### Liquid Debt
+
 - Credit card debt (subtracted from liquid wealth)
 - Other consumer debt (subtracted if liquid/revolving)
 
 ### In SCF Variables
 The construction uses multiple SCF variables:
+
 - `LIQ` - Liquid assets (checking, savings, money market)
 - `CDS` - Certificates of deposit
 - `STOCKS` - Directly held stocks
@@ -170,47 +177,29 @@ The construction uses multiple SCF variables:
 - `CCBAL` - Credit card balance (debt)
 - Income variables for constructing permanent income
 
-See `make_liquid_wealth.py` or `make_liquid_wealth.do` for exact variable definitions and transformations.
+See `make_liquid_wealth.py` for exact variable definitions and transformations.
 
 ---
 
 ## Running the Analysis
 
-### Python Version (Recommended)
+### Python Version
 
 **Requirements**:
+
 - Python 3.9+
 - pandas >= 1.3.0
 - numpy >= 1.21.0
 - scipy >= 1.7.0 (for statistical functions)
 
 **Run**:
+
 ```bash
 cd Code/Empirical
 python3 make_liquid_wealth.py
 ```
 
 **Output**: Results printed to console with labeled statistics matching paper tables.
-
-### Stata Version
-
-**Requirements**:
-- Stata 14+ (Stata MP recommended)
-- Full SCF 2004 data files in this directory
-
-**Run**:
-```bash
-cd Code/Empirical
-stata -b do make_liquid_wealth.do
-
-# Or interactively in Stata:
-# do make_liquid_wealth.do
-```
-
-**Output**: 
-- Results in Stata output window
-- Intermediate `.dta` files created in directory
-- Log file `make_liquid_wealth.log`
 
 ---
 
@@ -223,6 +212,7 @@ python3 compare_scf_datasets.py
 ```
 
 This script:
+
 - Loads multiple vintages of `rscfp2004.dta`
 - Compares key variables across vintages
 - Detects inflation adjustments
@@ -260,7 +250,8 @@ The empirical moments generated here are used in `../HA-Models/` as calibration 
    - Income and wealth statistics from SCF
 
 To update calibration after reprocessing SCF data:
-1. Run `make_liquid_wealth.py` 
+
+1. Run `make_liquid_wealth.py`
 2. Update hard-coded values in `EstimParameters.py`
 3. Re-run estimation in `HA-Models/`
 
@@ -269,6 +260,7 @@ To update calibration after reprocessing SCF data:
 ## Troubleshooting
 
 ### Data File Not Found
+
 ```bash
 # Download the required data
 ./download_scf_data.sh
@@ -278,6 +270,7 @@ To update calibration after reprocessing SCF data:
 ```
 
 ### Python Module Import Errors
+
 ```bash
 # Make sure you're in the project environment
 cd ../..
@@ -286,16 +279,8 @@ cd Code/Empirical
 python3 make_liquid_wealth.py
 ```
 
-### Stata "File not found" Error
-```bash
-# Stata needs the full public data set
-./download_scf_data.sh
-
-# Or manually download scf2004s.zip from Federal Reserve
-# Extract p04i6.dta to this directory
-```
-
 ### Numbers Don't Match Paper
+
 - **Check data vintage**: Newer downloads are inflation-adjusted
 - **Use included `rscfp2004.dta`**: Original vintage matching paper
 - **Relative statistics should still match**: Percentages, ratios, distributions
@@ -305,12 +290,13 @@ python3 make_liquid_wealth.py
 ## References
 
 ### Data Source
-Board of Governors of the Federal Reserve System (2004). Survey of Consumer Finances, 2004. Available at https://www.federalreserve.gov/econres/scfindex.htm
+Board of Governors of the Federal Reserve System (2004). Survey of Consumer Finances, 2004. Available at <https://www.federalreserve.gov/econres/scfindex.htm>
 
 ### Liquid Wealth Definition
 Kaplan, G., Violante, G. L., & Weidner, J. (2014). The wealthy hand-to-mouth. *Brookings Papers on Economic Activity*, 2014(1), 77-138.
 
 ### Related Documentation
+
 - **`../../README.md`**: Main replication documentation with data availability statement
 - **`../../docs/SCF_DATA_VINTAGE.md`**: Detailed SCF vintage documentation
 - **`../../docs/SCF_COMPARISON_WORKFLOW.md`**: Workflow for comparing SCF versions

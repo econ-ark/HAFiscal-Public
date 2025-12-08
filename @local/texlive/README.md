@@ -9,6 +9,7 @@ By using this approach, we avoid installing the massive `texlive-latex-extra` pa
 ## LaTeX Installation Strategy
 
 ### Base System (via apt/system package manager)
+
 - `latexmk` - Build automation tool
 - `texlive-latex-base` - Core LaTeX system (~40MB)
 - `texlive-latex-recommended` - Common packages (~80MB)
@@ -16,6 +17,7 @@ By using this approach, we avoid installing the massive `texlive-latex-extra` pa
 
 ### Additional Packages (in this directory)
 Packages stored in `@local/texlive/texmf-local/tex/latex/` are automatically discovered via:
+
 1. Environment variable: `TEXMFHOME=/path/to/@local/texlive/texmf-local`
 2. LaTeX search path: Configured in `@resources/tex-paths.ltx` (superseded `tex-add-search-paths.tex` in Oct 2025)
 
@@ -92,8 +94,10 @@ wget https://www.ctan.org/tex-archive/macros/latex/contrib/PACKAGENAME/PACKAGENA
 
 ```bash
 # Set TEXMFHOME to point to local packages
-export TEXMFHOME="/workspaces/HAFiscal-Latest/@local/texlive/texmf-local"
-echo "export TEXMFHOME=/workspaces/HAFiscal-Latest/@local/texlive/texmf-local" >> ~/.bashrc
+# Detect repo root dynamically
+REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
+export TEXMFHOME="${REPO_ROOT}/@local/texlive/texmf-local"
+echo "export TEXMFHOME=${TEXMFHOME}" >> ~/.bashrc
 ```
 
 ### On Host Machine

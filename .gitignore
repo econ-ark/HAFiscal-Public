@@ -413,6 +413,7 @@ node_modules/
 .node_modules/
 
 # Platform-specific venv directories (for cross-platform development)
+.venv*/
 .venv-darwin/
 .venv-linux/
 .venv-windows/
@@ -535,3 +536,4 @@ Equations/*.tex
 # Large SCF data file - download via download_scf_data.sh
 Code/Empirical/p04i6.dta
 .docker-initialized 
+.venv/
