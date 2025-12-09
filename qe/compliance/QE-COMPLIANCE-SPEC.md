@@ -1226,3 +1226,69 @@ This specification should be updated when:
 
 **Maintenance Contact**: HAFiscal project team
 **Last Verified Against Official Sources**: 2025-11-25
+
+## Decision Letter Notes (MS 2442)
+
+In addition to the standing requirements drawn from official QE and Econometric Society sources, the handling editor's conditional-acceptance email for MS 2442 (archived as `QE-COMPLIANCE-email.eml` in this directory) specifies **procedural instructions** for the final submission and replication check. These notes summarize those instructions and link them to the requirements already encoded above.
+
+**Source Document**:
+
+- Conditional-acceptance email from Morten Ravn (Subject: "QE: decision on MS 2442"), saved as `QE-COMPLIANCE-email.eml` in `qe/compliance/`.
+
+**Procedural Requirements from the Decision Letter**:
+
+1. **Data Editor Workflow**
+   - Authors must treat the replication package as a **new submission to the Data Editor**, using the ES Data Editor Editorial Express site:
+     - `https://editorialexpress.com/ESData`
+   - The decision letter explicitly points to the following steps (all of which are already covered by the official-source URLs at the top of this SPEC):
+     1. Review the **Data and Code Availability Policy**  
+        - `https://www.econometricsociety.org/publications/es-data-editor-website/data-and-code-availability-policy`
+     2. Follow the **package preparation steps**  
+        - `https://www.econometricsociety.org/publications/es-data-editor-website/package`
+     3. Complete the **Data Editor checklist** (PDF)  
+        - `https://www.econometricsociety.org/uploads/reports/ES_Data_Editor_Website/Checklist.pdf`
+     4. Submit the replication package and associated documents to the Data Editor as a **new submission** in Editorial Express (resubmission there is used only for replication-check revisions).
+
+2. **Items to Submit as Separate Files to the Data Editor**
+   The letter requires the following to be submitted as **separate files** (procedural packaging around the requirements in Sections A–D above):
+   - Replication files for review (the replication package described in Sections B and D of this SPEC).  
+     - If the package is too large to upload, authors must email the Data Editor (`dataeditor@econometricsociety.org`) for alternate instructions.
+   - Cover letter to the Data Editor outlining any exemptions or special instructions (e.g., restricted data handling per B.6).
+   - Completed **Data Editor checklist** (based on the Checklist.pdf referenced above).
+   - Final manuscript (HAFiscal.pdf built with `\documentclass[qe]{econsocart}`).
+   - Any approved online appendices (supplements).
+   - Cover letter to the handling editor if there were last minor revisions.
+
+3. **Deadlines and Extensions**
+   - **Data submission deadline**: Data files and replication materials should be submitted to the Data Editor **within one month** of the decision.
+   - **Extensions**:
+     - For data/editorial logistics: contact the Director of Publications at `qe@econometricsociety.org`.
+     - The offer to revise/conditionally accept is normally valid for **12 months** from the decision date; extensions to this window are at the handling editor's discretion and must be requested within the 12‑month period.
+
+4. **Cases Without Replication Files**
+   - If there are **no replication files**, the final revision may be submitted at the QE submissions page:  
+     - `https://www.econometricsociety.org/publications/quantitative-economics/submissions`
+   - For HAFiscal, this path is **not applicable** because a full replication package is provided (Sections B and D).
+
+5. **Supplementary Appendices Formatting**
+   - The letter clarifies production practices for supplemental appendices:
+     - QE **no longer typesets supplemental appendices**.
+     - Supplements must be **standalone** in both:
+       - Their **production files** (LaTeX sources), and
+       - Their **PDFs**.
+     - Supplements must use the **QE journal style** from:
+       - `https://www.e-publications.org/es/support/`
+     - Supplements should be **referenced and cited in the main text** (not treated as previously circulated working-paper appendices).
+   - These points are complementary to:
+     - **C.4: Supplementary Appendices** (page limits, labeling, use of appendix environments).
+     - **A.1–A.6** (use of `econsocart` and QE templates for both main paper and supplements).
+
+6. **Transfer Back to Handling Editor**
+   - After the Data Editor verifies the replication package and declares it acceptable, all final materials are transferred back to the handling editor for final approval and acceptance.
+   - This step does not introduce new technical requirements beyond those already encoded in Sections A–D, but clarifies the **sequence**: replication-check completion **precedes** the editor's final acceptance.
+
+7. **Access and Download Limits for Decision-Letter Attachments**
+   - The decision letter also mentions time‑limited access and a maximum number of downloads for the decision attachments (e.g., 25 downloads, expiry date).  
+   - These are **operational constraints of Editorial Express**, not standing QE replication requirements, and therefore are **not encoded** as compliance items in this SPEC.
+
+Taken together, `QE-COMPLIANCE-email.eml` provides **procedural context** and confirms that the requirements listed in this SPEC (drawn from the URLs referenced in the email) are the basis for the Data Editor's replication review. This section is intended to document that linkage, not to introduce additional technical requirements beyond those already enumerated in Sections A–D.

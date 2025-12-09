@@ -413,6 +413,7 @@ node_modules/
 .node_modules/
 
 # Platform-specific venv directories (for cross-platform development)
+# Ignore all directories beginning with .venv
 .venv*/
 .venv-darwin/
 .venv-linux/
