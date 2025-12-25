@@ -90,12 +90,15 @@
     }%
     % Disable figure and table float environments (floats can't exist in vbox)
     % Replace with simple center environments
+    % NOTE: Must define \@captype so redefined \caption works
     \renewenvironment{figure}[1][]{%
+      \def\@captype{figure}%
       \begin{center}%
     }{%
       \end{center}%
     }%
     \renewenvironment{table}[1][]{%
+      \def\@captype{table}%
       \begin{center}%
     }{%
       \end{center}%

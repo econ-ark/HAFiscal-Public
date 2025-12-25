@@ -14,238 +14,180 @@
 
 ---
 
-## 1. Data Availability and Provenance
+## Instant Results (No Installation Required)
 
-### Survey of Consumer Finances 2004
+**Want to explore fiscal policy effects right now?**
 
-**Source**: Board of Governors of the Federal Reserve System  
-**URL**: <https://www.federalreserve.gov/econres/scf_2004.htm>  
-**Access**: Publicly available, no restrictions  
-**License**: Public domain
+[![Launch Interactive Dashboard](https://img.shields.io/badge/Launch-Interactive%20Dashboard-orange?style=for-the-badge&logo=jupyter)](https://mybinder.org/v2/gh/llorracc/HAFiscal-Public/HEAD?urlpath=voila%2Frender%2Fdashboard%2Fapp.ipynb)
 
-**Data Files Used**:
+The **interactive dashboard** lets you:
 
-- `rscfp2004.dta` - Summary Extract Public Data (replicate-level data)
-- `p04i6.dta` - Full Public Data Set (implicate-level data)
+- Compare stimulus checks, UI extensions, and tax cuts
+- Adjust model parameters in real-time
+- Visualize fiscal multipliers under different monetary policies
+- See results in seconds (no 100+ hour computation needed)
 
-**Download Method**: Automated download via `Code/Empirical/download_scf_data.sh`
+**No installation required** — runs entirely in your browser via MyBinder.
 
-**Variables Used**:
-
-- Normal annual income (permanent income proxy)
-- Liquid wealth components (cash, checking, savings, money market accounts, stocks, bonds, mutual funds)
-- Credit card debt (liquid debt component)
-- Demographic variables (age, education)
-
-**Citation**: Board of Governors of the Federal Reserve System (2004). Survey of Consumer Finances, 2004. Available at <https://www.federalreserve.gov/econres/scfindex.htm>
-
-**Data Construction**: We follow Kaplan et al. (2014) methodology for constructing liquid wealth, as detailed in Section 3.2.2 of the paper.
-
-**Important Note**: The Federal Reserve periodically updates older SCF data to adjust for inflation. If dollar values don't match the paper exactly, this is likely due to inflation adjustment. The relative statistics (percentages, ratios, distributions) should match closely.
-
-### Norwegian Population Data
-
-**Source**: Fagereng, Holm, and Natvik (2021), "MPC Heterogeneity and Household Balance Sheets"  
-**Access**: Summary statistics and moments used for model calibration (published in the paper)  
-**Note**: Individual-level data not publicly available (Norwegian administrative data)
-
-### Data Files Included in Repository
-
-The following data files are included in the `Code/Empirical/` directory:
-
-- **`rscfp2004.dta`** - Summary Extract data for SCF 2004 in Stata format
-- **`rscfp2004.csv`** - Summary Extract data for SCF 2004 in CSV format
-- **`ccbal_answer.dta`** - Small file created from full public data set in Stata format
-- **`ccbal_answer.csv`** - Small file created from full public data set in CSV format
-
-These files are also available from the Federal Reserve Board website:
-
-[Federal Reserve Board - 2004 Survey of Consumer Finances](https://www.federalreserve.gov/econres/scf_2004.htm)
-
-Download and unzip the following files to reproduce our results:
-
-- Main survey data (Stata version): **scf2004s.zip** → **p04i6.dta**
-- Summary Extract Data set (Stata format): **scfp2004s.zip** → **rscfp2004.dta**
-
-Place these `.dta` files in the same directory as `make_liquid_wealth.py` before running the script.
-
-### Data Processing
-
-#### Python Processing
-
-Some statistics hard-coded into the computational scripts are calculated using Python. To reproduce these statistics, run the following Python script:
-
-```bash
-python3 Code/Empirical/make_liquid_wealth.py
-```
-
-This script:
-
-1. Loads the SCF 2004 data files
-2. Constructs liquid wealth measures following Kaplan et al. (2014)
-3. Calculates summary statistics used in calibration
-4. Outputs results used in Table 2, Panel B (Lines 1-3) and other tables
-
-#### Python Processing
-
-Additional data processing occurs in Python scripts located in `Code/HA-Models/`:
-
-- `Target_AggMPCX_LiquWealth/` - Uses empirical moments for calibration
-- Various scripts read the processed Stata output files
-
-### Summary of Data Availability
-
-- ✅ All data **are** publicly available
-- ✅ No access restrictions or special permissions required
-- ✅ Data can be downloaded automatically via provided scripts
-- ✅ Data files included in repository for convenience
-- ✅ Complete documentation of data sources and construction
-
-### Data Citations
-
-#### In Bibliography
-
-The following data sources are cited in `HAFiscal-Add-Refs.bib`:
-
-**SCF2004**:
-
-```bibtex
-@misc{SCF2004,
-  author       = {{Board of Governors of the Federal Reserve System}},
-  title        = {Survey of Consumer Finances, 2004},
-  year         = {2004},
-  howpublished = {\url{https://www.federalreserve.gov/econres/scfindex.htm}},
-  note         = {Data files: Summary Extract Public Data (rscfp2004.dta) and 
-                  Full Public Data Set (p04i6.dta). 
-                  Available at \url{https://www.federalreserve.gov/econres/scf_2004.htm}. 
-                  Accessed November 2025}
-}
-```
-
-#### In Paper Text
-
-The data is cited in the paper at:
-
-- `Subfiles/Parameterization.tex` (line 30): First mention of SCF 2004 data
-- `Subfiles/Parameterization.tex` (line 67): Discussion of liquid wealth distribution
-
-### Ethical Considerations
-
-This research uses publicly available secondary data from government sources. No primary data collection was performed. No Institutional Review Board (IRB) approval was required.
+For local installation, see [dashboard/DASHBOARD_README.md](dashboard/DASHBOARD_README.md) or [README/DASHBOARD.md](README/DASHBOARD.md).
 
 ---
 
-## 2. Computational Requirements
+## Quick Start
 
-### Hardware Requirements
+**New to HAFiscal?** Start with the [Getting Started Guide](README/GETTING-STARTED.md) for navigation and workflow guidance.
 
-**Minimum**:
+For detailed documentation, see the [README/](README/) directory.
 
-- CPU: 4 cores, 2.0 GHz
-- RAM: 8 GB
-- Storage: 2 GB free space
-- Internet connection (for data download)
+The README/ directory contains:
 
-**Recommended**:
-
-- CPU: 8+ cores, 3.0+ GHz
-- RAM: 16 GB
-- Storage: 5 GB free space
-
-**Hardware Used for Results in Paper**:
-
-- CPU: Apple M2 (8 performance cores)
-- RAM: 16 GB
-- OS: macOS 14.4
-
-### Software Requirements
-
-**Required**:
-
-- **Python**: 3.9 or later
-- **LaTeX**: Full TeX Live distribution (2021 or later)
-- **Git**: For repository management
-- **Unix-like environment**: macOS, Linux, or Windows WSL2
-
-**Python Package Manager**:
-
-- **uv** (recommended) or **conda**
-
-**Python Dependencies** (automatically installed):
-
-- numpy >= 1.21.0
-- scipy >= 1.7.0
-- matplotlib >= 3.4.0
-- pandas >= 1.3.0
-- econ-ark >= 0.13.0
-- numba >= 0.54.0
-- jupyter >= 1.0.0
-
-**LaTeX Packages**: Included in `@local/texlive/` directory (no system LaTeX packages needed beyond base TeX Live).
-
-### Platform Support
-
-- ✅ **macOS**: Fully supported and tested
-- ✅ **Linux**: Fully supported and tested (Ubuntu 20.04+, Debian 11+)
-- ✅ **Windows (WSL2)**: Supported via Windows Subsystem for Linux 2
-- ❌ **Windows (native)**: Not supported
+- **[GETTING-STARTED.md](README/GETTING-STARTED.md)** — Navigation guide and workflow overview (start here if new)
+- **Detailed README** — Complete replication instructions and documentation
+- [INSTALLATION.md](README/INSTALLATION.md) — Installation and setup instructions
+- [DOCKER.md](README/DOCKER.md) — Docker container usage and setup
+- [DASHBOARD.md](README/DASHBOARD.md) — Interactive dashboard documentation
+- [REPLICATION.md](README/REPLICATION.md) — Detailed replication instructions and data provenance
+- [QUICK-REFERENCE.md](README/QUICK-REFERENCE.md) — Quick reference guide
+- [CONTRIBUTING.md](README/CONTRIBUTING.md) — Contribution guidelines
+- [TROUBLESHOOTING.md](README/TROUBLESHOOTING.md) — Common issues and solutions
 
 ---
 
-## 3. Installation Instructions
+## Research Questions and Contributions
 
-### Step 1: Clone Repository
+### Primary Research Questions
 
-```bash
-git clone https://github.com/llorracc/HAFiscal-Latest.git
-cd HAFiscal-Latest
-```
+1. **What are the welfare and spending effects of different consumption stimulus policies** (stimulus checks, tax cuts, unemployment insurance extensions) across the income and wealth distribution?
 
-### Step 2: Set Up Python Environment
+2. **How do heterogeneous-agent mechanisms** (liquidity constraints, sticky expectations, splurge behavior) affect the distributional and aggregate impacts of fiscal stimulus?
 
-**Option A: Using uv (Recommended)**
+3. **What is the optimal design of stimulus policies** when accounting for household heterogeneity in marginal propensities to consume (MPCs)?
 
-```bash
-# Install uv if not present
-curl -LsSf https://astral.sh/uv/install.sh | sh
+### Key Contributions
 
-# Create and activate environment
-uv sync
-source .venv/bin/activate  # On Windows WSL2: source .venv/bin/activate
-```
+1. **Comprehensive HANK model calibration**: Extends heterogeneous-agent New Keynesian (HANK) models to match both microeconomic evidence on intertemporal MPCs (iMPCs) and macroeconomic evidence on aggregate consumption dynamics, using Survey of Consumer Finances (SCF) 2004 data.
 
-**Option B: Using conda**
+2. **Novel behavioral mechanisms**: Implements and quantifies the role of:
+   - **Sticky expectations** (following Carroll et al. 2020, `cAndCwithStickyE` in bibliography)
+   - **Splurge behavior** (lumpy consumption responses to windfalls)
+   - **Liquidity constraints** and heterogeneous wealth distributions
 
-```bash
-# Create environment from environment.yml
-conda env create -f environment.yml
-conda activate HAFiscal
-```
+3. **Distributional welfare analysis**: Provides systematic welfare comparisons across alternative stimulus designs, highlighting how policy effectiveness varies dramatically across households with different liquid wealth positions.
 
-### Step 3: Verify Installation
-
-```bash
-# Check Python version
-python --version  # Should be 3.9+
-
-# Check key packages
-python -c "import numpy; print(f'numpy: {numpy.__version__}')"
-python -c "from HARK import __version__; print(f'econ-ark: {__version__}')"
-
-# Check LaTeX
-pdflatex --version
-```
+4. **Methodological extension**: Builds on the computational framework of Auclert et al. (2021, `Auclert2021`) and extends the two-asset HANK literature (Kaplan & Violante 2014, `kaplan2014model`; Fagereng et al. 2021, `fagereng-mpc-2021`) to incorporate additional behavioral frictions.
 
 ---
 
-## 4. Execution Instructions
+## Literature Connections
 
-### Main Reproduction Script
+### Core Methodological Foundations
 
-The primary way to reproduce results is via the `reproduce.sh` script, which provides a unified interface with multiple modes:
+**HANK Models and Computational Methods**:
+
+- **Auclert et al. (2021)** [`Auclert2021`]: Sequence-space Jacobian methods for solving heterogeneous-agent models (computational framework extended here)
+- **Kaplan & Violante (2014)** [`kaplan2014model`]: Two-asset model with liquid/illiquid assets and high MPCs for hand-to-mouth households (calibration strategy extended)
+- **Carroll et al. (2017)** [`cstwMPC`]: Distribution of wealth and MPCs in heterogeneous-agent models (empirical targets extended)
+
+**Sticky Expectations and Consumption Dynamics**:
+
+- **Carroll et al. (2020)** [`cAndCwithStickyE`]: Sticky expectations model explaining aggregate consumption persistence (mechanism implemented here)
+- **Lian (2023)** [`Lian2023-ca`]: Future consumption mistakes and high MPCs (related behavioral mechanism)
+
+### Empirical Evidence on MPCs and Consumption Responses
+
+**Microeconomic MPC Estimates**:
+
+- **Fagereng et al. (2021)** [`fagereng-mpc-2021`]: Norwegian lottery data showing MPC heterogeneity by liquid assets (empirical target)
+- **Kotsogiannis & Sakellaris (2024)** [`kotsogiannisMPCs`]: Tax lottery estimates of iMPCs (complementary evidence)
+- **Boehm et al. (2025)** [`boehm2025fivefacts`]: Randomized experiment on MPCs (recent empirical evidence)
+- **Parker et al. (2013)** [`parker2013consumer`]: Economic stimulus payments of 2008 (empirical benchmark)
+
+**Consumption During Unemployment**:
+
+- **Ganong & Noel (2019)** [`ganongConsumer2019`]: Consumer spending during unemployment (UI extension analysis relates)
+- **Graves (2024)** [`gravesUnemployment`]: Unemployment risk and consumption dynamics (related mechanism)
+
+### Fiscal Multipliers and Policy Analysis
+
+**Fiscal Multipliers in HANK Models**:
+
+- **Broer et al. (2023)** [`broer2023fiscalmultipliers`]: Fiscal multipliers from heterogeneous-agent perspective (complementary analysis)
+- **Broer et al. (2025)** [`broer2025stimulus`]: Stimulus effects of common fiscal policies (recent related work)
+- **Hagedorn et al. (2019)** [`hagedorn2019fiscal`]: Fiscal multiplier in HANK models (methodological connection)
+
+**Automatic Stabilizers and Welfare**:
+
+- **McKay & Reis (2016, 2021)** [`mckay2016role`, `mckay2021optimal`]: Role of automatic stabilizers and optimal design (welfare analysis relates)
+- **Phan (2024)** [`phan2024welfare`]: Welfare consequences of countercyclical fiscal transfers (related welfare analysis)
+
+### Behavioral Mechanisms
+
+**Near-Rationality and Bounded Rationality**:
+
+- **Andre et al. (2025)** [`ansQuickfix`]: Near-rationality in consumption and savings (related behavioral mechanism)
+- **Akerlof & Yellen (1985)** [`akerlof1985near`]: Near-rational model of business cycle (foundational work)
+- **Ilut & Valchev (2022)** [`ilutEconomic`]: Economic agents as imperfect problem solvers (related framework)
+
+**Present Bias and Mental Accounting**:
+
+- **Laibson et al. (2024)** [`lmmPresentBias`]: Present bias amplifies balance-sheet channels (related mechanism)
+- **Graham & McDowall (2024)** [`graham2024mental`]: Mental accounts and consumption sensitivity (related behavioral feature)
+
+### Related HANK Literature
+
+**Unemployment and Business Cycles**:
+
+- **Ravn & Sterk (2017, 2021)** [`Ravn2017`, `Ravn2021`]: Job uncertainty, HANK & SAM models (related HANK extensions)
+- **Christiano et al. (2016)** [`Christiano2016`]: Unemployment and business cycles (search-and-matching framework)
+- **Graves (2024)** [`gravesUnemployment`]: Unemployment risk affects business cycle dynamics (related mechanism)
+
+**Distributional Effects of Monetary Policy**:
+
+- **Gornemann et al. (2021)** [`Gornemann2021`]: Distributional consequences of systematic monetary policy (related distributional analysis)
+
+### Data and Calibration
+
+**SCF Data and Wealth Distribution**:
+
+- **SCF 2004** [`SCF2004`]: Survey of Consumer Finances 2004 (primary data source)
+- **Kaplan et al. (2014)** [`kaplan2014model`]: Liquid wealth construction methodology (followed here)
+
+**Income Process Calibration**:
+
+- **Crawley et al. (2024)** [`crawley2024parsimonious`]: Parsimonious model of idiosyncratic income (income process specification)
+
+---
+
+## What This Repository Provides (AI- and search-friendly summary)
+
+- **Replication code and data** for the HAFiscal paper, built on Econ-ARK tools, with a Heterogeneous Agent New Keynesian (HANK) model calibrated to U.S. micro data.
+
+- **Consumption stimulus policy analysis**: effects of stimulus checks, tax cuts, and UI extensions on spending, iMPCs, and welfare across the income and wealth distribution.
+
+- **Model artifacts**: code for sticky expectations, splurge behavior, and robustness appendices (HTML/PDF links in appendices).
+
+- **Data**: SCF-based liquid wealth and income moments (paper uses 2013-dollar SCF vintage; scripts document 2022→2013 inflation adjustment using CPI-U-RS and the 1.1587 factor).
+
+- **Outputs**: paper PDFs, slides, tables, and figures for direct reuse in scholarly work or derivative projects.
+
+---
+
+## 5. Getting Started
+
+For complete setup and reproduction instructions, see [README/GETTING-STARTED.md](README/GETTING-STARTED.md).
+
+**Quick Summary**:
+
+- **Installation**: See [README/INSTALLATION.md](README/INSTALLATION.md) for detailed setup instructions
+- **Docker**: See [README/DOCKER.md](README/DOCKER.md) for containerized setup (alternative to local installation)
+- **Reproduction**: Run `./reproduce.sh --help` to see available modes
+- **Timing Estimates**: See [reproduce/benchmarks/TIMING-ESTIMATES.md](reproduce/benchmarks/TIMING-ESTIMATES.md) for hardware-specific timing data
+- **Troubleshooting**: See [README/TROUBLESHOOTING.md](README/TROUBLESHOOTING.md) for common issues
+
+**Quick Commands**:
 
 ```bash
-# View all available options
+# View all reproduction options
 ./reproduce.sh --help
 
 # Quick document generation (5-10 minutes)
@@ -256,208 +198,61 @@ The primary way to reproduce results is via the `reproduce.sh` script, which pro
 
 # Full computational replication (4-5 days)
 ./reproduce.sh --comp full
-
-# Complete reproduction (all steps)
-./reproduce.sh --all
 ```
 
-### Reproduction Modes Explained
-
-#### `--docs` - Document Generation Only (5-10 minutes)
-Compiles the paper PDF from existing computational results:
-
-- Runs LaTeX compilation
-- Generates bibliography
-- Creates final HAFiscal.pdf
-- **Does not** run computational models
-
-**Use case**: Quick validation of LaTeX environment, or generating PDF after computational results are complete.
-
-```bash
-./reproduce.sh --docs
-```
-
-#### `--comp min` - Minimal Computational Test (~1 hour)
-Runs a subset of computational models with reduced parameters:
-
-- Tests model infrastructure
-- Validates Python environment
-- Generates sample figures/tables
-- Suitable for continuous integration testing
-
-```bash
-./reproduce.sh --comp min
-```
-
-#### `--comp full` - Full Computational Replication (4-5 days)
-Runs all computational models with paper-reported parameters:
-
-- Solves heterogeneous agent models
-- Generates all figures and tables
-- Performs Monte Carlo simulations
-- Replicates all quantitative results in paper
-
-```bash
-./reproduce.sh --comp full
-```
-
-**Warning**: This mode requires substantial computational resources and time. See Section 5 for detailed timing estimates.
-
-#### `--all` - Complete Reproduction Pipeline (4-5 days + compilation)
-Runs full computational replication followed by document generation:
-
-```bash
-./reproduce.sh --all
-# Equivalent to:
-# ./reproduce.sh --comp full && ./reproduce.sh --docs
-```
-
-### Running Individual Components
-
-For more granular control, individual reproduction scripts can be run directly:
-
-**Environment Setup**:
-
-```bash
-bash reproduce/reproduce_environment.sh
-```
-
-**Data Download**:
-
-```bash
-bash Code/Empirical/download_scf_data.sh
-```
-
-**Computational Models Only**:
-
-```bash
-# Minimal test
-bash reproduce/reproduce_computed_min.sh
-
-# Full computation
-bash reproduce/reproduce_computed.sh
-```
-
-**Document Generation Only**:
-
-```bash
-bash reproduce/reproduce_documents.sh
-```
-
-**Standalone Figures/Tables** (useful for debugging):
-
-```bash
-# Compile individual figure
-cd Figures
-latexmk -pdf Policyrelrecession.tex
-
-# Compile individual table
-cd Tables
-latexmk -pdf calibration.tex
-```
-
-### Benchmarking Your Run
-
-To measure and record reproduction time on your system:
-
-```bash
-# Run with benchmarking
-./reproduce/benchmarks/benchmark.sh --docs
-./reproduce/benchmarks/benchmark.sh --comp min
-./reproduce/benchmarks/benchmark.sh --comp full
-
-# View benchmark results
-./reproduce/benchmarks/benchmark_results.sh
-```
-
-See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
+For detailed documentation on each mode, see [README/GETTING-STARTED.md](README/GETTING-STARTED.md).
 
 ---
 
-## 5. Expected Running Times
+## 6. Data Availability
 
-**Reference Hardware** (High-end 2025 laptop):
+This research uses publicly available data from the Survey of Consumer Finances (SCF) 2004. All data can be downloaded automatically via provided scripts.
 
-- CPU: 8+ cores, 3.0+ GHz (e.g., Apple M2, Intel i9, AMD Ryzen 9)
-- RAM: 32 GB
-- Storage: NVMe SSD
-- OS: macOS / Linux / Windows WSL2
+**Data Sources**:
 
-### Reproduction Modes
+- **SCF 2004**: Board of Governors of the Federal Reserve System
+  - Summary Extract: `rscfp2004.dta`
+  - Full Public Data Set: `p04i6.dta`
+  - Download: `Code/Empirical/download_scf_data.sh`
+  - URL: <https://www.federalreserve.gov/econres/scf_2004.htm>
 
-| Mode | Command | Duration | Output |
-|------|---------|----------|--------|
-| **Document Generation** | `./reproduce.sh --docs` | 5-10 minutes | HAFiscal.pdf |
-| **Minimal Computation** | `./reproduce.sh --comp min` | ~1 hour | Validation results |
-| **Full Computation** | `./reproduce.sh --comp full` | 4-5 days | All computational results |
-| **Complete Pipeline** | `./reproduce.sh --all` | 4-5 days + 10 min | Everything |
+- **Norwegian Population Data**: Fagereng, Holm, and Natvik (2021)
+  - Summary statistics and moments (published in paper)
+  - Individual-level data not publicly available
 
-### Individual Script Times
+**Data Files Included**: Data files are included in `Code/Empirical/` for convenience. See [README/REPLICATION.md](README/REPLICATION.md) for detailed data provenance and processing information.
 
-| Script | Duration | Output |
-|--------|----------|--------|
-| `reproduce_environment.sh` | 2-5 minutes | Python/LaTeX environment |
-| `download_scf_data.sh` | 30 seconds | SCF 2004 data files |
-| `reproduce_data_moments.sh` | 5-10 minutes | Empirical moments |
-| `reproduce_computed_min.sh` | ~1 hour | Quick validation |
-| `reproduce_computed.sh` | 4-5 days | All figures and tables |
-| `reproduce_documents.sh` | 5-10 minutes | HAFiscal.pdf |
-
-### Hardware Scaling
-
-**Minimum Hardware** (4 cores, 8GB RAM, SATA SSD):
-
-- Document generation: 10-20 minutes
-- Minimal computation: 2-3 hours  
-- Full computation: 6-10 days
-
-**Mid-range Hardware** (6-8 cores, 16GB RAM, NVMe SSD):
-
-- Document generation: 7-12 minutes
-- Minimal computation: 1-1.5 hours
-- Full computation: 4-5 days
-
-**High-performance Hardware** (16+ cores, 64GB RAM, NVMe SSD, GPU):
-
-- Document generation: 5-8 minutes
-- Minimal computation: 30-45 minutes
-- Full computation: 2-3 days
-
-### Timing Variability
-
-Running times may vary significantly based on:
-
-- **CPU**: Core count, clock speed, architecture (x86_64 vs ARM)
-- **RAM**: Amount and speed (impacts parallel solver performance)
-- **Storage**: Type (NVMe > SATA SSD > HDD) affects I/O-heavy operations
-- **Python packages**: Different BLAS/LAPACK implementations (OpenBLAS, MKL, Accelerate)
-- **Compiler optimizations**: Numba JIT compilation settings
-- **System load**: Background processes and resource contention
-- **Random seeds**: Monte Carlo simulations have inherent variability
-
-### Benchmark Data
-
-The times above are based on empirical benchmark measurements collected via the reproduction benchmarking system. To contribute your own benchmark or view detailed results:
-
-```bash
-# Run a benchmark
-./reproduce/benchmarks/benchmark.sh --comp min
-
-# View all benchmark results
-./reproduce/benchmarks/benchmark_results.sh
-
-# View benchmark documentation
-cat reproduce/benchmarks/README.md
-```
-
-**Benchmark Data Location**: `reproduce/benchmarks/results/`  
-**Documentation**: `reproduce/benchmarks/BENCHMARKING_GUIDE.md`
-
-For the most accurate estimate for your hardware, run `./reproduce.sh --comp min` first. This provides a reliable predictor: if minimal computation takes X hours, full computation typically takes 72-96 × X.
+**Citation**: Data sources are cited in `HAFiscal-Add-Refs.bib` and in the paper text (see `Subfiles/Parameterization.tex`).
 
 ---
 
-## 6. Results Mapping
+## 7. Computational Requirements
+
+**Hardware**: Minimum 4 cores, 8GB RAM; Recommended 8+ cores, 16GB RAM  
+**Software**: Python 3.9+, LaTeX (TeX Live 2021+), Unix-like environment (macOS/Linux/WSL2)  
+**Package Manager**: uv (recommended) or conda  
+**Alternative**: Docker container (see [README/DOCKER.md](README/DOCKER.md))
+
+For detailed requirements, platform support, and dependency information, see [README/INSTALLATION.md](README/INSTALLATION.md).
+
+---
+
+## 8. Reproduction
+
+The primary reproduction script is `./reproduce.sh`, which provides multiple modes:
+
+- `--docs`: Document generation only (5-10 minutes)
+- `--comp min`: Minimal computational validation (~1 hour)
+- `--comp full`: Full computational replication (4-5 days)
+- `--all`: Complete reproduction pipeline
+
+**Timing Estimates**: See [reproduce/benchmarks/TIMING-ESTIMATES.md](reproduce/benchmarks/TIMING-ESTIMATES.md) for detailed timing information and hardware scaling data.
+
+For detailed reproduction instructions, see [README/GETTING-STARTED.md](README/GETTING-STARTED.md).
+
+---
+
+## 9. Results Mapping
 
 ### Figures
 
@@ -491,7 +286,7 @@ Model parameters are defined in:
 
 ---
 
-## 7. File Organization
+## 10. File Organization
 
 ```
 /
@@ -543,41 +338,21 @@ Model parameters are defined in:
 
 ---
 
-## 8. Known Issues and Workarounds
+## 11. Known Issues and Workarounds
+
+For detailed troubleshooting information, see [README/TROUBLESHOOTING.md](README/TROUBLESHOOTING.md).
+
+**Common Issues**:
+
+- **Windows Native**: Not supported; use WSL2 (see [README/INSTALLATION.md](README/INSTALLATION.md))
+- **Long Computation Times**: Use `./reproduce.sh --comp min` for quick validation
+- **LaTeX Issues**: See [README/TROUBLESHOOTING.md](README/TROUBLESHOOTING.md) for platform-specific solutions
 
 <!-- No LaTeX font issues for Latest version (uses econark class) -->
 
-### Issue 1: Windows Native Environment
-
-**Symptom**: Scripts fail on native Windows (outside WSL2)
-
-**Cause**: Bash scripts require Unix-like environment
-
-**Impact**: Cannot run reproduction scripts on native Windows
-
-**Workaround**: Use Windows Subsystem for Linux 2 (WSL2):
-
-```powershell
-# In PowerShell (Administrator)
-wsl --install
-wsl --set-default-version 2
-```
-
-Then follow Linux instructions inside WSL2.
-
-### Issue 2: Long Computation Times
-
-**Symptom**: Full replication takes many hours
-
-**Cause**: Heterogeneous agent models are computationally intensive
-
-**Impact**: Patience required for full replication
-
-**Workaround**: Use `reproduce_computed_min.sh` for quick validation
-
 ---
 
-## 9. Contact Information
+## 12. Contact Information
 
 ### Technical Issues
 
@@ -603,7 +378,7 @@ For questions about the paper content:
 
 ---
 
-## 10. Citation
+## 13. Citation
 
 If you use this replication package, please cite:
 
@@ -619,7 +394,7 @@ If you use this replication package, please cite:
 
 ---
 
-**Last Updated**: December 24, 2025  
+**Last Updated**: December 25, 2025  
 **README Version**: 1.1  
 **Replication Package Version**: 1.0
 

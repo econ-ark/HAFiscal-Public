@@ -1,6 +1,7 @@
 \RequireVersions{
   *{application}{pdfTeX}  {0000/00/00 v1.40.25}
   *{format} {LaTeX2e}     {2023-11-01 v2.e}
+  *{file}   {HAFiscal.tex}{0000/00/00 v0.0}
   *{file}   {./._relpath-to-latexroot.ltx}{0000/00/00 v0.0}
   *{file}   {./@resources/project-metadata.ltx}{0000/00/00 v0.0}
   *{file}   {./@resources/tex-paths.ltx}{0000/00/00 v0.0}
@@ -298,16 +299,17 @@
   *{file}   {Subfiles/../@resources/project-metadata.ltx}{0000/00/00 v0.0}
   *{file}   {Subfiles/../@resources/tex-paths.ltx}{0000/00/00 v0.0}
   *{file}   {@local/../@local/_inputpaths.ltx}{0000/00/00 v0.0}
-  *{file}   {Subfiles/../Code/HA-Models/FromPandemicCode/LorenzPts_robustness_R}{0000/00/00 v0.0}
-  *{file}   {@local/./._relpath-to-latexroot.ltx}{0000/00/00 v0.0}
-  *{file}   {@resources/project-metadata.ltx}{0000/00/00 v0.0}
-  *{file}   {./@resources/tex-paths.ltx}{0000/00/00 v0.0}
-  *{file}   {./@local/_inputpaths.ltx}{0000/00/00 v0.0}
-  *{file}   {./Code/HA-Models/FromPandemicCode/LorenzPoints_robustness_R.pdf}{0000/00/00 v0.0}
+  *{file}   {Subfiles/../Figures/LorenzPts_robustness_R}{0000/00/00 v0.0}
+  *{file}   {Subfiles/../Figures/./._relpath-to-latexroot.ltx}{0000/00/00 v0.0}
+  *{file}   {Subfiles/../Figures/../@resources/project-metadata.ltx}{0000/00/00 v0.0}
+  *{file}   {Subfiles/../Figures/../@resources/tex-paths.ltx}{0000/00/00 v0.0}
+  *{file}   {@local/../@local/_inputpaths.ltx}{0000/00/00 v0.0}
+  *{file}   {Subfiles/../Figures/../Code/HA-Models/FromPandemicCode/LorenzPoints_robustness_R.pdf}{0000/00/00 v0.0}
   *{file}   {Subfiles/../Code/HA-Models/FromPandemicCode/LorenzPts_robustness_CRRA}{0000/00/00 v0.0}
   *{file}   {@local/./._relpath-to-latexroot.ltx}{0000/00/00 v0.0}
   *{file}   {@resources/project-metadata.ltx}{0000/00/00 v0.0}
   *{file}   {./@resources/tex-paths.ltx}{0000/00/00 v0.0}
   *{file}   {./@local/_inputpaths.ltx}{0000/00/00 v0.0}
   *{file}   {./Code/HA-Models/FromPandemicCode/LorenzPoints_robustness_CRRA.pdf}{0000/00/00 v0.0}
+  *{file}   {HAFiscal.bbl}{0000/00/00 v0.0}
 }
