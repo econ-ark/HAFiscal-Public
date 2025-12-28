@@ -1,0 +1,456 @@
+\providecommand{\noopsort}[1]{} \providecommand{\singleletter}[1]{#1}
+  \providecommand{\noopsort}[1]{} \providecommand{\singleletter}[1]{#1}
+\ifx\undefined\BySame
+\newcommand{\BySame}{\leavevmode\rule[.5ex]{3em}{.5pt}\ }
+\fi
+\begin{thebibliography}{}
+
+\harvarditem[Akerlof and Yellen]{Akerlof and Yellen}{1985}{akerlof1985near}
+\textsc{Akerlof, George~A,  {and} Janet~L Yellen}  (1985): ``A near-rational
+  model of the business cycle, with wage and price inertia,'' \emph{The
+  Quarterly Journal of Economics}, 100(Supplement), 823--838.
+
+\harvarditem[Allcott, Kim, Taubinsky, and Zinman]{Allcott, Kim, Taubinsky, and
+  Zinman}{2021}{allcott2021high}
+\textsc{Allcott, Hunt, Joshua~J Kim, Dmitry Taubinsky,  {and} Jonathan Zinman}
+  (2021): ``Are high-interest loans predatory? {T}heory and evidence from
+  payday lending,'' \emph{NBER Working paper, no. 28799}, NBER Working paper,
+  no. 28799.
+
+\harvarditem[Andre, Flynn, Nikolakoudis, and Sastry]{Andre, Flynn,
+  Nikolakoudis, and Sastry}{2025}{ansQuickfix}
+\textsc{Andre, Peter, Joel Flynn, Georgios Nikolakoudis,  {and} Karthik Sastry}
+   (2025): ``{Quick-fixing: Near-rationality in consumption and savings
+  behavior},'' \emph{SSRN Electronic Journal}.
+
+\harvarditem[Auclert, Bardóczy, Rognlie, and Straub]{Auclert, Bardóczy,
+  Rognlie, and Straub}{2021}{Auclert2021}
+\textsc{Auclert, Adrien, Bence Bardóczy, Matthew Rognlie,  {and} Ludwig
+  Straub}  (2021): ``Using the Sequence-Space Jacobian to Solve and Estimate
+  Heterogeneous-Agent Models,'' \emph{Econometrica}, 89(5), 2375--2408.
+
+\harvarditem[Auclert, Rognlie, and Straub]{Auclert, Rognlie, and
+  Straub}{2018}{auclert2018IKC}
+\textsc{Auclert, Adrien, Matthew Rognlie,  {and} Ludwig Straub}  (2018): ``The
+  Intertemporal Keynesian Cross,'' Working Paper 25020, National Bureau of
+  Economic Research.
+
+\harvarditem[Auclert, Rognlie, and Straub]{Auclert, Rognlie, and
+  Straub}{2020}{arsJumpsHumps}
+\textsc{\BySame{}}  (2020): ``Micro Jumps, Macro Humps: Monetary Policy and
+  Business Cycles in an Estimated HANK Model,'' Discussion paper, Stanford
+  University, Revise and resubmit at American Economic Review.
+
+\harvarditem[Aursland, Frankovic, Kanik, and Saxegaard]{Aursland, Frankovic,
+  Kanik, and Saxegaard}{2020}{aursland-state-dependent-2020}
+\textsc{Aursland, Thor~Andreas, Ivan Frankovic, Birol Kanik,  {and} Magnus
+  Saxegaard}  (2020): ``State-dependent fiscal multipliers in {NORA} - {A}
+  {DSGE} model for fiscal policy analysis in {Norway},'' \emph{Economic
+  Modelling}, 93, 321--353.
+
+\harvarditem[Bardoczy]{Bardoczy}{2024}{Bardoczy2022}
+\textsc{Bardoczy, Bence}  (2024): ``Spousal Insurance and the Amplification of
+  Business Cycles,'' Manuscript, Board of Governors of the Federal Reserve
+  System.
+
+\harvarditem[Bayer, Born, Luetticke, and M{\"u}ller]{Bayer, Born, Luetticke,
+  and M{\"u}ller}{2023}{bayercoronavirus}
+\textsc{Bayer, Christian, Benjamin Born, Ralph Luetticke,  {and} Gernot~J
+  M{\"u}ller}  (2023): ``The Coronavirus Stimulus Package: How Large is the
+  Transfer Multiplier?,'' \emph{The Economic Journal}.
+
+\harvarditem[Benigno and Eggertsson]{Benigno and
+  Eggertsson}{2023}{benigno2023baaack}
+\textsc{Benigno, Pierpaolo,  {and} Gauti~B Eggertsson}  (2023): ``It’s
+  Baaack: The Surge in Inflation in the 2020s and the Return of the Non-Linear
+  Phillips Curve,'' Working Paper 31197, National Bureau of Economic Research.
+
+\harvarditem[Beraja and Zorzi]{Beraja and Zorzi}{2023}{beraja2023size}
+\textsc{Beraja, Martin,  {and} Nathan Zorzi}  (2023): ``On the Size of Stimulus
+  Checks: How Much is Too Much?,'' Discussion paper, MIT, Working paper.
+
+\harvarditem[Bhandari, Evans, Golosov, and Sargent]{Bhandari, Evans, Golosov,
+  and Sargent}{2021}{bhandari2021efficiency}
+\textsc{Bhandari, Anmol, David Evans, Mikhail Golosov,  {and} Thomas Sargent}
+  (2021): ``Efficiency, Insurance, and Redistribution Effects of Government
+  Policies,'' Discussion paper, tomsargent.com.
+
+\harvarditem[Blanchard and Galí]{Blanchard and Galí}{2010}{Blanchard2010}
+\textsc{Blanchard, Olivier,  {and} Jordi Galí}  (2010): ``Labor Markets and
+  Monetary Policy: A New Keynesian Model with Unemployment,'' \emph{American
+  Economic Journal: Macroeconomics}, 2(2), 1–30.
+
+\harvarditem[Blanco, Boar, Jones, and Midrigan]{Blanco, Boar, Jones, and
+  Midrigan}{2024}{blanco2024nonlinear}
+\textsc{Blanco, Andres, Corina Boar, Callum~J Jones,  {and} Virgiliu Midrigan}
+  (2024): ``Non-Linear Inflation Dynamics in Menu Cost Economies,'' Working
+  Paper 32094, National Bureau of Economic Research.
+
+\harvarditem[Blinder and Deaton]{Blinder and Deaton}{1985}{bdTimeSeriesC}
+\textsc{Blinder, Alan~S.,  {and} Angus~S. Deaton}  (1985): ``{T}he {T}ime
+  {S}eries {C}onsumption {F}unction {R}evisited,'' \emph{Brookings Papers on
+  Economic Activity, 1985:2}, pp. 465--521.
+
+\harvarditem[{Board of Governors of the Federal Reserve System}]{{Board of
+  Governors of the Federal Reserve System}}{2004}{SCF2004}
+\textsc{{Board of Governors of the Federal Reserve System}}  (2004): ``Survey
+  of Consumer Finances, 2004,''
+  \url{https://www.federalreserve.gov/econres/scfindex.htm}, Data files:
+  Summary Extract Public Data (rscfp2004.dta) and Full Public Data Set
+  (p04i6.dta). Available at
+  \url{https://www.federalreserve.gov/econres/scf_2004.htm}. Accessed November
+  2025.
+
+\harvarditem[Boehm, Fize, and Jaravel]{Boehm, Fize, and
+  Jaravel}{2025}{boehm2025fivefacts}
+\textsc{Boehm, Johannes, Etienne Fize,  {and} Xavier Jaravel}  (2025): ``Five
+  Facts about MPCs: Evidence from a Randomized Experiment,'' \emph{American
+  Economic Review}, 115(1), 1–42.
+
+\harvarditem[Boppart, Krusell, and Mitman]{Boppart, Krusell, and
+  Mitman}{2018}{bkmMitShocks}
+\textsc{Boppart, Timo, Per Krusell,  {and} Kurt Mitman}  (2018): ``Exploiting
+  MIT Shocks in Heterogeneous-Agent Economies: The Impulse Response as a
+  Numerical Derivative,'' \emph{Journal of Economic Dynamics and Control},
+  89(C), 68--92.
+
+\harvarditem[Boutros]{Boutros}{2022}{BoutrosWindfall}
+\textsc{Boutros, Michael}  (2022): ``Windfall income shocks with finite
+  planning horizons,'' Discussion paper, Bank of Canada.
+
+\harvarditem[Broda and Parker]{Broda and Parker}{2014}{broda2014economic}
+\textsc{Broda, Christian,  {and} Jonathan~A Parker}  (2014): ``The economic
+  stimulus payments of 2008 and the aggregate demand for consumption,''
+  \emph{Journal of Monetary Economics}, 68, S20--S36.
+
+\harvarditem[Broer, Druedahl, Harmenberg, and {\"O}berg]{Broer, Druedahl,
+  Harmenberg, and {\"O}berg}{2025}{broer2025stimulus}
+\textsc{Broer, Tobias, Jeppe Druedahl, Karl Harmenberg,  {and} Erik {\"O}berg}
+  (2025): ``Stimulus Effects of Common Fiscal Policies,'' Discussion Paper
+  19823, Center for Economic Policy Research.
+
+\harvarditem[Broer, Krusell, and {\"O}berg]{Broer, Krusell, and
+  {\"O}berg}{2023}{broer2023fiscalmultipliers}
+\textsc{Broer, Tobias, Per Krusell,  {and} Erik {\"O}berg}  (2023): ``Fiscal
+  Multipliers: {A} Heterogenous-Agent Perspective,'' \emph{Quantitative
+  Economics}, 14(3), 799--816.
+
+\harvarditem[Browning and Crossley]{Browning and
+  Crossley}{2009}{bcShocksStocks}
+\textsc{Browning, Martin,  {and} Thomas~F. Crossley}  (2009): ``Shocks, Stocks,
+  and Socks: Smoothing Consumption Over a Temporary Income Loss,''
+  \emph{Journal of the European Economic Association}, 7(6), 1169--1192.
+
+\harvarditem[Cagetti]{Cagetti}{2003}{cagetti2003wealth}
+\textsc{Cagetti, Marco}  (2003): ``Wealth accumulation over the life cycle and
+  precautionary savings,'' \emph{Journal of Business \& Economic Statistics},
+  21(3), 339--353.
+
+\harvarditem[Carroll, Crawley, Frankovic, and Tretvoll]{Carroll, Crawley,
+  Frankovic, and Tretvoll}{2023}{carroll2023welfare}
+\textsc{Carroll, Christopher, Edmund Crawley, Ivan Frankovic,  {and} H{\aa}kon
+  Tretvoll}  (2023): ``Welfare and Spending Effects of Consumption Stimulus
+  Policies,'' Finance and Economics Discussion Series 2023-002, Board of
+  Governors of the Federal Reserve System, Washington.
+
+\harvarditem[Carroll]{Carroll}{2022}{carroll2022theoretical}
+\textsc{Carroll, Christopher~D}  (2022): ``Theoretical Foundations of Buffer
+  Stock Saving,'' \emph{Department of Economics}, Working paper.
+
+\harvarditem[Carroll, Crawley, Sla{\-}ca{\-}lek, To{\-}ku{\-}o{\-}ka, and
+  White]{Carroll, Crawley, Sla{\-}ca{\-}lek, To{\-}ku{\-}o{\-}ka, and
+  White}{2020}{carroll2020sticky}
+\textsc{Carroll, Christopher~D., Edmund Crawley, Jiri Sla{\-}ca{\-}lek,
+  Ki{\-}ichi To{\-}ku{\-}o{\-}ka,  {and} Matt{\-}hew~N. White}  (2020):
+  ``Sticky {Expectations} and {Consumption} {Dynamics},'' \emph{American
+  {Economic} {Journal:} {Macroeconomics}}, 12(3), 40--76.
+
+\harvarditem[Carroll, Crawley, Slacalek, and White]{Carroll, Crawley, Slacalek,
+  and White}{2020}{carroll2020modeling}
+\textsc{Carroll, Christopher~D, Edmund Crawley, Jiri Slacalek,  {and} Matthew~N
+  White}  (2020): ``Modeling the consumption response to the {CARES} act,''
+  \emph{Covid Economics}, 10, 62--86.
+
+\harvarditem[Carroll, Sla{\-}calek, To{\-}ku{\-}o{\-}ka, and White]{Carroll,
+  Sla{\-}calek, To{\-}ku{\-}o{\-}ka, and White}{2017}{cstwMPC}
+\textsc{Carroll, Christopher~D., Jiri Sla{\-}calek, Kiichi To{\-}ku{\-}o{\-}ka,
+   {and} Matt{\-}hew~N. White}  (2017): ``The Dis{\-}tri{\-}bu{\-}tion of
+  Wealth and the Mar{\-}gi{\-}nal Pro{\-}pen{\-}si{\-}ty to Con{\-}sume,''
+  \emph{Quantitative Economics}, 8(3), 977--1020, At
+  \url{https://llorracc.github.io/cstwMPC}.
+
+\harvarditem[Chodorow-Reich and Karabarbounis]{Chodorow-Reich and
+  Karabarbounis}{2016}{chodorow2016limited}
+\textsc{Chodorow-Reich, Gabriel,  {and} Loukas Karabarbounis}  (2016): ``The
+  limited macroeconomic effects of unemployment benefit extensions,''
+  Discussion paper, National Bureau of Economic Research.
+
+\harvarditem[Christiano, Eichenbaum, and Rebelo]{Christiano, Eichenbaum, and
+  Rebelo}{2011}{christiano2011government}
+\textsc{Christiano, Lawrence, Martin Eichenbaum,  {and} Sergio Rebelo}  (2011):
+  ``When is the government spending multiplier large?,'' \emph{Journal of
+  Political Economy}, 119(1), 78--121.
+
+\harvarditem[Christiano, Eichenbaum, and Trabandt]{Christiano, Eichenbaum, and
+  Trabandt}{2016}{Christiano2016}
+\textsc{Christiano, Lawrence~J., Martin~S. Eichenbaum,  {and} Mathias Trabandt}
+   (2016): ``Unemployment and Business Cycles,'' \emph{Econometrica}, 84(4),
+  1523--1569.
+
+\harvarditem[Cochrane]{Cochrane}{1989}{cochrane1989sensitivity}
+\textsc{Cochrane, John~H}  (1989): ``The Sensitivity of Tests of the
+  Intertemporal Allocation of Consumption to Near-Rational Alternatives,''
+  \emph{The American Economic Review}, pp. 319--337.
+
+\harvarditem[Cohen and Ganong]{Cohen and Ganong}{2024}{cohenDisemployment}
+\textsc{Cohen, Jonathan,  {and} Peter Ganong}  (2024): ``{Disemployment effects
+  of unemployment insurance: A meta-analysis},'' \emph{SSRN Electronic
+  Journal}.
+
+\harvarditem[Crawley, Holm, and Tretvoll]{Crawley, Holm, and
+  Tretvoll}{2024}{crawley2024Parsimonious}
+\textsc{Crawley, Edmund, Martin~B. Holm,  {and} H{\aa}kon Tretvoll}  (2024):
+  ``A Parsimonious Model of Idiosyncratic Income,'' \emph{Board of Governors of
+  the Federal Reserve System}.
+
+\harvarditem[Crawley and Kuchler]{Crawley and
+  Kuchler}{2023}{crawley2023MicroMacro}
+\textsc{Crawley, Edmund,  {and} Andreas Kuchler}  (2023): ``Consumption
+  Heterogeneity: Micro Drivers and Macro Implications,'' \emph{American
+  Economic Journal: Macroeconomics}, 15(1), 314--41.
+
+\harvarditem[D{\'a}vila and Schaab]{D{\'a}vila and
+  Schaab}{2022}{davila2022welfare}
+\textsc{D{\'a}vila, Eduardo,  {and} Andreas Schaab}  (2022): ``Welfare
+  Assessments with Heterogeneous Individuals,'' \emph{Available at SSRN
+  4102027}.
+
+\harvarditem[Davis and Wachter]{Davis and Wachter}{2011}{davis-recessions-2011}
+\textsc{Davis, Steven~J.,  {and} Till~Von Wachter}  (2011): ``Recessions and
+  the Costs of Job Loss,'' \emph{Brookings Papers on Economic Activity}, pp.
+  1--72.
+
+\harvarditem[Den~Haan, Judd, and Juillard]{Den~Haan, Judd, and
+  Juillard}{2010}{den2010computational}
+\textsc{Den~Haan, Wouter~J, Kenneth~L Judd,  {and} Michel Juillard}  (2010):
+  ``Computational suite of models with heterogeneous agents: Incomplete markets
+  and aggregate uncertainty,'' \emph{Journal of Economic Dynamics and Control},
+  34(1), 1--3.
+
+\harvarditem[den Haan, Ramey, and Watson]{den Haan, Ramey, and
+  Watson}{2000}{DenHaan2000}
+\textsc{den Haan, Wouter~J., Garey Ramey,  {and} Joel Watson}  (2000): ``Job
+  Destruction and Propagation of Shocks,'' \emph{The American Economic Review},
+  90(3), 482--498.
+
+\harvarditem[Du]{Du}{2024}{Du2024}
+\textsc{Du, William}  (2024): ``The Macroeconomic Consequences of Unemployment
+  Scarring,'' Manuscript, The Johns Hopkins University.
+
+\harvarditem[Eggertsson]{Eggertsson}{2011}{eggertsson2011fiscal}
+\textsc{Eggertsson, Gauti~B}  (2011): ``What fiscal policy is effective at zero
+  interest rates?,'' \emph{NBER Macroeconomics Annual}, 25(1), 59--112.
+
+\harvarditem[Elsby and Hobijn]{Elsby and Hobijn}{2010}{elsby2010labor}
+\textsc{Elsby, Michael W~L,  {and} Bart Hobijn}  (2010): ``The Labor Market in
+  the Great Recession,'' \emph{Brookings Papers on Economic Activity}.
+
+\harvarditem[Fagereng, Holm, and Natvik]{Fagereng, Holm, and
+  Natvik}{2021}{fagereng-mpc-2021}
+\textsc{Fagereng, Andreas, Martin~B. Holm,  {and} Gisle~J. Natvik}  (2021):
+  ``{MPC} {Heterogeneity} and {Household} {Balance} {Sheets},'' \emph{American
+  Economic Journal: Macroeconomics}, 13(4), 1--54.
+
+\harvarditem[Friedman]{Friedman}{1963}{friedmanWindfalls}
+\textsc{Friedman, Milton~A.}  (1963): ``Windfalls, the `Horizon,' and Related
+  Concepts in the Permanent Income Hypothesis,'' in \emph{Measurement in
+  Economics}, ed. by Carl Christ, pp. 1--28. Stanford University Press.
+
+\harvarditem[Ganong, Greig, Noel, Sullivan, and Vavra]{Ganong, Greig, Noel,
+  Sullivan, and Vavra}{2022}{ganong2022spending}
+\textsc{Ganong, Peter, Fiona~E Greig, Pascal~J Noel, Daniel~M Sullivan,  {and}
+  Joseph~S Vavra}  (2022): ``Spending and Job-Finding Impacts of Expanded
+  Unemployment Benefits: Evidence from Administrative Micro Data,'' Working
+  Paper 30315, National Bureau of Economic Research.
+
+\harvarditem[Ganong and Noel]{Ganong and Noel}{2019}{ganongConsumer2019}
+\textsc{Ganong, Peter,  {and} Pascal Noel}  (2019): ``Consumer Spending during
+  Unemployment: Positive and Normative Implications,'' \emph{American Economic
+  Review}, 109(7), 2383--2424.
+
+\harvarditem[Gjeldsregistret]{Gjeldsregistret}{2022}{gjeldsregistret-nokkeltall-2022}
+\textsc{Gjeldsregistret}  (2022): ``Nokkeltall fra {Gjeldsregisteret},''
+  \emph{Gjeldsregistret nettside}.
+
+\harvarditem[Gornemann, Kuester, and Nakajima]{Gornemann, Kuester, and
+  Nakajima}{2021}{Gornemann2021}
+\textsc{Gornemann, Nils, Keith Kuester,  {and} Makoto Nakajima}  (2021):
+  ``Doves for the Rich, Hawks for the Poor? Distributional Consequences of
+  Systematic Monetary Policy,'' ECONtribute Discussion Papers Series 089,
+  University of Bonn and University of Cologne, Germany.
+
+\harvarditem[Graham and McDowall]{Graham and McDowall}{2024}{graham2024mental}
+\textsc{Graham, James,  {and} Robert McDowall}  (2024): ``Mental Accounts and
+  Consumption Sensitivity Across the Distribution of Liquid Assets,''
+  \emph{Available at SSRN 4793885}.
+
+\harvarditem[Graves]{Graves}{2024}{gravesUnemployment}
+\textsc{Graves, Sebastian}  (2024): ``{Does unemployment risk affect business
+  cycle dynamics?},'' \emph{American Economic Journal Macroeconomics}.
+
+\harvarditem[Hagedorn, Karahan, Manovskii, and Mitman]{Hagedorn, Karahan,
+  Manovskii, and Mitman}{2019}{hagedorn2019unemployment}
+\textsc{Hagedorn, Marcus, Fatih Karahan, Iourii Manovskii,  {and} Kurt Mitman}
+  (2019): ``Unemployment Benefits and Unemployment in the Great Recession: The
+  Role of Macro Effects,'' Discussion paper, National Bureau of Economic
+  Research, Working paper 19499.
+
+\harvarditem[Hagedorn, Manovskii, and Mitman]{Hagedorn, Manovskii, and
+  Mitman}{2017}{hmmUnemployment}
+\textsc{Hagedorn, Marcus, Iourii Manovskii,  {and} Kurt Mitman}  (2017): ``The
+  Impact of Unemployment Benefit Extensions on Employment: The 2014 Employment
+  Miracle?,'' Discussion paper, National Bureau of Economic Research, Working
+  paper 20884.
+
+\harvarditem[Hagedorn, Manovskii, and Mitman]{Hagedorn, Manovskii, and
+  Mitman}{2019}{hagedorn2019fiscal}
+\textsc{\BySame{}}  (2019): ``The fiscal multiplier,'' Working paper, National
+  Bureau of Economic Research.
+
+\harvarditem[Hai, Krueger, and Postlewaite]{Hai, Krueger, and
+  Postlewaite}{2020}{hkpMemorable}
+\textsc{Hai, Rong, Dirk Krueger,  {and} Andrew Postlewaite}  (2020): ``{On the
+  welfare cost of consumption fluctuations in the presence of memorable
+  goods},'' \emph{Quantitative economics}, 11(4), 1177--1214.
+
+\harvarditem[Ilut and Valchev]{Ilut and Valchev}{2022}{ilutEconomic}
+\textsc{Ilut, Cosmin,  {and} Rosen Valchev}  (2022): ``Economic Agents as
+  Imperfect Problem Solvers,'' \emph{Q. J. Econ.}, 138(1), 313--362.
+
+\harvarditem[Indarte, Kluender, Malmendier, and Stepner]{Indarte, Kluender,
+  Malmendier, and Stepner}{2024}{indarte2024explains}
+\textsc{Indarte, Sasha, Raymond Kluender, Ulrike Malmendier,  {and} Michael
+  Stepner}  (2024): ``What Explains the Consumption Decisions of Low-Income
+  Households?,'' \emph{Department of Economics}.
+
+\harvarditem[Johnson, Parker, and Souleles]{Johnson, Parker, and
+  Souleles}{2006}{jpsTax}
+\textsc{Johnson, David~S., Jonathan~A. Parker,  {and} Nicholas~S. Souleles}
+  (2006): ``Household Expenditure and the Income Tax Rebates of 2001,''
+  \emph{American Economic Review}, 96(5), 1589--1610.
+
+\harvarditem[Kaplan and Violante]{Kaplan and Violante}{2014}{kaplan2014model}
+\textsc{Kaplan, Greg,  {and} Giovanni~L Violante}  (2014): ``A model of the
+  consumption response to fiscal stimulus payments,'' \emph{Econometrica},
+  82(4), 1199--1239.
+
+\harvarditem[Kaplan and Violante]{Kaplan and Violante}{2022}{kaplanMPC2022}
+\textsc{\BySame{}}  (2022): ``The Marginal Propensity to Consume in
+  Heterogeneous Agent Models,'' Working Paper 30013, National Bureau of
+  Economic Research.
+
+\harvarditem[Kekre]{Kekre}{2022}{kekre2022unemp}
+\textsc{Kekre, Rohan}  (2022): ``Unemployment Insurance in Macroeconomic
+  Stabilization,'' \emph{The Review of Economic Studies}.
+
+\harvarditem[Kotsogiannis and Sakellaris]{Kotsogiannis and
+  Sakellaris}{2024}{kotsogiannisMPCs}
+\textsc{Kotsogiannis, Christos,  {and} Plutarchos Sakellaris}  (2024): ``{MPCs
+  Estimated from Tax Lottery, Survey and Administrative Data},'' Discussion
+  paper, Athens University of Economics and Business.
+
+\harvarditem[Kravik and Mimir]{Kravik and Mimir}{2019}{kravik-navigating-2019}
+\textsc{Kravik, Erling~Motzfeldt,  {and} Yassin Mimir}  (2019): ``Navigating
+  with {NEMO},'' \emph{Norges Bank Staff Memo}, 5.
+
+\harvarditem[Krueger, Mitman, and Perri]{Krueger, Mitman, and
+  Perri}{2016}{kmpHandbook}
+\textsc{Krueger, Dirk, Kurt Mitman,  {and} Fabrizio Perri}  (2016):
+  ``Macroeconomics and household heterogeneity,'' in \emph{Handbook of
+  {M}acroeconomics}, vol.~2, pp. 843--921. Elsevier.
+
+\harvarditem[Kueng]{Kueng}{2018}{kueng2018excess}
+\textsc{Kueng, Lorenz}  (2018): ``Excess Sensitivity of High-Income
+  Consumers*,'' \emph{The Quarterly Journal of Economics}, 133(4), 1693--1751.
+
+\harvarditem[Lian]{Lian}{2023}{Lian2023-ca}
+\textsc{Lian, Chen}  (2023): ``Mistakes in future consumption, high {MPCs}
+  now,'' \emph{American Economic Review: Insights}, 5(4), 563--581.
+
+\harvarditem[Mankiw]{Mankiw}{1982}{mankiwDurgoods}
+\textsc{Mankiw, N.~Gregory}  (1982): ``Hall's Consumption Hypothesis and
+  Durable Goods,'' \emph{Journal of Monetary Economics}, 10(3), 417--425.
+
+\harvarditem[Maxted, Laibson, and Moll]{Maxted, Laibson, and
+  Moll}{2024}{lmmPresentBias}
+\textsc{Maxted, Peter, David Laibson,  {and} Benjamin Moll}  (2024): ``Present
+  Bias Amplifies the Household Balance-Sheet Channels of Macroeconomic
+  Policy,'' \emph{The Quarterly Journal of Economics}, p. qjae026.
+
+\harvarditem[McKay and Reis]{McKay and Reis}{2016}{mckay2016role}
+\textsc{McKay, Alisdair,  {and} Ricardo Reis}  (2016): ``The role of automatic
+  stabilizers in the US business cycle,'' \emph{Econometrica}, 84(1), 141--194.
+
+\harvarditem[McKay and Reis]{McKay and Reis}{2021}{mckay2021optimal}
+\textsc{\BySame{}}  (2021): ``Optimal automatic stabilizers,'' \emph{The Review
+  of Economic Studies}, 88(5), 2375--2406.
+
+\harvarditem[Melcangi and Sterk]{Melcangi and Sterk}{2024}{melcangiStock}
+\textsc{Melcangi, Davide,  {and} Vincent Sterk}  (2024): ``Stock market
+  participation, inequality, and monetary policy,'' \emph{Review of Economic
+  Studies}, p. rdae068.
+
+\harvarditem[Mincer]{Mincer}{1991}{mincer1991education}
+\textsc{Mincer, Jacob}  (1991): ``Education and Unemployment,'' \emph{NBER
+  Working Paper w3838}.
+
+\harvarditem[OECD]{OECD}{2020}{oecdReplacement}
+\textsc{OECD}  (2020): ``Net replacement rate in unemployment,'' \emph{OECD
+  statistics "Social Protection and Well-being"}.
+
+\harvarditem[Parker, Souleles, Johnson, and McClelland]{Parker, Souleles,
+  Johnson, and McClelland}{2013}{parker2013consumer}
+\textsc{Parker, Jonathan~A, Nicholas~S Souleles, David~S Johnson,  {and} Robert
+  McClelland}  (2013): ``Consumer spending and the economic stimulus payments
+  of 2008,'' \emph{American Economic Review}, 103(6), 2530--53.
+
+\harvarditem[Phan]{Phan}{2024}{phan2024welfare}
+\textsc{Phan, Nam}  (2024): ``The Welfare Consequences of Countercyclical
+  Fiscal Transfers,'' Manuscript, Queens Economics Department.
+
+\harvarditem[Ramey and Zubairy]{Ramey and Zubairy}{2018}{ramey2018government}
+\textsc{Ramey, Valerie~A,  {and} Sarah Zubairy}  (2018): ``Government spending
+  multipliers in good times and in bad: evidence from US historical data,''
+  \emph{Journal of political economy}, 126(2), 850--901.
+
+\harvarditem[Ravn and Sterk]{Ravn and Sterk}{2017}{Ravn2017}
+\textsc{Ravn, Morten~O.,  {and} Vincent Sterk}  (2017): ``Job uncertainty and
+  deep recessions,'' \emph{Journal of Monetary Economics}, 90, 125--141.
+
+\harvarditem[Ravn and Sterk]{Ravn and Sterk}{2021}{Ravn2021}
+\textsc{Ravn, Morten~O,  {and} Vincent Sterk}  (2021): ``{Macroeconomic
+  Fluctuations with HANK \& SAM: an Analytical Approach},'' \emph{Journal of
+  the European Economic Association}, 19, 1162--1202.
+
+\harvarditem[Rotemberg]{Rotemberg}{1982}{Rotemberg1982}
+\textsc{Rotemberg, Julio~J.}  (1982): ``Sticky Prices in the United States,''
+  \emph{Journal of Political Economy}, 90(6), 1187--1211.
+
+\harvarditem[Rothstein and Valletta]{Rothstein and
+  Valletta}{2017}{rothstein2017scraping}
+\textsc{Rothstein, Jesse,  {and} Robert~G Valletta}  (2017): ``Scraping by:
+  Income and program participation after the loss of extended unemployment
+  benefits,'' \emph{Journal of Policy Analysis and Management}, 36(4),
+  880--908.
+
+\harvarditem[Silva and Toledo]{Silva and Toledo}{2009}{Silva2009}
+\textsc{Silva, José,  {and} Manuel Toledo}  (2009): ``Labor Turnover Costs and
+  The Cyclical Behavior or Vacancies and Unemployment,'' \emph{Macroeconomic
+  Dynamics}, 13(S1), 76--96.
+
+\harvarditem[Skiba and Tobacman]{Skiba and Tobacman}{2008}{skiba2008payday}
+\textsc{Skiba, Paige~Marta,  {and} Jeremy Tobacman}  (2008): ``Payday loans,
+  uncertainty and discounting: {E}xplaining patterns of borrowing, repayment,
+  and default,'' \emph{Vanderbilt Law and Economics Research Paper}, 08(33).
+
+\end{thebibliography}
