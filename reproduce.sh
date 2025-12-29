@@ -1949,7 +1949,7 @@ ensure_uv_environment() {
         log INFO "Attempting to recreate virtual environment..."
         cd "$script_dir"
         if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
-            bash ./reproduce/reproduce_environment_comp_uv.sh || {
+            REPRODUCE_SCRIPT_CONTEXT="true" bash ./reproduce/reproduce_environment_comp_uv.sh || {
                 log ERROR "Failed to recreate venv in Docker"
                 exit 1
             }
@@ -1964,7 +1964,7 @@ ensure_uv_environment() {
         log INFO "Attempting to create it automatically using reproduce_environment_comp_uv.sh"
         cd "$script_dir"
         if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
-            bash ./reproduce/reproduce_environment_comp_uv.sh || {
+            REPRODUCE_SCRIPT_CONTEXT="true" bash ./reproduce/reproduce_environment_comp_uv.sh || {
                 log ERROR "Failed to create virtual environment automatically"
                 exit 1
             }
@@ -2177,7 +2177,7 @@ ensure_uv_environment() {
         log INFO "Attempting to recreate virtual environment..."
         cd "$script_dir"
         if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
-            bash ./reproduce/reproduce_environment_comp_uv.sh || {
+            REPRODUCE_SCRIPT_CONTEXT="true" bash ./reproduce/reproduce_environment_comp_uv.sh || {
                 log ERROR "Failed to recreate venv in Docker"
                 exit 1
             }
@@ -2193,7 +2193,7 @@ ensure_uv_environment() {
     cd "$script_dir"
     if [[ -f "./reproduce/reproduce_environment_comp_uv.sh" ]]; then
         rm -rf "$expected_venv" 2>/dev/null || true
-        bash ./reproduce/reproduce_environment_comp_uv.sh || {
+        REPRODUCE_SCRIPT_CONTEXT="true" bash ./reproduce/reproduce_environment_comp_uv.sh || {
             log ERROR "Failed to recreate virtual environment automatically"
             exit 1
         }
