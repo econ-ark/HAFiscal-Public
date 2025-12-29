@@ -733,9 +733,10 @@ echo ""
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # Script is being executed (not sourced)
     # Check if we're in a non-interactive context (called from reproduce.sh or CI)
+    # OR if called from reproduce.sh (REPRODUCE_SCRIPT_CONTEXT set) - always activate in current shell
     if [[ -n "${REPRODUCE_SCRIPT_CONTEXT:-}" ]] || [[ -n "${CI:-}" ]] || [[ ! -t 0 ]]; then
-        # Non-interactive: activate automatically
-        echo "Activating environment automatically (non-interactive context)..."
+        # Non-interactive or called from reproduce.sh: activate automatically in current shell
+        echo "Activating environment automatically in current shell..."
         source "$VENV_PATH/bin/activate"
         echo "✅ Environment activated!"
         
@@ -744,56 +745,25 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         export HAFISCAL_PYTHON3="$VENV_PATH/bin/python3"
         echo ""
     else
-        # Interactive: show activation options
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "ACTIVATION OPTIONS"
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        # Interactive mode when run directly (not from reproduce.sh)
+        # Always activate in current shell without prompting
+        echo "Activating environment in current shell..."
+        source "$VENV_PATH/bin/activate"
+        echo "✅ Environment activated!"
+        
+        # Export environment variables for use in subscripts
+        export HAFISCAL_PYTHON="$VENV_PATH/bin/python"
+        export HAFISCAL_PYTHON3="$VENV_PATH/bin/python3"
         echo ""
-        # Check if running in interactive mode
-        if [ -t 0 ]; then
-            # Interactive mode - offer shell activation
-            echo "The environment is ready but not yet activated."
-            echo ""
-            echo "Choose one of the following options:"
-            echo ""
-            echo "1) Activate in your current shell:"
-            echo "   source $VENV_NAME/bin/activate"
-            echo ""
-            echo "2) Start a new shell with environment activated:"
-            echo "   (automatic activation, type 'exit' to return)"
-            echo ""
-            
-            echo -n "Start new shell with activated environment? (Y/n): "
-            read -r response
-            if [[ ! "$response" =~ ^[Nn]$ ]]; then
-                echo ""
-                echo "Starting new shell with environment activated..."
-                echo "Type 'exit' to return to your original shell"
-                echo ""
-                # Start a new shell with the environment activated
-                exec bash --rcfile <(echo ". ~/.bashrc 2>/dev/null || . ~/.bash_profile 2>/dev/null || true; source $VENV_PATH/bin/activate; echo '✅ Environment activated'; echo 'Python:' \$(python --version); PS1='(hafiscal) \$ '")
-            else
-                echo ""
-                echo "To activate manually, run:"
-                echo "  source $VENV_NAME/bin/activate"
-                echo ""
-            fi
-        else
-            # Non-interactive mode (piped, CI, etc.) - skip prompt
-            echo "Activating environment automatically (non-interactive context)..."
-            source "$VENV_PATH/bin/activate"
-            echo "✅ Environment activated!"
-            echo ""
-            echo "To verify the installation:"
-            echo "  python --version"
-            echo "  python -c 'import HARK; print(f\"✅ HARK {HARK.__version__}\")'"
-            echo ""
-            echo "To reproduce results:"
-            echo "  ./reproduce.sh --docs      # Documents only"
-            echo "  ./reproduce.sh --comp min  # Minimal computational results"
-            echo "  ./reproduce.sh --all       # Everything (computation + documents)"
-            echo ""
-        fi
+        echo "To verify the installation:"
+        echo "  python --version"
+        echo "  python -c 'import HARK; print(f\"✅ HARK {HARK.__version__}\")'"
+        echo ""
+        echo "To reproduce results:"
+        echo "  ./reproduce.sh --docs      # Documents only"
+        echo "  ./reproduce.sh --comp min  # Minimal computational results"
+        echo "  ./reproduce.sh --all       # Everything (computation + documents)"
+        echo ""
     fi
 else
     # Script is being sourced - activate immediately
