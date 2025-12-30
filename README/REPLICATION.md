@@ -3,7 +3,7 @@
 
 **Paper**: Welfare and Spending Effects of Consumption Stimulus Policies  
 **Authors**: Christopher D. Carroll, Edmund Crawley, William Du, Ivan Frankovic, Hakon Tretvoll  
-**Version**: v2025-12-30-07-32
+**Version**: v2025-12-28-16-49-18-g54d016f7
 
 ## ℹ️ Repository Architecture Notice
 
@@ -77,18 +77,19 @@ These files are also available from the Federal Reserve Board website:
 Download and unzip the following files to reproduce our results:
 
 - Main survey data (Stata version): **scf2004s.zip** -> **p04i6.dta**
+  (`ccbal_answer.dta` is generated using this file)
 - Summary Extract Data set (Stata format): **scfp2004s.zip** -> **rscfp2004.dta**
 
-Place these `.dta` files in the same directory as `make_liquid_wealth.py` before running the script.
+Place these `.dta` files in the directory `Code/Empirical`  before running the file `make_liquid_wealth.py` (or a script that calls that file).
 
 ### Data Processing
 
 #### Python Processing
 
-Some statistics hard-coded into the computational scripts are calculated using Python. To reproduce these statistics, run the following Python script:
+Some statistics hard-coded into the computational scripts are calculated from the SCF 2004. To reproduce these statistics, run the following do file:
 
 ```bash
-python Code/Empirical/make_liquid_wealth.py
+./reproduce.sh --data
 ```
 
 This script:
@@ -96,11 +97,7 @@ This script:
 1. Loads the SCF 2004 data files
 2. Constructs liquid wealth measures following Kaplan et al. (2014)
 3. Calculates summary statistics used in calibration
-4. Outputs results used in Table 2, Panel B (Lines 1-3) and other tables
-
-**Note**: The script reads `.dta` files (Stata format) using pandas, so the data files can remain in Stata format. The script outputs results in formats suitable for use by the computational models.
-
-#### Additional Python Processing
+4. Outputs results used in Table 2, 4 and 5 and in Figure 2
 
 Additional data processing occurs in Python scripts located in `Code/HA-Models/`:
 
@@ -140,8 +137,8 @@ The following data sources are cited in `HAFiscal-Add-Refs.bib`:
 
 The data is cited in the paper at:
 
-- `Subfiles/Parameterization.tex` (line 30): First mention of SCF 2004 data
-- `Subfiles/Parameterization.tex` (line 67): Discussion of liquid wealth distribution
+- `Subfiles/Parameterization.tex` (Section 3.1, paragraph 4): First mention of SCF 2004 data
+- `Subfiles/Parameterization.tex` (Section 3.2): Discussion of sample selection and construction of liquid wealth distribution
 
 ### Ethical Considerations
 
@@ -216,20 +213,24 @@ This research uses publicly available secondary data from government sources. No
 # Clone repository
 git clone https://github.com/llorracc/HAFiscal-Public
 cd HAFiscal-Public
+
 ```
+
 
 ### Step 2: Set Up Python Environment
 
 #### Option A: Using uv (Recommended)
 
-```bash
-# Install uv if not present
+- Install uv if not present:
+
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Create and activate environment
-uv sync
-source .venv/bin/activate  # On Windows WSL2: source .venv/bin/activate
-```
+- Then let the script handle the setup: 
+
+./reproduce.sh --envt comp_uv
+
+- This will create a virtual environment named something like `.venv-linux-arm64` 
+  - activate this environment with the command `source .venv-[os-arch]`
 
 #### Option B: Using conda
 
@@ -265,11 +266,11 @@ The primary way to reproduce results is via the `reproduce.sh` script, which pro
 # View all available options
 ./reproduce.sh --help
 
+# Calculate moments from the SCF 2004
+./reproduce.sh --data 
+
 # Make sure the appropriate computational environment is present
 ./reproduce.sh --envt 
-
-# Quick document generation (5-10 minutes)
-./reproduce.sh --docs
 
 # Minimal computational validation (~1 hour)
 ./reproduce.sh --comp min
@@ -277,11 +278,18 @@ The primary way to reproduce results is via the `reproduce.sh` script, which pro
 # Full computational replication (4-5 days)
 ./reproduce.sh --comp full
 
+# Quick document generation (5-10 minutes)
+./reproduce.sh --docs
+
 # Complete reproduction (all steps)
 ./reproduce.sh --all
 ```
 
 ### Reproduction Modes Explained
+
+#### `--data` - Data processing (1-2 minutes)
+
+Discussed in Section 1 above.
 
 #### `--docs` - Document Generation Only (5-10 minutes)
 
@@ -346,6 +354,12 @@ For more granular control, individual reproduction scripts can be run directly:
 bash reproduce/reproduce_environment.sh
 ```
 
+**Data Processing**
+
+```bash
+base reproduce/reproduce_data_moments.sh
+```
+
 **Data Download**:
 
 ```bash
@@ -373,7 +387,7 @@ bash reproduce/reproduce_documents.sh
 ```bash
 # Compile individual figure
 cd Figures
-latexmk -pdf welfare6.tex
+latexmk -pdf Policyrelrecession.tex
 
 # Compile individual table
 cd Tables
@@ -412,6 +426,7 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 
 | Mode | Command | Duration | Output |
 |------|---------|----------|--------|
+| **Data moments**        | `./reproduce.sh --data`      | 1-2 minutes       | Code/Empirical/Data       |
 | **Document Generation** | `./reproduce.sh --docs` | 5-10 minutes | HAFiscal.pdf |
 | **Minimal Computation** | `./reproduce.sh --comp min` | ~1 hour | Validation results |
 | **Full Computation** | `./reproduce.sh --comp full` | 4-5 days | All computational results |
@@ -419,14 +434,14 @@ See `reproduce/benchmarks/README.md` for detailed benchmarking documentation.
 
 ### Individual Script Times
 
-| Script | Duration | Output |
-|--------|----------|--------|
-| `reproduce_environment.sh` | 2-5 minutes | Python/LaTeX environment |
-| `download_scf_data.sh` | 30 seconds | SCF 2004 data files |
-| `reproduce_data_moments.sh` | 5-10 minutes | Empirical moments |
-| `reproduce_computed_min.sh` | ~1 hour | Quick validation |
-| `reproduce_computed.sh` | 4-5 days | All figures and tables |
-| `reproduce_documents.sh` | 5-10 minutes | HAFiscal.pdf |
+| Script                      | Duration     | Output                   |
+| --------------------------- | ------------ | ------------------------ |
+| `reproduce_environment.sh`  | 2-5 minutes  | Python/LaTeX environment |
+| `download_scf_data.sh`      | 30 seconds   | SCF 2004 data files      |
+| `reproduce_data_moments.sh` | 5-10 minutes | Empirical moments        |
+| `reproduce_computed_min.sh` | ~1 hour      | Quick validation         |
+| `reproduce_computed.sh`     | 4-5 days     | All figures and tables   |
+| `reproduce_documents.sh`    | 5-10 minutes | HAFiscal.pdf             |
 
 ### Hardware Scaling
 
@@ -511,15 +526,19 @@ HAFiscal-Public/
 |-- requirements.txt               # Python dependencies (pip format)
 |-- HAFiscal.tex                   # Main LaTeX document
 |-- HAFiscal.bib                   # Bibliography
+|-- reproduce.sh                   # Main reproduction script
+|-- reproduce.py                   # Python mirror (cross-platform)
 |-- reproduce/                     # Reproduction scripts
 |   |-- reproduce.sh              # Main reproduction script
 |   |-- reproduce.py              # Python mirror (cross-platform)
 |   |-- reproduce_computed.sh     # Run all computations
-|   |-- reproduce_computed_min.sh # Quick validation test
+|   |-- reproduce_data_moments.sh # Produce moments from SCF 2004
+||   |-- reproduce_computed_min.sh # Quick validation test
 |   |-- reproduce_documents.sh    # Generate LaTeX documents
 |   `-- reproduce_environment.sh  # Set up Python environment
 |-- Code/                          # All computational code
 |   |-- HA-Models/                # Heterogeneous agent models
+|   |   |-- do_all.py             # Step-by-step computation of results
 |   |   |-- parameters.py         # Model parameters
 |   |   |-- model.py              # Core model code
 |   |   `-- make_*.py             # Figure/table generation scripts
@@ -607,7 +626,7 @@ pwd  # Should show /home/username/..., not /mnt/c/...
 
 For technical issues with replication:
 
-- Open an issue: https://github.com/llorracc/HAFiscal-Public/issues
+- Open an issue: Go to the online GitHub repo and click on 'issues'
 - Email: <ccarroll@jhu.edu> (Christopher Carroll)
 
 ### Data Questions
@@ -645,7 +664,7 @@ If you use this replication package, please cite:
 
 **Last Updated**: December 2025  
 **README Version**: 1.1  
-**Replication Package Version**: v2025-12-30-07-32
+**Replication Package Version**: 1.0
 
 **Version 1.1 Changes**:
 

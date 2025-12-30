@@ -12,7 +12,7 @@ run_step_2 = True
 # Check environment variable, default to False if not set
 run_step_3 = os.environ.get('HAFISCAL_RUN_STEP_3', 'false').lower() in ('true', '1', 'yes')
 run_step_4 = True
-run_step_5 = True 
+run_step_5 = True
 
 #%%
 # Step 1: Estimation of the splurge factor: 
@@ -35,9 +35,10 @@ if run_step_2:
     os.system("python " + "EstimAggFiscalMAIN.py")
     os.system("python " + "CreateLPfig.py")
     os.system("python " + "CreateIMPCfig.py")
+    os.system("python " + "estimBetas_tabular_generate.py")
+    os.system("python " + "nonTargetedMoments_tabular_generate.py")
     os.chdir('../')
     print('Concluded Step 2.\n\n')
-
 
 #%%
 # Step 3: Robustness results. Estimate discount factor distributions with Splurge = 0. The results for Splurge = 0 are in the Online Appendix.
